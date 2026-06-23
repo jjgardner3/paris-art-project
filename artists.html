@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Artists — Chaises</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300;1,9..40,400&family=JetBrains+Mono:wght@300;400&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --green: #4A7C59;
+  --green-light: #7FAF8A;
+  --green-pale: #D4E8DA;
+  --cream: #F8F5EF;
+  --charcoal: #2A2A2A;
+  --slate: #5C6B73;
+  --gold: #C9A84C;
+  --dark-green: #2C4A38;
+  --white: #FFFFFF;
+}
+
+html { scroll-behavior: smooth; font-size: 16px; }
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  color: var(--charcoal);
+  background: var(--cream);
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+/* ─── NAV ─── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  padding: 1.1rem 3rem;
+  display: flex; justify-content: space-between; align-items: center;
+  background: rgba(248,245,239,0.9);
+  backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px);
+  border-bottom: 1px solid rgba(74,124,89,0.07);
+  transition: all 0.4s;
+}
+nav.scrolled { padding: 0.65rem 3rem; box-shadow: 0 2px 24px rgba(0,0,0,0.05); }
+.logo { font-family: 'Instrument Serif', serif; font-size: 1.35rem; color: var(--dark-green); letter-spacing: 0.03em; text-decoration: none; }
+.logo em { font-style: italic; color: var(--gold); }
+.nav-links { display: flex; gap: 1.8rem; list-style: none; }
+.nav-links a {
+  text-decoration: none; color: var(--slate);
+  font-size: 0.7rem; letter-spacing: 0.14em; text-transform: uppercase;
+  font-weight: 500; transition: color 0.3s;
+}
+.nav-links a:hover { color: var(--green); }
+.nav-links a.active { color: var(--green); }
+
+@media (max-width: 768px) {
+  nav { padding: 0.9rem 1.2rem; }
+  nav.scrolled { padding: 0.6rem 1.2rem; }
+  .nav-links { gap: 0.8rem; }
+  .nav-links a { font-size: 0.58rem; letter-spacing: 0.08em; }
+}
+
+/* ─── PAGE HEADER ─── */
+.page-header {
+  padding: 10rem 3rem 4rem;
+  text-align: center;
+}
+.page-label {
+  font-size: 0.65rem; letter-spacing: 0.35em; text-transform: uppercase;
+  color: var(--gold); font-weight: 500; margin-bottom: 1rem;
+}
+.page-title {
+  font-family: 'Instrument Serif', serif;
+  font-size: clamp(2.4rem, 5vw, 3.8rem);
+  font-weight: 400; color: var(--dark-green); line-height: 1.1;
+  margin-bottom: 1.2rem;
+}
+.page-intro {
+  max-width: 620px; margin: 0 auto;
+  color: var(--slate); font-size: 1.05rem; line-height: 1.8;
+}
+
+/* ─── ARTIST CARDS ─── */
+.artists {
+  max-width: 900px; margin: 0 auto;
+  padding: 2rem 3rem 6rem;
+}
+.artist-card {
+  display: grid; grid-template-columns: 140px 1fr;
+  gap: 2.5rem; align-items: start;
+  padding: 3rem 0;
+  border-bottom: 1px solid rgba(74,124,89,0.1);
+}
+.artist-card:first-child {
+  border-top: 1px solid rgba(74,124,89,0.1);
+}
+.artist-avatar {
+  width: 140px; height: 140px; border-radius: 50%;
+  background: var(--green-pale);
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Instrument Serif', serif;
+  font-size: 2.8rem; color: var(--green);
+  border: 2px solid rgba(74,124,89,0.12);
+  flex-shrink: 0;
+}
+.artist-info {}
+.artist-name {
+  font-family: 'Instrument Serif', serif;
+  font-size: 1.6rem; color: var(--dark-green);
+  margin-bottom: 0.2rem; line-height: 1.2;
+}
+.artist-role {
+  font-size: 0.75rem; letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--gold); font-weight: 500; margin-bottom: 1rem;
+}
+.artist-bio {
+  color: var(--slate); font-size: 0.95rem; line-height: 1.85;
+}
+.artist-bio + .artist-bio { margin-top: 0.8rem; }
+.artist-meta {
+  margin-top: 1rem; font-size: 0.78rem; color: var(--green);
+  display: flex; gap: 1.5rem; flex-wrap: wrap;
+}
+.artist-meta span {
+  display: inline-flex; align-items: center; gap: 0.3rem;
+}
+.artist-meta .dot {
+  width: 4px; height: 4px; border-radius: 50%;
+  background: var(--gold); display: inline-block;
+}
+
+@media (max-width: 680px) {
+  .artists { padding: 2rem 1.4rem 5rem; }
+  .artist-card {
+    grid-template-columns: 1fr;
+    gap: 1.2rem;
+    text-align: center;
+  }
+  .artist-avatar { margin: 0 auto; width: 110px; height: 110px; font-size: 2.2rem; }
+  .artist-meta { justify-content: center; }
+  .page-header { padding: 8rem 1.4rem 3rem; }
+}
+
+/* ─── BACK LINK ─── */
+.back-section {
+  text-align: center; padding: 0 3rem 5rem;
+}
+.back-link {
+  display: inline-block;
+  font-size: 0.72rem; letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--green); text-decoration: none; font-weight: 500;
+  padding: 0.6rem 1.8rem;
+  border: 1px solid rgba(74,124,89,0.25);
+  border-radius: 4px;
+  transition: all 0.3s;
+}
+.back-link:hover {
+  background: var(--green); color: var(--white); border-color: var(--green);
+}
+
+/* ─── FOOTER ─── */
+footer {
+  background: var(--charcoal); color: rgba(248,245,239,0.5);
+  padding: 3rem 2rem; text-align: center;
+}
+footer .f-title {
+  font-family: 'Instrument Serif', serif; font-size: 1.5rem;
+  color: var(--cream); margin-bottom: 0.4rem;
+}
+footer .f-sub { font-size: 0.85rem; color: rgba(248,245,239,0.5); margin-bottom: 1rem; }
+footer .f-copy { font-size: 0.68rem; color: rgba(248,245,239,0.25); }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="nav">
+  <a href="index.html" class="logo">Chaises</a>
+  <ul class="nav-links">
+    <li><a href="index.html#concept">Concept</a></li>
+    <li><a href="index.html#choreography">Choreography</a></li>
+    <li><a href="index.html#exhibition">Exhibition</a></li>
+    <li><a href="artists.html" class="active">Artists</a></li>
+  </ul>
+</nav>
+
+<!-- HEADER -->
+<header class="page-header">
+  <div class="page-label">The Team</div>
+  <h1 class="page-title">Artists &amp; Collaborators</h1>
+  <p class="page-intro"><em>Chaises</em> brings together artists working across sound, movement, sculpture, painting, and scenography — united by a shared interest in the spatial logic of social life.</p>
+</header>
+
+<!-- ARTIST BIOS -->
+<div class="artists">
+
+  <!-- JIMMY -->
+  <div class="artist-card">
+    <div class="artist-avatar">J</div>
+    <div class="artist-info">
+      <h2 class="artist-name">Jimmy Gardner</h2>
+      <div class="artist-role">Concept Creator &amp; Supporter</div>
+      <p class="artist-bio">Paris-based multidisciplinary creative and the originator of <em>Chaises</em>. Through daily observation of Luxembourg Gardens, Jimmy identified the silent choreography of the green metal chairs — the social geometries that form and dissolve each day without direction. He conceived the project's vision and supports its realisation across five simultaneous art outputs.</p>
+      <div class="artist-meta">
+        <span><span class="dot"></span> Paris, France</span>
+        <span><span class="dot"></span> Concept &middot; Support</span>
+        <span><span class="dot"></span> <a href="https://newtothewallfoundation.com/" target="_blank" rel="noopener" style="color:var(--green); text-decoration:none; border-bottom:1px solid rgba(74,124,89,0.3);">New to the Wall Foundation</a></span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ALLARD -->
+  <div class="artist-card">
+    <div class="artist-avatar">A</div>
+    <div class="artist-info">
+      <h2 class="artist-name">Allard van Hoorn</h2>
+      <div class="artist-role">Creative Director &middot; Sound, Installation &amp; Performance Artist &middot; Scenographer &amp; Composer</div>
+      <p class="artist-bio">Allard van Hoorn (b. 1968) is a Dutch, Paris-based sound, installation and performance artist. His practice centres on Urban Songlines — a long-running series of collaborative performances that translate buildings and public spaces into music through site-specific sound generation, examining inclusion, belonging and our claim over the public domain.</p>
+      <p class="artist-bio">Work has been presented at Tate St Ives, Whitney Museum, MAAT Lisbon, Van Abbemuseum and major biennials worldwide. For <em>Chaises</em>, Allard serves as creative director and leads the scenographic design and sound composition layer. He connected the project to the analytical framework of William Forsythe's <em>One Flat Thing, reproduced</em> and the OSU Synchronous Objects project.</p>
+      <div class="artist-meta">
+        <span><span class="dot"></span> Paris, France</span>
+        <span><span class="dot"></span> Sound &middot; Scenography &middot; Performance</span>
+        <span><span class="dot"></span> <a href="https://www.allardvanhoorn.com" target="_blank" rel="noopener" style="color:var(--green); text-decoration:none; border-bottom:1px solid rgba(74,124,89,0.3);">allardvanhoorn.com</a></span>
+      </div>
+    </div>
+  </div>
+
+  <!-- OPHELIA -->
+  <div class="artist-card">
+    <div class="artist-avatar">O</div>
+    <div class="artist-info">
+      <h2 class="artist-name">Ophelia Jacarini</h2>
+      <div class="artist-role">AI Artist &middot; Sculpture &amp; Installation</div>
+      <p class="artist-bio">Ophelia Jacarini (b. 1991, France) is a Paris and Hong Kong-based artist working across sculpture, embroidery, photography, video, and installation. Rooted in seventeen years of classical ballet training, her practice translates movement into lasting form, rendering gesture and motion visible.</p>
+      <p class="artist-bio">Collaborating with dancers through motion-capture, AI, and experimental fabrication, she creates work that holds the tension between the ephemeral and the permanent, the human and the machine. For <em>Chaises</em>, Ophelia develops the generative pipeline producing 3D sculptures and paintings from movement and point cloud data.</p>
+      <div class="artist-meta">
+        <span><span class="dot"></span> Paris &amp; Hong Kong</span>
+        <span><span class="dot"></span> Sculpture &middot; AI &middot; Motion Capture</span>
+        <span><span class="dot"></span> <a href="https://www.ophelia-jacarini.com" target="_blank" rel="noopener" style="color:var(--green); text-decoration:none; border-bottom:1px solid rgba(74,124,89,0.3);">ophelia-jacarini.com</a></span>
+      </div>
+    </div>
+  </div>
+
+  <!-- CHARLOTTE -->
+  <div class="artist-card">
+    <div class="artist-avatar">C</div>
+    <div class="artist-info">
+      <h2 class="artist-name">Charlotte Tampol</h2>
+      <div class="artist-role">Multidisciplinary Artist</div>
+      <p class="artist-bio">Charlotte Tampol is a Brooklyn-based multidisciplinary artist working in oil painting, printmaking, photography, and tattoo. Raised by a single mother and grandmother, her experience as a white-passing half-Asian woman shapes work that explores femininity, misogyny, and the sublime.</p>
+      <p class="artist-bio">Drawing on art history, feminism, and Filipino tattoo culture, she uses her practice to navigate the different worlds her ancestry inhabits.</p>
+      <div class="artist-meta">
+        <span><span class="dot"></span> Brooklyn, New York</span>
+        <span><span class="dot"></span> Painting &middot; Printmaking &middot; Photography</span>
+        <span><span class="dot"></span> <a href="https://www.instagram.com/charlottetampolart/" target="_blank" rel="noopener" style="color:var(--green); text-decoration:none; border-bottom:1px solid rgba(74,124,89,0.3);">@charlottetampolart</a></span>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- SUPPORT -->
+<section style="background:var(--white); padding:4rem 3rem; text-align:center;">
+  <div style="max-width:680px; margin:0 auto;">
+    <div class="page-label">Supported By</div>
+    <h2 style="font-family:'Instrument Serif',serif; font-size:1.8rem; color:var(--dark-green); margin-bottom:1rem;">New to the Wall Foundation</h2>
+    <p style="color:var(--slate); font-size:0.95rem; line-height:1.8; margin-bottom:1.5rem;"><em>Chaises</em> is supported by the New to the Wall Foundation — a private foundation dedicated to collecting, exhibiting, and supporting contemporary artists. The foundation commissions new work and produces cross-disciplinary projects, partnering directly with artists to realise ambitious ideas.</p>
+    <a href="https://newtothewallfoundation.com/" target="_blank" rel="noopener" style="
+      display:inline-block; padding:0.6rem 1.8rem;
+      background:var(--gold); color:var(--white);
+      font-size:0.72rem; letter-spacing:0.12em; text-transform:uppercase;
+      text-decoration:none; font-weight:500; border-radius:4px;
+      font-family:'DM Sans',sans-serif;
+    ">Visit the Foundation &rarr;</a>
+  </div>
+</section>
+
+<!-- BACK -->
+<div class="back-section">
+  <a href="index.html" class="back-link">&larr; Back to Project</a>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="f-title">Chaises</div>
+  <div class="f-sub">20&ndash;22 October 2026 &middot; Le Marais, Paris</div>
+  <div class="f-copy">&copy; 2026 Chaises Project</div>
+</footer>
+
+<script>
+const navEl = document.getElementById('nav');
+window.addEventListener('scroll', () => {
+  navEl.classList.toggle('scrolled', window.scrollY > 60);
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,1072 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chaises — The Social Geometry of Luxembourg Gardens</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300;1,9..40,400&family=JetBrains+Mono:wght@300;400&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --green: #4A7C59;
+  --green-light: #7FAF8A;
+  --green-pale: #D4E8DA;
+  --cream: #F8F5EF;
+  --charcoal: #2A2A2A;
+  --slate: #5C6B73;
+  --gold: #C9A84C;
+  --dark-green: #2C4A38;
+  --white: #FFFFFF;
+}
+
+html { scroll-behavior: smooth; font-size: 16px; }
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  color: var(--charcoal);
+  background: var(--cream);
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+/* ─── NAV ─── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  padding: 1.1rem 3rem;
+  display: flex; justify-content: space-between; align-items: center;
+  background: rgba(248,245,239,0.9);
+  backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px);
+  border-bottom: 1px solid rgba(74,124,89,0.07);
+  transition: all 0.4s;
+}
+nav.scrolled { padding: 0.65rem 3rem; box-shadow: 0 2px 24px rgba(0,0,0,0.05); }
+.logo { font-family: 'Instrument Serif', serif; font-size: 1.35rem; color: var(--dark-green); letter-spacing: 0.03em; text-decoration: none; }
+.logo em { font-style: italic; color: var(--gold); }
+.nav-links { display: flex; gap: 1.8rem; list-style: none; }
+.nav-links a {
+  text-decoration: none; color: var(--slate);
+  font-size: 0.7rem; letter-spacing: 0.14em; text-transform: uppercase;
+  font-weight: 500; transition: color 0.3s;
+}
+.nav-links a:hover { color: var(--green); }
+
+@media (max-width: 768px) {
+  nav { padding: 0.9rem 1.2rem; }
+  nav.scrolled { padding: 0.6rem 1.2rem; }
+  .nav-links { gap: 0.8rem; }
+  .nav-links a { font-size: 0.58rem; letter-spacing: 0.08em; }
+}
+
+/* ─── HERO ─── */
+.hero {
+  min-height: 100vh;
+  display: flex; flex-direction: column; justify-content: center; align-items: center;
+  text-align: center; padding: 8rem 2rem 4rem; position: relative;
+}
+.hero-canvas { position: absolute; inset: 0; z-index: 0; pointer-events: none; }
+.hero-content { position: relative; z-index: 1; }
+.hero-label {
+  font-size: 0.68rem; letter-spacing: 0.32em; text-transform: uppercase;
+  color: var(--green); font-weight: 500; margin-bottom: 2rem;
+  opacity: 0; animation: fadeUp 0.9s 0.2s ease forwards;
+}
+.hero h1 {
+  font-family: 'Instrument Serif', serif;
+  font-size: clamp(3.5rem, 9vw, 8.5rem);
+  font-weight: 400; line-height: 0.92; color: var(--dark-green);
+  margin-bottom: 1.4rem;
+  opacity: 0; animation: fadeUp 0.9s 0.4s ease forwards;
+}
+.hero h1 i { font-style: italic; color: var(--green); }
+.hero-sub {
+  font-family: 'Instrument Serif', serif;
+  font-size: clamp(1.05rem, 2.2vw, 1.45rem);
+  color: var(--slate); max-width: 580px; line-height: 1.55;
+  opacity: 0; animation: fadeUp 0.9s 0.6s ease forwards;
+  margin: 0 auto;
+}
+.hero-meta {
+  margin-top: 3rem; display: flex; gap: 3rem; justify-content: center;
+  flex-wrap: wrap;
+  opacity: 0; animation: fadeUp 0.9s 0.8s ease forwards;
+}
+.hero-meta div { text-align: center; }
+.hero-meta .label {
+  font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--gold); font-weight: 500; margin-bottom: 0.25rem;
+}
+.hero-meta .value { font-family: 'Instrument Serif', serif; font-size: 1rem; color: var(--dark-green); }
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(18px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ─── SECTIONS ─── */
+section { padding: 6.5rem 3rem; position: relative; }
+.section-inner { max-width: 1100px; margin: 0 auto; }
+.section-label {
+  font-size: 0.62rem; letter-spacing: 0.35em; text-transform: uppercase;
+  color: var(--gold); font-weight: 500; margin-bottom: 0.8rem;
+}
+.section-title {
+  font-family: 'Instrument Serif', serif;
+  font-size: clamp(2rem, 4.5vw, 3.2rem);
+  font-weight: 400; color: var(--dark-green); line-height: 1.15;
+  margin-bottom: 1.8rem;
+}
+.section-body { max-width: 660px; color: var(--slate); font-size: 1rem; line-height: 1.8; }
+.section-body + .section-body { margin-top: 1.2rem; }
+
+@media (max-width: 768px) {
+  section { padding: 4rem 1.4rem; }
+}
+
+/* ─── OBSERVATION ─── */
+#observation { background: var(--white); }
+.obs-grid {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 4rem; align-items: center;
+}
+.obs-visual {
+  position: relative; height: 380px; background: var(--green-pale);
+  border-radius: 10px; overflow: hidden;
+}
+.obs-visual canvas { width: 100%; height: 100%; display: block; }
+.obs-caption {
+  margin-top: 0.75rem; font-size: 0.75rem; color: var(--slate);
+  font-style: italic; text-align: center;
+}
+@media (max-width: 768px) {
+  .obs-grid { grid-template-columns: 1fr; gap: 2rem; }
+  .obs-visual { height: 260px; }
+}
+
+/* ─── CONCEPT ─── */
+#concept { background: var(--dark-green); color: var(--green-pale); }
+#concept .section-title { color: var(--white); }
+#concept .section-body { color: rgba(212,232,218,0.8); }
+
+.pipeline {
+  display: grid; grid-template-columns: repeat(5, 1fr);
+  gap: 1.2rem; margin-top: 3.5rem;
+}
+.pipe-card {
+  padding: 1.6rem 1.2rem; border: 1px solid rgba(127,175,138,0.2);
+  border-radius: 8px; transition: all 0.35s;
+}
+.pipe-card:hover { border-color: var(--gold); background: rgba(201,168,76,0.06); }
+.pipe-num {
+  font-family: 'JetBrains Mono', monospace; font-size: 0.65rem;
+  color: var(--gold); letter-spacing: 0.1em; margin-bottom: 0.8rem;
+}
+.pipe-card h3 {
+  font-family: 'Instrument Serif', serif; font-size: 1.15rem;
+  color: var(--white); margin-bottom: 0.5rem;
+}
+.pipe-card p { font-size: 0.82rem; color: rgba(212,232,218,0.65); line-height: 1.65; }
+
+@media (max-width: 900px) {
+  .pipeline { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 500px) {
+  .pipeline { grid-template-columns: 1fr; }
+}
+
+/* ─── SCENARIOS ─── */
+#scenarios { background: var(--cream); }
+.scenario-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 1.2rem; margin-top: 2.5rem;
+}
+.sc-card {
+  padding: 1.5rem; background: var(--white); border-radius: 8px;
+  border: 1px solid rgba(74,124,89,0.06);
+  transition: all 0.3s; cursor: default;
+}
+.sc-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 32px rgba(44,74,56,0.07);
+  border-color: rgba(74,124,89,0.18);
+}
+.sc-emoji { font-size: 1.6rem; margin-bottom: 0.5rem; display: block; }
+.sc-card h3 {
+  font-family: 'Instrument Serif', serif; font-size: 1.05rem;
+  color: var(--dark-green); margin-bottom: 0.35rem;
+}
+.sc-card p { font-size: 0.8rem; color: var(--slate); line-height: 1.6; }
+
+/* ─── CHOREOGRAPHY ─── */
+#choreography { background: var(--charcoal); color: var(--cream); }
+#choreography .section-title { color: var(--white); }
+#choreography .section-body { color: rgba(248,245,239,0.65); }
+
+.choreo-wrap {
+  margin-top: 2.5rem; background: rgba(0,0,0,0.35); border-radius: 10px;
+  overflow: hidden;
+}
+.choreo-canvas-box { width: 100%; height: 420px; position: relative; }
+.choreo-canvas-box canvas { width: 100%; height: 100%; display: block; }
+.choreo-bar {
+  display: flex; align-items: center; gap: 0.6rem;
+  padding: 1rem 1.5rem; flex-wrap: wrap;
+}
+.choreo-btn {
+  padding: 0.4rem 1rem; border-radius: 4px; border: 1px solid rgba(248,245,239,0.2);
+  background: transparent; color: var(--cream); font-size: 0.72rem;
+  letter-spacing: 0.1em; text-transform: uppercase; cursor: pointer;
+  font-family: 'DM Sans', sans-serif; transition: all 0.25s;
+}
+.choreo-btn:hover, .choreo-btn.active { background: var(--gold); border-color: var(--gold); color: var(--charcoal); }
+.choreo-label {
+  font-family: 'JetBrains Mono', monospace; font-size: 0.65rem;
+  color: rgba(248,245,239,0.4); margin-left: auto;
+}
+@media (max-width: 768px) {
+  .choreo-canvas-box { height: 280px; }
+}
+
+/* ─── PRECEDENT ─── */
+#precedent { background: var(--white); }
+.precedent-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 3rem;
+  align-items: start; margin-top: 2rem;
+}
+.precedent-grid .section-body { max-width: 100%; }
+.ref-box {
+  padding: 2rem; background: var(--green-pale); border-radius: 8px;
+  border-left: 3px solid var(--gold);
+}
+.ref-box h3 {
+  font-family: 'Instrument Serif', serif; font-size: 1.2rem;
+  color: var(--dark-green); margin-bottom: 0.5rem;
+}
+.ref-box p { font-size: 0.88rem; color: var(--slate); line-height: 1.7; }
+@media (max-width: 768px) {
+  .precedent-grid { grid-template-columns: 1fr; }
+}
+
+/* ─── EXHIBITION ─── */
+#exhibition {
+  background: linear-gradient(165deg, var(--dark-green) 0%, #1a3628 100%);
+  color: var(--cream);
+}
+#exhibition .section-title { color: var(--white); }
+#exhibition .section-body { color: rgba(212,232,218,0.8); }
+.terra-points {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 2rem; margin-top: 3rem;
+}
+.tp-card {
+  padding: 2rem; border: 1px solid rgba(201,168,76,0.25);
+  border-radius: 8px; background: rgba(201,168,76,0.04);
+}
+.tp-card h3 {
+  font-family: 'Instrument Serif', serif; font-size: 1.15rem;
+  color: var(--gold); margin-bottom: 0.6rem;
+}
+.tp-card p { font-size: 0.88rem; color: rgba(212,232,218,0.7); line-height: 1.7; }
+@media (max-width: 768px) {
+  .terra-points { grid-template-columns: 1fr; }
+}
+
+/* ─── TEAM ─── */
+#team { background: var(--cream); }
+.team-grid {
+  display: grid; grid-template-columns: repeat(4, 1fr);
+  gap: 1.5rem; margin-top: 2.5rem;
+}
+.tm-card { text-align: center; }
+.tm-avatar {
+  width: 90px; height: 90px; border-radius: 50%;
+  background: var(--green-pale); margin: 0 auto 1rem;
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Instrument Serif', serif; font-size: 1.6rem;
+  color: var(--green); border: 2px solid rgba(74,124,89,0.15);
+}
+.tm-card h3 {
+  font-family: 'Instrument Serif', serif; font-size: 1.05rem;
+  color: var(--dark-green); margin-bottom: 0.2rem;
+}
+.tm-role { font-size: 0.78rem; color: var(--gold); letter-spacing: 0.05em; margin-bottom: 0.4rem; }
+.tm-desc { font-size: 0.8rem; color: var(--slate); line-height: 1.6; }
+@media (max-width: 900px) {
+  .team-grid { grid-template-columns: repeat(3, 1fr); }
+}
+@media (max-width: 600px) {
+  .team-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 400px) {
+  .team-grid { grid-template-columns: 1fr; }
+}
+
+/* ─── SCHEDULE ─── */
+#schedule { background: var(--white); }
+.timeline {
+  margin-top: 2.5rem; position: relative;
+  padding-left: 2rem; border-left: 2px solid var(--green-pale);
+}
+.tl-item { margin-bottom: 2rem; position: relative; }
+.tl-item::before {
+  content: ''; position: absolute; left: -2.38rem; top: 0.35rem;
+  width: 10px; height: 10px; border-radius: 50%;
+  background: var(--gold); border: 2px solid var(--white);
+}
+.tl-date {
+  font-family: 'JetBrains Mono', monospace; font-size: 0.68rem;
+  color: var(--gold); letter-spacing: 0.08em; margin-bottom: 0.2rem;
+}
+.tl-item h3 {
+  font-family: 'Instrument Serif', serif; font-size: 1.05rem;
+  color: var(--dark-green); margin-bottom: 0.2rem;
+}
+.tl-item p { font-size: 0.85rem; color: var(--slate); line-height: 1.6; }
+
+/* ─── COMING SOON MODAL ─── */
+.cs-overlay {
+  position: fixed; inset: 0; z-index: 999;
+  background: rgba(26,38,32,0.82);
+  backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
+  display: flex; align-items: center; justify-content: center;
+  padding: 1.5rem;
+  opacity: 0; animation: csOverlayIn 0.6s 0.3s ease forwards;
+}
+.cs-overlay.dismissed { animation: csOverlayOut 0.4s ease forwards; }
+@keyframes csOverlayIn {
+  from { opacity: 0; } to { opacity: 1; }
+}
+@keyframes csOverlayOut {
+  from { opacity: 1; } to { opacity: 0; pointer-events: none; }
+}
+
+.cs-card {
+  background: var(--dark-green);
+  border: 1px solid rgba(201,168,76,0.25);
+  border-radius: 14px;
+  max-width: 560px; width: 100%;
+  padding: 3.5rem 3rem 3rem;
+  text-align: center;
+  position: relative;
+  transform: translateY(20px);
+  animation: csCardIn 0.6s 0.45s cubic-bezier(0.22,1,0.36,1) forwards;
+  opacity: 0;
+}
+@keyframes csCardIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.cs-close {
+  position: absolute; top: 1.2rem; right: 1.4rem;
+  background: none; border: none; cursor: pointer;
+  color: rgba(212,232,218,0.4); font-size: 1.4rem; line-height: 1;
+  transition: color 0.2s;
+}
+.cs-close:hover { color: var(--gold); }
+
+.cs-eyebrow {
+  font-size: 0.6rem; letter-spacing: 0.38em; text-transform: uppercase;
+  color: var(--gold); font-weight: 500; margin-bottom: 1.6rem;
+}
+.cs-title {
+  font-family: 'Instrument Serif', serif;
+  font-size: clamp(2.2rem, 7vw, 3.4rem);
+  color: var(--white); line-height: 0.95; margin-bottom: 0.6rem;
+}
+.cs-title i { font-style: italic; color: var(--green-light); }
+.cs-sub {
+  font-family: 'Instrument Serif', serif;
+  font-size: 1.05rem; color: rgba(212,232,218,0.7);
+  margin-bottom: 2.5rem; line-height: 1.5;
+}
+.cs-details {
+  display: flex; flex-direction: column; gap: 0.5rem;
+  margin-bottom: 2.5rem;
+}
+.cs-detail-row {
+  display: flex; align-items: center; justify-content: center; gap: 0.6rem;
+}
+.cs-detail-label {
+  font-size: 0.58rem; letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--gold); font-weight: 500; min-width: 60px; text-align: right;
+}
+.cs-detail-val {
+  font-family: 'Instrument Serif', serif; font-size: 1rem;
+  color: var(--white);
+}
+.cs-divider {
+  width: 40px; height: 1px;
+  background: rgba(201,168,76,0.3); margin: 0.4rem auto 2rem;
+}
+.cs-btn {
+  display: inline-block; padding: 0.7rem 2.2rem;
+  background: var(--gold); color: var(--dark-green);
+  font-size: 0.72rem; letter-spacing: 0.14em; text-transform: uppercase;
+  text-decoration: none; font-weight: 600; border-radius: 4px;
+  font-family: 'DM Sans', sans-serif;
+  border: none; cursor: pointer;
+  transition: all 0.25s;
+  margin-bottom: 1rem;
+}
+.cs-btn:hover { background: #dbb95a; transform: translateY(-1px); }
+.cs-skip {
+  display: block; margin-top: 0.8rem;
+  font-size: 0.68rem; color: rgba(212,232,218,0.35); letter-spacing: 0.08em;
+  cursor: pointer; background: none; border: none;
+  font-family: 'DM Sans', sans-serif; transition: color 0.2s;
+}
+.cs-skip:hover { color: rgba(212,232,218,0.6); }
+
+@media (max-width: 480px) {
+  .cs-card { padding: 2.5rem 1.6rem 2rem; }
+}
+
+/* ─── FOOTER ─── */
+footer {
+  background: var(--charcoal); color: rgba(248,245,239,0.5);
+  padding: 3.5rem 2rem; text-align: center;
+}
+footer .f-title {
+  font-family: 'Instrument Serif', serif; font-size: 1.8rem;
+  color: var(--cream); margin-bottom: 0.5rem;
+}
+footer .f-sub { font-size: 0.9rem; color: rgba(248,245,239,0.6); margin-bottom: 1.5rem; }
+footer .f-contact { font-size: 0.75rem; letter-spacing: 0.1em; color: var(--gold); }
+footer .f-contact a { color: var(--gold); }
+footer .f-copy { margin-top: 2rem; font-size: 0.7rem; color: rgba(248,245,239,0.3); }
+</style>
+</head>
+<body>
+
+<!-- COMING SOON MODAL -->
+<div class="cs-overlay" id="csOverlay">
+  <div class="cs-card" role="dialog" aria-modal="true" aria-label="Preview opening announcement">
+    <button class="cs-close" id="csClose" aria-label="Close">&times;</button>
+    <div class="cs-eyebrow">Preview Opening &mdash; Coming Soon</div>
+    <h2 class="cs-title">Cha<i>i</i>ses</h2>
+    <p class="cs-sub">The Social Geometry of Luxembourg Gardens</p>
+    <div class="cs-divider"></div>
+    <div class="cs-details">
+      <div class="cs-detail-row">
+        <span class="cs-detail-label">Dates</span>
+        <span class="cs-detail-val">20&ndash;22 October 2026</span>
+      </div>
+      <div class="cs-detail-row">
+        <span class="cs-detail-label">Venue</span>
+        <span class="cs-detail-val">24 rue Chapon, 75003 Paris</span>
+      </div>
+    </div>
+    <button class="cs-btn" id="csEnter">Explore the Project &rarr;</button>
+    <button class="cs-skip" id="csSkip">Close</button>
+  </div>
+</div>
+
+<!-- NAV -->
+<nav id="nav">
+  <a href="#" class="logo">Chaises</a>
+  <ul class="nav-links">
+    <li><a href="#observation">Observation</a></li>
+    <li><a href="#concept">Concept</a></li>
+    <li><a href="#scenarios">Scenarios</a></li>
+    <li><a href="#choreography">Choreography</a></li>
+    <li><a href="#exhibition">Exhibition</a></li>
+    <li><a href="#team">Team</a></li>
+    <li><a href="artists.html">Artists</a></li>
+    <li><a href="#support">Support</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <canvas class="hero-canvas" id="heroCanvas"></canvas>
+  <div class="hero-content">
+    <div class="hero-label">A multidisciplinary art installation</div>
+    <h1>Cha<i>i</i>ses</h1>
+    <p class="hero-sub">The social geometry of Luxembourg Gardens — where metal chairs form silent societies each morning, creating choreographies no one directs.</p>
+    <div class="hero-meta">
+      <div><div class="label">Location</div><div class="value">Le Marais, Paris</div></div>
+      <div><div class="label">Forms</div><div class="value">Dance &middot; Sculpture &middot; Sound &middot; Painting &middot; Scenography</div></div>
+      <div><div class="label">Exhibition</div><div class="value">20&ndash;22 October 2026</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- OBSERVATION -->
+<section id="observation">
+  <div class="section-inner">
+    <div class="obs-grid">
+      <div>
+        <div class="section-label">The Observation</div>
+        <h2 class="section-title">Every morning, the chairs rearrange themselves</h2>
+        <p class="section-body">In Luxembourg Gardens, the iconic green metal chairs are freely moved by visitors throughout the day. By the next dawn, a gardener redistributes them into a neutral grid. Then the choreography begins again — lovers pull two chairs face-to-face, a solitary reader angles one toward the sun, a group of students drags six into a messy circle for lunch.</p>
+        <p class="section-body">These chairs form a social geometry — a silent, unscripted choreography of human connection, solitude, conflict, and tenderness. <em>Chaises</em> translates this daily phenomenon into five simultaneous art forms.</p>
+      </div>
+      <div>
+        <div class="obs-visual">
+          <canvas id="obsCanvas"></canvas>
+        </div>
+        <div class="obs-caption">Simulated field: 12 chairs over 6 hours — dawn grid to social formations</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONCEPT -->
+<section id="concept">
+  <div class="section-inner">
+    <div class="section-label">The Concept</div>
+    <h2 class="section-title">From social archetype to five art outputs — simultaneously</h2>
+    <p class="section-body">Rather than literal GPS tracking, <em>Chaises</em> uses human archetypes as choreographic data. Actor-dancers perform scenarios using chairs as their medium — the spatial logic feeds all art outputs at once through a shared data pipeline.</p>
+    <div class="pipeline">
+      <div class="pipe-card">
+        <div class="pipe-num">01</div>
+        <h3>Dance</h3>
+        <p>Actor-dancers perform social scenarios with physical chairs — the live choreographic source that drives every other output.</p>
+      </div>
+      <div class="pipe-card">
+        <div class="pipe-num">02</div>
+        <h3>Sculpture</h3>
+        <p>Movement trajectories become 3D ribbon sculptures — width, twist, and colour encoding each dancer's social biography over time.</p>
+      </div>
+      <div class="pipe-card">
+        <div class="pipe-num">03</div>
+        <h3>Sound</h3>
+        <p>Five instrumental voices scored from velocity, proximity, and social energy — layered with field-recorded gravel from Luxembourg Gardens.</p>
+      </div>
+      <div class="pipe-card">
+        <div class="pipe-num">04</div>
+        <h3>Painting</h3>
+        <p>Generative paintings from point cloud data and movement vectors — produced through an AI-assisted pipeline translating spatial logic into visual form.</p>
+      </div>
+      <div class="pipe-card">
+        <div class="pipe-num">05</div>
+        <h3>Scenography</h3>
+        <p>The spatial design of the installation itself — architecture responding to the choreographic data, creating an immersive environment for all outputs.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SCENARIOS -->
+<section id="scenarios">
+  <div class="section-inner">
+    <div class="section-label">The Scenarios</div>
+    <h2 class="section-title">Ten social archetypes, observed daily</h2>
+    <p class="section-body">Each scenario encodes a distinct human interaction through the spatial language of chairs — proximity, orientation, velocity, stillness.</p>
+    <div class="scenario-grid">
+      <div class="sc-card"><span class="sc-emoji">&#9728;&#65039;</span><h3>Sun-Worshipping</h3><p>A solitary figure tracks the light, making slow angular adjustments as the sun crosses the garden.</p></div>
+      <div class="sc-card"><span class="sc-emoji">&#128148;</span><h3>Lovers' Spat</h3><p>Two chairs begin entwined, drift apart through tension, orbit in conflict, and either reconcile or leave.</p></div>
+      <div class="sc-card"><span class="sc-emoji">&#129524;</span><h3>Picnic</h3><p>A cluster forms organically as friends arrive at different times, chairs angling inward to create shared space.</p></div>
+      <div class="sc-card"><span class="sc-emoji">&#129309;</span><h3>Meeting an Old Friend</h3><p>Two distant chairs suddenly converge — the rush of recognition, the embrace, the settling into conversation.</p></div>
+      <div class="sc-card"><span class="sc-emoji">&#127891;</span><h3>Class Lunch</h3><p>A chaotic, noisy cluster of six. Constant jostling, shifting alliances, side conversations breaking off.</p></div>
+      <div class="sc-card"><span class="sc-emoji">&#128214;</span><h3>Solitary Reader</h3><p>Deliberate isolation. The chair positions itself away from traffic, creates a buffer zone, and barely moves.</p></div>
+      <div class="sc-card"><span class="sc-emoji">&#128131;</span><h3>Argument to Dance</h3><p>Confrontation transforms into synchronisation — adversaries become partners through rhythm.</p></div>
+      <div class="sc-card"><span class="sc-emoji">&#128248;</span><h3>Tourist Swarm</h3><p>A burst of chaotic, short-lived occupation. Chairs briefly claimed, photos taken, then abandoned in disarray.</p></div>
+      <div class="sc-card"><span class="sc-emoji">&#128336;</span><h3>The Regulars</h3><p>The same positions, day after day. Territorial, precise, comforted by routine. The chairs remember their owners.</p></div>
+      <div class="sc-card"><span class="sc-emoji">&#127761;</span><h3>Shadow Following</h3><p>Two chairs in silent parallel — never approaching, never diverging, maintaining an uncanny synchrony.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- CHOREOGRAPHY -->
+<section id="choreography">
+  <div class="section-inner">
+    <div class="section-label">Working Prototype</div>
+    <h2 class="section-title">Live choreography from scenario data</h2>
+    <p class="section-body">The visualisation below runs on the same canonical chair geometry and vector data that drives all project outputs — sculpture, sound, and export pipelines share a single source of truth.</p>
+    <div class="choreo-wrap">
+      <div class="choreo-canvas-box">
+        <canvas id="choreoCanvas"></canvas>
+      </div>
+      <div class="choreo-bar">
+        <button class="choreo-btn active" data-sc="lovers">Lovers' Spat</button>
+        <button class="choreo-btn" data-sc="sun">Sun-Worshipping</button>
+        <button class="choreo-btn" data-sc="picnic">Picnic</button>
+        <button class="choreo-btn" data-sc="friend">Old Friend</button>
+        <button class="choreo-btn" data-sc="reader">Solitary Reader</button>
+        <span class="choreo-label" id="choreoTime">t = 0.00</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRECEDENT -->
+<section id="precedent">
+  <div class="section-inner">
+    <div class="section-label">The Precedent</div>
+    <h2 class="section-title">Building on Forsythe's spatial logic</h2>
+    <div class="precedent-grid">
+      <div>
+        <p class="section-body"><em>Chaises</em> draws on the analytical framework of William Forsythe's <em>One Flat Thing, reproduced</em> and the Ohio State University Synchronous Objects project — which decomposed a single dance into dozens of visual, spatial, and data-driven interpretations.</p>
+        <p class="section-body">Where Forsythe decomposed choreography into data, <em>Chaises</em> inverts the process: social observation becomes choreographic data, which then generates sculpture, sound, painting, and scenography simultaneously. The chairs are both the instrument and the subject.</p>
+      </div>
+      <div>
+        <div class="ref-box">
+          <h3>Synchronous Objects, OSU</h3>
+          <p>A landmark project that produced 20+ visual objects from a single Forsythe dance — maps, 3D forms, generative drawings, and data visualisations. <em>Chaises</em> extends this methodology from the stage to the public garden, from professional dancers to the everyday choreography of social life.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EXHIBITION -->
+<section id="exhibition">
+  <div class="section-inner">
+    <div class="section-label">20&ndash;22 October 2026 &middot; 24 rue Chapon, 75003 Paris</div>
+    <h2 class="section-title">The chairs come home</h2>
+    <p class="section-body"><em>Chaises</em> will be presented over three days in Le Marais — the historic heart of Paris, where centuries of creative life have shaped the streets, courtyards, and gathering places. The project returns to the city where it was born: where the green metal chairs of Luxembourg Gardens choreograph social life every morning without a director, without a score.</p>
+    <p class="section-body">Le Marais offers the perfect scale — intimate enough for visitors to encounter the work up close, yet connected to the broader Parisian art world during the autumn season. The installation will transform its venue into a living field of chairs, sound, and projected movement — inviting audiences to witness the silent choreography they walk past every day.</p>
+    <div class="terra-points">
+      <div class="tp-card">
+        <h3>Site &amp; Context</h3>
+        <p>Le Marais sits at the crossroads of Paris's gallery scene, historic architecture, and everyday street life — an ideal setting for a project that draws its poetry from public space.</p>
+      </div>
+      <div class="tp-card">
+        <h3>Immersive Scale</h3>
+        <p>The installation adapts to its host architecture. Chairs inhabit the space as both art objects and performers — the choreography reshaping itself to the specificities of the venue.</p>
+      </div>
+      <div class="tp-card">
+        <h3>Five Forms, One Source</h3>
+        <p>Dance, sculpture, sound, painting, and scenography — all generated from a single choreographic data source, presented simultaneously across three days of exhibition and performance.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TEAM -->
+<section id="team">
+  <div class="section-inner">
+    <div class="section-label">The Team</div>
+    <h2 class="section-title">A multidisciplinary collaboration</h2>
+    <div class="team-grid">
+      <div class="tm-card">
+        <div class="tm-avatar">J</div>
+        <h3>Jimmy Gardner</h3>
+        <div class="tm-role">Concept Creator &amp; Supporter</div>
+        <p class="tm-desc">Originated the observation. Conceived the project's vision and supports its realisation across all five outputs.</p>
+      </div>
+      <div class="tm-card">
+        <div class="tm-avatar">A</div>
+        <h3>Allard van Hoorn</h3>
+        <div class="tm-role">Creative Director, Sound &amp; Scenography</div>
+        <p class="tm-desc">Urban Songlines. Tate St Ives, Whitney, MAAT, Van Abbemuseum. Leads creative direction, scenographic design and sound composition.</p>
+      </div>
+      <div class="tm-card">
+        <div class="tm-avatar">O</div>
+        <h3>Ophelia Jacarini</h3>
+        <div class="tm-role">AI Artist &amp; Sculpture</div>
+        <p class="tm-desc">Motion capture, AI, experimental fabrication. Generative sculpture and painting pipeline.</p>
+      </div>
+      <div class="tm-card">
+        <div class="tm-avatar">C</div>
+        <h3>Charlotte Tampol</h3>
+        <div class="tm-role">Multidisciplinary Artist</div>
+        <p class="tm-desc">Oil painting, printmaking, photography. Explores femininity and the sublime through art history and Filipino tattoo culture.</p>
+      </div>
+    </div>
+    <p style="text-align:center; margin-top:2rem;"><a href="artists.html" style="color:var(--gold); font-size:0.75rem; letter-spacing:0.12em; text-transform:uppercase; text-decoration:none; font-weight:500; border-bottom:1px solid rgba(201,168,76,0.3); padding-bottom:2px; transition: border-color 0.3s;">Full artist biographies &rarr;</a></p>
+  </div>
+</section>
+
+<!-- SUPPORT -->
+<section id="support">
+  <div class="section-inner" style="text-align:center; max-width:760px;">
+    <div class="section-label">Produced By</div>
+    <h2 class="section-title">New to the Wall Foundation</h2>
+    <p class="section-body" style="margin:0 auto 1.5rem;">
+      <em>Chaises</em> is produced by the <strong>New to the Wall Foundation</strong>, a private foundation dedicated to collecting, exhibiting, and supporting contemporary artists. Based in the Hudson Valley and connected to galleries and institutions in New York and Paris, the foundation builds lasting relationships between artists, their work, and the communities that encounter them.
+    </p>
+    <p class="section-body" style="margin:0 auto 1.5rem;">
+      Beyond collecting, the foundation commissions new work and produces cross-disciplinary projects — partnering directly with artists to realise ideas that deserve support. <em>Chaises</em> is the foundation's flagship production for 2026, reflecting its commitment to ambitious, multidisciplinary work at the intersection of performance, technology, and the visual arts.
+    </p>
+    <p class="section-body" style="margin:0 auto 1.5rem;">
+      Foundation founders Jimmy Gardner and Shana Glickfield will be in Paris for the full production and exhibition period — on the ground with the artistic team through installation, performance, and day-to-day operations. This is hands-on commitment to the work and to the artists making it.
+    </p>
+    <p style="margin-top:2.5rem;">
+      <a href="https://newtothewallfoundation.com/" target="_blank" rel="noopener" style="
+        display:inline-block; padding:0.7rem 2.2rem;
+        background:var(--gold); color:var(--white);
+        font-size:0.75rem; letter-spacing:0.14em; text-transform:uppercase;
+        text-decoration:none; font-weight:500; border-radius:4px;
+        font-family:'DM Sans',sans-serif;
+        transition: all 0.3s;
+      ">Visit New to the Wall Foundation &rarr;</a>
+    </p>
+  </div>
+</section>
+
+<!-- SCHEDULE -->
+<section id="schedule">
+  <div class="section-inner">
+    <div class="section-label">Timeline</div>
+    <h2 class="section-title">Toward Paris, October 2026</h2>
+    <div class="timeline">
+      <div class="tl-item">
+        <div class="tl-date">APR &ndash; JUN 2026</div>
+        <h3>Remote Development</h3>
+        <p>Technical pipeline refinement — choreography engine, sound scoring, sculpture generation, vector export for downstream tools (TouchDesigner, Blender, Unity).</p>
+      </div>
+      <div class="tl-item">
+        <div class="tl-date">JUL &ndash; AUG 2026</div>
+        <h3>Production &amp; Rehearsal</h3>
+        <p>Actor-dancer casting and rehearsal in Paris. Field recording sessions at Luxembourg Gardens. 3D print iteration for miniature and sculptural outputs.</p>
+      </div>
+      <div class="tl-item">
+        <div class="tl-date">SEP 2026</div>
+        <h3>Site Adaptation</h3>
+        <p>Site-specific adaptation for the Marais venue. Scenographic design finalised. All five art output streams integrated and tested.</p>
+      </div>
+      <div class="tl-item">
+        <div class="tl-date">20&ndash;22 OCT 2026</div>
+        <h3>Exhibition, Le Marais, Paris</h3>
+        <p>Three-day live installation and performance. Vernissage, open viewing, and culminating performance bringing all five art forms together in a single immersive space.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="f-title">Chaises</div>
+  <div class="f-sub">The Social Geometry of Luxembourg Gardens</div>
+  <div class="f-contact">20&ndash;22 October 2026 &middot; 24 rue Chapon, 75003 Paris</div>
+  <div class="f-copy">&copy; 2026 Chaises Project</div>
+</footer>
+
+<script>
+// ─── COMING SOON MODAL ───
+(function() {
+  const overlay = document.getElementById('csOverlay');
+  function dismiss() {
+    overlay.classList.add('dismissed');
+    setTimeout(() => { overlay.style.display = 'none'; }, 420);
+  }
+  document.getElementById('csClose').addEventListener('click', dismiss);
+  document.getElementById('csSkip').addEventListener('click', dismiss);
+  document.getElementById('csEnter').addEventListener('click', dismiss);
+  overlay.addEventListener('click', function(e) {
+    if (e.target === overlay) dismiss();
+  });
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') dismiss();
+  });
+})();
+
+// ─── NAV SCROLL ───
+const navEl = document.getElementById('nav');
+window.addEventListener('scroll', () => {
+  navEl.classList.toggle('scrolled', window.scrollY > 60);
+});
+
+// ─── CHAIR DRAWING HELPER ───
+function drawChair(ctx, x, y, rot, scale, color, lw) {
+  ctx.save();
+  ctx.translate(x, y);
+  ctx.rotate(rot);
+  ctx.scale(scale, scale);
+  ctx.strokeStyle = color;
+  ctx.lineWidth = lw || 2;
+  ctx.lineCap = 'round';
+  ctx.lineJoin = 'round';
+  ctx.beginPath();
+  // seat
+  ctx.rect(-11, -3, 22, 12);
+  // back
+  ctx.moveTo(-9, -3); ctx.lineTo(-7, -15);
+  ctx.moveTo(9, -3); ctx.lineTo(7, -15);
+  ctx.moveTo(-6.5, -13); ctx.lineTo(6.5, -13);
+  ctx.moveTo(-7, -9); ctx.lineTo(7, -9);
+  ctx.moveTo(-7.5, -5); ctx.lineTo(7.5, -5);
+  // legs
+  ctx.moveTo(-9, 9); ctx.lineTo(-12, 19);
+  ctx.moveTo(9, 9); ctx.lineTo(12, 19);
+  ctx.moveTo(-5.5, 9); ctx.lineTo(-7, 17);
+  ctx.moveTo(5.5, 9); ctx.lineTo(7, 17);
+  ctx.stroke();
+  ctx.restore();
+}
+
+// ─── HERO CANVAS — drifting ghost chairs ───
+(function(){
+  const c = document.getElementById('heroCanvas');
+  const ctx = c.getContext('2d');
+  let W, H;
+  function resize() {
+    W = c.width = c.offsetWidth;
+    H = c.height = c.offsetHeight;
+  }
+  resize();
+  window.addEventListener('resize', resize);
+
+  const chairs = [];
+  for (let i = 0; i < 20; i++) {
+    chairs.push({
+      x: Math.random(), y: Math.random(),
+      rot: Math.random() * Math.PI * 2,
+      vx: (Math.random() - 0.5) * 0.00005,
+      vy: (Math.random() - 0.5) * 0.00005,
+      vr: (Math.random() - 0.5) * 0.0004,
+      s: 0.55 + Math.random() * 0.5,
+      opacity: 0.035 + Math.random() * 0.04
+    });
+  }
+
+  function loop() {
+    ctx.clearRect(0, 0, W, H);
+    for (const ch of chairs) {
+      ch.x += ch.vx; ch.y += ch.vy; ch.rot += ch.vr;
+      if (ch.x < -0.05) ch.x = 1.05;
+      if (ch.x > 1.05) ch.x = -0.05;
+      if (ch.y < -0.05) ch.y = 1.05;
+      if (ch.y > 1.05) ch.y = -0.05;
+      drawChair(ctx, ch.x * W, ch.y * H, ch.rot, ch.s,
+        'rgba(74,124,89,' + ch.opacity + ')', 1.5);
+    }
+    requestAnimationFrame(loop);
+  }
+  loop();
+})();
+
+// ─── OBSERVATION CANVAS — grid to formations ───
+(function(){
+  const c = document.getElementById('obsCanvas');
+  const ctx = c.getContext('2d');
+  let W, H;
+  function resize() { W = c.width = c.offsetWidth; H = c.height = c.offsetHeight; }
+  resize();
+  window.addEventListener('resize', resize);
+
+  const N = 12;
+  const grid = [];
+  for (let r = 0; r < 3; r++)
+    for (let col = 0; col < 4; col++)
+      grid.push({ x: 0.12 + col * 0.22, y: 0.18 + r * 0.28, rot: 0 });
+
+  const social = [
+    { x: 0.25, y: 0.32, rot: 0.3 },
+    { x: 0.33, y: 0.36, rot: -0.3 },
+    { x: 0.78, y: 0.20, rot: -0.5 },
+    { x: 0.55, y: 0.62, rot: 0.2 },
+    { x: 0.63, y: 0.55, rot: -0.4 },
+    { x: 0.49, y: 0.56, rot: 0.6 },
+    { x: 0.58, y: 0.70, rot: -0.1 },
+    { x: 0.17, y: 0.72, rot: 0.1 },
+    { x: 0.28, y: 0.68, rot: -0.2 },
+    { x: 0.23, y: 0.80, rot: 0.4 },
+    { x: 0.13, y: 0.64, rot: -0.5 },
+    { x: 0.82, y: 0.52, rot: -1.2 }
+  ];
+
+  const chairs = grid.map(g => ({ x: g.x, y: g.y, rot: 0 }));
+  let phase = 0, timer = 0;
+  const HOLD = 200;
+
+  function getTargets() {
+    return phase === 0 ? grid : social;
+  }
+
+  function loop() {
+    ctx.clearRect(0, 0, W, H);
+    timer++;
+    if (timer > HOLD) { timer = 0; phase = 1 - phase; }
+    const targets = getTargets();
+    for (let i = 0; i < N; i++) {
+      chairs[i].x += (targets[i].x - chairs[i].x) * 0.025;
+      chairs[i].y += (targets[i].y - chairs[i].y) * 0.025;
+      chairs[i].rot += (targets[i].rot - chairs[i].rot) * 0.025;
+      const alpha = phase === 0 ? 0.45 : 0.85;
+      drawChair(ctx, chairs[i].x * W, chairs[i].y * H, chairs[i].rot, 0.7,
+        'rgba(44,74,56,' + alpha + ')', 2);
+    }
+    requestAnimationFrame(loop);
+  }
+  loop();
+})();
+
+// ─── CHOREOGRAPHY CANVAS ───
+(function(){
+  const c = document.getElementById('choreoCanvas');
+  const ctx = c.getContext('2d');
+  let W, H, dpr;
+  function resize() {
+    dpr = window.devicePixelRatio || 1;
+    const rect = c.getBoundingClientRect();
+    W = c.width = rect.width * dpr;
+    H = c.height = rect.height * dpr;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  }
+  resize();
+  window.addEventListener('resize', resize);
+
+  const scenarios = {
+    lovers: {
+      n: 2,
+      fn: function(t, i) {
+        const cx = i === 0 ? 0.4 : 0.6;
+        const sign = i === 0 ? -1 : 1;
+        let drift;
+        if (t < 0.25) drift = t / 0.25 * 0.08;
+        else if (t < 0.5) drift = 0.08 + (t - 0.25) / 0.25 * 0.16;
+        else if (t < 0.75) drift = 0.24 - (t - 0.5) / 0.25 * 0.12;
+        else drift = 0.12 - (t - 0.75) / 0.25 * 0.12;
+        return {
+          x: cx + sign * drift + Math.sin(t * 12 + i * 3) * 0.015,
+          y: 0.5 + Math.cos(t * 8 + i * 2) * 0.025,
+          rot: sign * drift * 2.5
+        };
+      }
+    },
+    sun: {
+      n: 1,
+      fn: function(t) {
+        const angle = t * Math.PI * 0.7 - 0.35;
+        return {
+          x: 0.5 + Math.cos(angle) * 0.04,
+          y: 0.5 + Math.sin(t * 2) * 0.015,
+          rot: angle * 0.5
+        };
+      }
+    },
+    picnic: {
+      n: 5,
+      fn: function(t, i) {
+        const cx = 0.5, cy = 0.5, r = 0.14;
+        const baseAngle = (i / 5) * Math.PI * 2;
+        const arrive = Math.max(0, Math.min(1, (t - i * 0.1) * 3));
+        const ea = arrive * arrive * (3 - 2 * arrive); // smoothstep
+        const angle = baseAngle + Math.sin(t * 4 + i) * 0.12;
+        const dist = r * ea + Math.sin(t * 5 + i * 2) * 0.008;
+        return {
+          x: cx + Math.cos(angle) * dist + (1 - ea) * (i % 2 === 0 ? -0.25 : 0.25),
+          y: cy + Math.sin(angle) * dist + (1 - ea) * 0.35,
+          rot: angle + Math.PI + Math.sin(t * 3 + i) * 0.15
+        };
+      }
+    },
+    friend: {
+      n: 2,
+      fn: function(t, i) {
+        const meet = 0.3;
+        const startX = i === 0 ? 0.12 : 0.88;
+        const endX = i === 0 ? 0.44 : 0.56;
+        let x;
+        if (t < meet) {
+          const e = t / meet;
+          x = startX + (endX - startX) * (e * e * (3 - 2 * e));
+        } else {
+          x = endX + Math.sin(t * 5 + i) * 0.008;
+        }
+        return {
+          x,
+          y: 0.5 + Math.sin(t * 7 + i * 3) * 0.01,
+          rot: t < meet ? (i === 0 ? 0.15 : -0.15) : Math.sin(t * 4 + i) * 0.08
+        };
+      }
+    },
+    reader: {
+      n: 1,
+      fn: function(t) {
+        return {
+          x: 0.5 + Math.sin(t * 0.6) * 0.004,
+          y: 0.45 + Math.cos(t * 0.4) * 0.003,
+          rot: -0.3 + Math.sin(t * 0.9) * 0.015
+        };
+      }
+    }
+  };
+
+  let current = 'lovers';
+  let t = 0;
+  const trails = {};
+  const colors = ['#C9A84C', '#7FAF8A', '#D4E8DA', '#5C6B73', '#4A7C59'];
+
+  Object.keys(scenarios).forEach(k => { trails[k] = []; });
+
+  function loop() {
+    const dW = c.offsetWidth, dH = c.offsetHeight;
+    ctx.save();
+    ctx.setTransform(1, 0, 0, 1, 0, 0);
+    ctx.clearRect(0, 0, W, H);
+    ctx.restore();
+
+    const sc = scenarios[current];
+    t += 0.0018;
+    if (t > 1) t = 0;
+
+    if (!trails[current]) trails[current] = [];
+
+    // update trails
+    for (let i = 0; i < sc.n; i++) {
+      const pos = sc.fn(t, i);
+      if (!trails[current][i]) trails[current][i] = [];
+      trails[current][i].push({ x: pos.x, y: pos.y });
+      if (trails[current][i].length > 250) trails[current][i].shift();
+    }
+
+    // draw trails
+    for (let i = 0; i < sc.n; i++) {
+      const pts = trails[current][i];
+      if (pts && pts.length > 2) {
+        for (let j = 1; j < pts.length; j++) {
+          const alpha = (j / pts.length) * 0.25;
+          ctx.beginPath();
+          ctx.moveTo(pts[j - 1].x * dW, pts[j - 1].y * dH);
+          ctx.lineTo(pts[j].x * dW, pts[j].y * dH);
+          ctx.strokeStyle = colors[i % colors.length];
+          ctx.globalAlpha = alpha;
+          ctx.lineWidth = 1.5;
+          ctx.stroke();
+        }
+        ctx.globalAlpha = 1;
+      }
+    }
+
+    // draw chairs
+    for (let i = 0; i < sc.n; i++) {
+      const pos = sc.fn(t, i);
+      drawChair(ctx, pos.x * dW, pos.y * dH, pos.rot, 0.9,
+        colors[i % colors.length], 2.5);
+    }
+
+    // time label
+    document.getElementById('choreoTime').textContent = 't = ' + t.toFixed(2);
+
+    requestAnimationFrame(loop);
+  }
+  loop();
+
+  // button switching
+  document.querySelectorAll('.choreo-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.choreo-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      current = btn.dataset.sc;
+      t = 0;
+      trails[current] = [];
+    });
+  });
+})();
+
+// ─── SCROLL REVEAL ───
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.style.opacity = '1';
+      e.target.style.transform = 'translateY(0)';
+    }
+  });
+}, { threshold: 0.08 });
+
+document.querySelectorAll('section:not(.hero)').forEach(s => {
+  s.style.opacity = '0';
+  s.style.transform = 'translateY(28px)';
+  s.style.transition = 'opacity 0.7s ease, transform 0.7s ease';
+  obs.observe(s);
+});
+</script>
+</body>
+</html>
