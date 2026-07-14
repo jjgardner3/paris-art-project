@@ -7,6 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300;1,9..40,400&family=JetBrains+Mono:wght@300;400&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/exif-js/2.3.0/exif.min.js"></script>
 <style>
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -76,17 +77,6 @@ h1 em { font-style: italic; color: var(--gold); }
   line-height: 1.65; margin-bottom: 2.8rem;
 }
 
-/* ─── DIVIDER ─── */
-.divider {
-  display: flex; align-items: center; gap: 1rem;
-  margin: 2.4rem 0;
-}
-.divider-line { flex: 1; height: 1px; background: rgba(74,124,89,0.18); }
-.divider-label {
-  font-size: 0.62rem; letter-spacing: 0.22em; text-transform: uppercase;
-  color: var(--slate); white-space: nowrap;
-}
-
 /* ─── FORM ─── */
 .section-title {
   font-family: 'Instrument Serif', serif;
@@ -123,9 +113,70 @@ textarea { min-height: 90px; resize: vertical; }
 
 .char-hint {
   font-size: 0.72rem; color: rgba(92,107,115,0.6);
-  margin-top: 0.3rem;
+  margin-top: 0.3rem; min-height: 1.1em;
 }
 
+/* ─── PHOTO UPLOAD ─── */
+.photo-area {
+  position: relative;
+  border: 1.5px dashed rgba(74,124,89,0.35);
+  border-radius: 8px;
+  background: var(--white);
+  overflow: hidden;
+  transition: border-color 0.2s;
+  cursor: pointer;
+}
+.photo-area:hover { border-color: var(--green); }
+
+.photo-placeholder {
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  gap: 0.6rem;
+  padding: 2rem 1rem;
+  pointer-events: none;
+}
+.photo-placeholder svg {
+  width: 36px; height: 36px; color: var(--green-light);
+}
+.photo-placeholder span {
+  font-size: 0.82rem; color: var(--slate); text-align: center; line-height: 1.4;
+}
+.photo-placeholder strong {
+  display: block; color: var(--green);
+  font-size: 0.78rem; letter-spacing: 0.1em; text-transform: uppercase;
+  font-weight: 500; margin-bottom: 0.1rem;
+}
+
+input[type="file"] {
+  position: absolute; inset: 0;
+  opacity: 0; cursor: pointer; width: 100%; height: 100%;
+}
+
+.photo-preview {
+  display: none;
+  position: relative;
+}
+.photo-preview img {
+  width: 100%; max-height: 240px;
+  object-fit: cover; display: block;
+}
+.remove-photo {
+  position: absolute; top: 0.5rem; right: 0.5rem;
+  background: rgba(44,74,56,0.85); color: var(--white);
+  border: none; border-radius: 50%;
+  width: 28px; height: 28px;
+  font-size: 1rem; cursor: pointer; line-height: 1;
+  display: flex; align-items: center; justify-content: center;
+}
+
+/* ─── EXIF STATUS ─── */
+.exif-found {
+  color: var(--green) !important;
+  opacity: 1 !important;
+}
+.exif-found::before { content: '📍 '; }
+
+/* ─── SUBMIT ─── */
 .submit-btn {
   width: 100%;
   background: var(--dark-green);
@@ -140,8 +191,9 @@ textarea { min-height: 90px; resize: vertical; }
 }
 .submit-btn:hover { background: var(--green); }
 .submit-btn:active { transform: scale(0.98); }
+.submit-btn:disabled { opacity: 0.6; cursor: default; transform: none; }
 
-/* ─── SUCCESS STATE ─── */
+/* ─── SUCCESS ─── */
 .success-msg {
   display: none;
   text-align: center;
@@ -150,13 +202,22 @@ textarea { min-height: 90px; resize: vertical; }
   border-radius: 8px;
   margin-top: 1rem;
 }
-.success-msg .check {
-  font-size: 2rem; margin-bottom: 0.6rem;
-}
+.success-msg .icon { font-size: 2rem; margin-bottom: 0.6rem; }
 .success-msg p {
   font-family: 'Instrument Serif', serif;
   font-size: 1.1rem; color: var(--dark-green);
   font-style: italic;
+}
+
+/* ─── DIVIDER ─── */
+.divider {
+  display: flex; align-items: center; gap: 1rem;
+  margin: 2.4rem 0;
+}
+.divider-line { flex: 1; height: 1px; background: rgba(74,124,89,0.18); }
+.divider-label {
+  font-size: 0.62rem; letter-spacing: 0.22em; text-transform: uppercase;
+  color: var(--slate); white-space: nowrap;
 }
 
 /* ─── INSTAGRAM ─── */
@@ -202,12 +263,6 @@ footer {
   font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase;
   color: rgba(92,107,115,0.5);
 }
-
-/* ─── CHAIR ICON ─── */
-.chair-icon {
-  width: 48px; height: 48px; margin-bottom: 1.6rem;
-  color: var(--green-light);
-}
 </style>
 </head>
 <body>
@@ -225,33 +280,58 @@ footer {
     This chair is part of an ongoing art project exploring how public seating shapes the social life of Paris. Leave a trace — tell us where you found it, or share a photo on Instagram.
   </p>
 
-  <!-- ─── LOCATION FORM ─── -->
+  <!-- ─── FORM ─── -->
   <div class="section-title">Where are you?</div>
-  <p class="section-sub">A street corner, a café, a bridge — wherever you found it.</p>
+  <p class="section-sub">Take a photo, or tell us where you are.</p>
 
-  <form name="found-chair" method="POST" data-netlify="true" id="found-form">
+  <form name="found-chair" method="POST" enctype="multipart/form-data" data-netlify="true" id="found-form">
     <input type="hidden" name="form-name" value="found-chair" />
+    <input type="hidden" name="gps_lat" id="gps_lat" />
+    <input type="hidden" name="gps_lon" id="gps_lon" />
 
+    <!-- Photo -->
+    <div class="form-group">
+      <label>Photo <span style="text-transform:none;font-size:0.65rem;opacity:0.6;">(optional)</span></label>
+      <div class="photo-area" id="photo-area">
+        <input type="file" name="photo" id="photo-input" accept="image/*" capture="environment" />
+        <div class="photo-placeholder" id="photo-placeholder">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
+            <circle cx="12" cy="13" r="4"/>
+          </svg>
+          <span><strong>Tap to take a photo</strong>We'll read the location from it if available</span>
+        </div>
+        <div class="photo-preview" id="photo-preview">
+          <img id="preview-img" alt="Your photo" />
+          <button type="button" class="remove-photo" id="remove-photo" aria-label="Remove photo">×</button>
+        </div>
+      </div>
+      <p class="char-hint" id="exif-status"></p>
+    </div>
+
+    <!-- Location -->
     <div class="form-group">
       <label for="location">Location</label>
       <input type="text" id="location" name="location" placeholder="e.g. Rue de Rivoli, near the Tuileries" />
     </div>
 
+    <!-- Note -->
     <div class="form-group">
       <label for="note">A note <span style="text-transform:none;font-size:0.65rem;opacity:0.6;">(optional)</span></label>
       <textarea id="note" name="note" placeholder="What's it doing there? What's around it? Any thought is welcome."></textarea>
     </div>
 
+    <!-- Name -->
     <div class="form-group">
       <label for="name">Your name <span style="text-transform:none;font-size:0.65rem;opacity:0.6;">(optional)</span></label>
       <input type="text" id="name" name="name" placeholder="Or leave it anonymous" />
     </div>
 
-    <button type="submit" class="submit-btn">Leave a trace →</button>
+    <button type="submit" class="submit-btn" id="submit-btn">Leave a trace →</button>
   </form>
 
   <div class="success-msg" id="success-msg">
-    <div class="check">🪑</div>
+    <div class="icon">🪑</div>
     <p>Merci. The chair remembers.</p>
   </div>
 
@@ -281,28 +361,142 @@ footer {
 </footer>
 
 <script>
-  // Handle form submit for success state
-  const form = document.getElementById('found-form');
-  const successMsg = document.getElementById('success-msg');
+// ─── HELPERS ───────────────────────────────────────────────
+function dmsToDecimal(dms, ref) {
+  if (!dms || dms.length < 3) return null;
+  const [deg, min, sec] = dms;
+  let decimal = deg + min / 60 + sec / 3600;
+  if (ref === 'S' || ref === 'W') decimal = -decimal;
+  return decimal;
+}
 
-  form.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const data = new FormData(form);
+function setExifStatus(msg, found) {
+  const el = document.getElementById('exif-status');
+  el.textContent = msg;
+  el.className = found ? 'char-hint exif-found' : 'char-hint';
+}
 
-    try {
-      await fetch('/', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: new URLSearchParams(data).toString()
-      });
-      form.style.display = 'none';
-      successMsg.style.display = 'block';
-    } catch (err) {
-      // Fallback: still show success — Netlify may handle it
-      form.style.display = 'none';
-      successMsg.style.display = 'block';
-    }
+// ─── REVERSE GEOCODE ───────────────────────────────────────
+async function reverseGeocode(lat, lon) {
+  try {
+    const res = await fetch(
+      `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}`,
+      { headers: { 'Accept-Language': 'fr,en' } }
+    );
+    const data = await res.json();
+    const a = data.address || {};
+    const parts = [
+      a.road,
+      a.neighbourhood || a.suburb,
+      a.city_district || a.borough,
+      a.city || a.town || a.village
+    ].filter(Boolean);
+    return parts.length ? parts.join(', ') : null;
+  } catch {
+    return null;
+  }
+}
+
+// ─── EXIF EXTRACTION ───────────────────────────────────────
+async function extractExif(file) {
+  return new Promise((resolve) => {
+    EXIF.getData(file, function () {
+      const latDMS  = EXIF.getTag(this, 'GPSLatitude');
+      const lonDMS  = EXIF.getTag(this, 'GPSLongitude');
+      const latRef  = EXIF.getTag(this, 'GPSLatitudeRef');
+      const lonRef  = EXIF.getTag(this, 'GPSLongitudeRef');
+
+      if (latDMS && lonDMS) {
+        const lat = dmsToDecimal(latDMS, latRef);
+        const lon = dmsToDecimal(lonDMS, lonRef);
+        resolve({ lat, lon });
+      } else {
+        resolve(null);
+      }
+    });
   });
+}
+
+// ─── PHOTO INPUT ───────────────────────────────────────────
+const photoInput     = document.getElementById('photo-input');
+const photoPlaceholder = document.getElementById('photo-placeholder');
+const photoPreview   = document.getElementById('photo-preview');
+const previewImg     = document.getElementById('preview-img');
+const removeBtn      = document.getElementById('remove-photo');
+const locationField  = document.getElementById('location');
+
+photoInput.addEventListener('change', async () => {
+  const file = photoInput.files[0];
+  if (!file) return;
+
+  // Show preview
+  const url = URL.createObjectURL(file);
+  previewImg.src = url;
+  photoPlaceholder.style.display = 'none';
+  photoPreview.style.display = 'block';
+
+  // Extract EXIF
+  setExifStatus('Reading photo location…', false);
+  const coords = await extractExif(file);
+
+  if (coords && coords.lat && coords.lon) {
+    document.getElementById('gps_lat').value = coords.lat.toFixed(6);
+    document.getElementById('gps_lon').value = coords.lon.toFixed(6);
+
+    // Try to reverse geocode
+    const address = await reverseGeocode(coords.lat, coords.lon);
+    if (address) {
+      if (!locationField.value) locationField.value = address;
+      setExifStatus(`Location found: ${address}`, true);
+    } else {
+      if (!locationField.value) {
+        locationField.value = `${coords.lat.toFixed(5)}, ${coords.lon.toFixed(5)}`;
+      }
+      setExifStatus(`GPS found: ${coords.lat.toFixed(5)}, ${coords.lon.toFixed(5)}`, true);
+    }
+  } else {
+    setExifStatus('No location data in this photo — feel free to type it above.', false);
+  }
+});
+
+removeBtn.addEventListener('click', (e) => {
+  e.stopPropagation();
+  photoInput.value = '';
+  previewImg.src = '';
+  photoPlaceholder.style.display = 'flex';
+  photoPreview.style.display = 'none';
+  document.getElementById('gps_lat').value = '';
+  document.getElementById('gps_lon').value = '';
+  setExifStatus('', false);
+});
+
+// ─── FORM SUBMIT ───────────────────────────────────────────
+const form      = document.getElementById('found-form');
+const submitBtn = document.getElementById('submit-btn');
+const successMsg = document.getElementById('success-msg');
+
+form.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  submitBtn.disabled = true;
+  submitBtn.textContent = 'Sending…';
+
+  try {
+    await fetch('/', {
+      method: 'POST',
+      body: new FormData(form)
+    });
+    form.style.display = 'none';
+    successMsg.style.display = 'block';
+  } catch {
+    form.style.display = 'none';
+    successMsg.style.display = 'block';
+  }
+});
+
+// Scroll nav transparency
+window.addEventListener('scroll', () => {
+  document.querySelector('nav').classList.toggle('scrolled', window.scrollY > 20);
+});
 </script>
 
 </body>
