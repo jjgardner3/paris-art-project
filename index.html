@@ -6,7 +6,7 @@
 <title>Chaises — The Social Geometry of Luxembourg Gardens</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300;1,9..40,400&family=JetBrains+Mono:wght@300;400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300;1,9..40,400&display=swap" rel="stylesheet">
 <style>
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -56,8 +56,7 @@ nav.scrolled { padding: 0.65rem 3rem; box-shadow: 0 2px 24px rgba(0,0,0,0.05); }
 @media (max-width: 768px) {
   nav { padding: 0.9rem 1.2rem; }
   nav.scrolled { padding: 0.6rem 1.2rem; }
-  .nav-links { gap: 0.8rem; }
-  .nav-links a { font-size: 0.58rem; letter-spacing: 0.08em; }
+  .nav-links { display: none; }
 }
 
 /* ─── HERO ─── */
@@ -88,8 +87,13 @@ nav.scrolled { padding: 0.65rem 3rem; box-shadow: 0 2px 24px rgba(0,0,0,0.05); }
   opacity: 0; animation: fadeUp 0.9s 0.6s ease forwards;
   margin: 0 auto;
 }
+.hero-artists {
+  margin-top: 1.6rem; font-size: 0.9rem; letter-spacing: 0.04em;
+  color: var(--dark-green);
+  opacity: 0; animation: fadeUp 0.9s 0.7s ease forwards;
+}
 .hero-meta {
-  margin-top: 3rem; display: flex; gap: 3rem; justify-content: center;
+  margin-top: 2.6rem; display: flex; gap: 3rem; justify-content: center;
   flex-wrap: wrap;
   opacity: 0; animation: fadeUp 0.9s 0.8s ease forwards;
 }
@@ -103,6 +107,27 @@ nav.scrolled { padding: 0.65rem 3rem; box-shadow: 0 2px 24px rgba(0,0,0,0.05); }
 @keyframes fadeUp {
   from { opacity: 0; transform: translateY(18px); }
   to { opacity: 1; transform: translateY(0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+  section, .hero-label, .hero h1, .hero-sub, .hero-artists, .hero-meta {
+    opacity: 1 !important; transform: none !important;
+  }
+}
+
+/* ─── CHAIRS BAND ─── */
+.chairs-band { padding-top: 4.5rem; padding-bottom: 4.5rem; background: var(--white); }
+.chairs-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+.chairs-grid figure { margin: 0; }
+.chairs-grid img { width: 100%; height: auto; display: block; border-radius: 3px; }
+.chairs-caption {
+  margin-top: 1.2rem; text-align: center; font-size: 0.78rem;
+  color: var(--slate); font-style: italic;
+}
+@media (max-width: 700px) {
+  .chairs-grid { gap: 0.5rem; }
+  .chairs-caption { font-size: 0.72rem; }
 }
 
 /* ─── SECTIONS ─── */
@@ -159,10 +184,6 @@ section { padding: 6.5rem 3rem; position: relative; }
   border-radius: 8px; transition: all 0.35s;
 }
 .pipe-card:hover { border-color: var(--gold); background: rgba(201,168,76,0.06); }
-.pipe-num {
-  font-family: 'JetBrains Mono', monospace; font-size: 0.65rem;
-  color: var(--gold); letter-spacing: 0.1em; margin-bottom: 0.8rem;
-}
 .pipe-card h3 {
   font-family: 'Instrument Serif', serif; font-size: 1.15rem;
   color: var(--white); margin-bottom: 0.5rem;
@@ -192,6 +213,7 @@ section { padding: 6.5rem 3rem; position: relative; }
   box-shadow: 0 10px 32px rgba(44,74,56,0.07);
   border-color: rgba(74,124,89,0.18);
 }
+.sc-emoji { font-size: 1.6rem; margin-bottom: 0.5rem; display: block; }
 .sc-card h3 {
   font-family: 'Instrument Serif', serif; font-size: 1.05rem;
   color: var(--dark-green); margin-bottom: 0.35rem;
@@ -221,7 +243,7 @@ section { padding: 6.5rem 3rem; position: relative; }
 }
 .choreo-btn:hover, .choreo-btn.active { background: var(--gold); border-color: var(--gold); color: var(--charcoal); }
 .choreo-label {
-  font-family: 'JetBrains Mono', monospace; font-size: 0.65rem;
+  font-size: 0.62rem; letter-spacing: 0.12em;
   color: rgba(248,245,239,0.4); margin-left: auto;
 }
 @media (max-width: 768px) {
@@ -301,28 +323,6 @@ section { padding: 6.5rem 3rem; position: relative; }
 @media (max-width: 400px) {
   .team-grid { grid-template-columns: 1fr; }
 }
-
-/* ─── SCHEDULE ─── */
-#schedule { background: var(--white); }
-.timeline {
-  margin-top: 2.5rem; position: relative;
-  padding-left: 2rem; border-left: 2px solid var(--green-pale);
-}
-.tl-item { margin-bottom: 2rem; position: relative; }
-.tl-item::before {
-  content: ''; position: absolute; left: -2.38rem; top: 0.35rem;
-  width: 10px; height: 10px; border-radius: 50%;
-  background: var(--gold); border: 2px solid var(--white);
-}
-.tl-date {
-  font-family: 'JetBrains Mono', monospace; font-size: 0.68rem;
-  color: var(--gold); letter-spacing: 0.08em; margin-bottom: 0.2rem;
-}
-.tl-item h3 {
-  font-family: 'Instrument Serif', serif; font-size: 1.05rem;
-  color: var(--dark-green); margin-bottom: 0.2rem;
-}
-.tl-item p { font-size: 0.85rem; color: var(--slate); line-height: 1.6; }
 
 /* ─── COMING SOON MODAL ─── */
 .cs-overlay {
@@ -437,6 +437,12 @@ footer .f-contact { font-size: 0.75rem; letter-spacing: 0.1em; color: var(--gold
 footer .f-contact a { color: var(--gold); }
 footer .f-copy { margin-top: 2rem; font-size: 0.7rem; color: rgba(248,245,239,0.3); }
 </style>
+<noscript><style>
+  section, .hero-label, .hero h1, .hero-sub, .hero-artists, .hero-meta {
+    opacity: 1 !important; transform: none !important; animation: none !important;
+  }
+  .cs-overlay { display: none !important; }
+</style></noscript>
 </head>
 <body>
 
@@ -470,11 +476,10 @@ footer .f-copy { margin-top: 2rem; font-size: 0.7rem; color: rgba(248,245,239,0.
     <li><a href="#observation">Observation</a></li>
     <li><a href="#concept">Concept</a></li>
     <li><a href="#scenarios">Scenarios</a></li>
-    <li><a href="#choreography">Prototype</a></li>
+    <li><a href="#choreography">Choreography</a></li>
     <li><a href="#exhibition">Exhibition</a></li>
-    <li><a href="#team">Team</a></li>
-    <li><a href="artists.html">Artists</a></li>
-    <li><a href="#support">Support</a></li>
+    <li><a href="#team">Artists</a></li>
+    <li><a href="#support">Foundation</a></li>
   </ul>
 </nav>
 
@@ -485,8 +490,9 @@ footer .f-copy { margin-top: 2rem; font-size: 0.7rem; color: rgba(248,245,239,0.
     <div class="hero-label">A multidisciplinary art installation</div>
     <h1>Cha<i>i</i>ses</h1>
     <p class="hero-sub">The social geometry of Luxembourg Gardens — where metal chairs form silent societies each morning, creating choreographies no one directs.</p>
+    <p class="hero-artists">Jimmy Gardner &middot; Allard van Hoorn &middot; Quinn Lewis &middot; Charlotte Tampol</p>
     <div class="hero-meta">
-      <div><div class="label">Location</div><div class="value">Le Marais, Paris</div></div>
+      <div><div class="label">Location</div><div class="value">24 rue Chapon, 75003 Paris</div></div>
       <div><div class="label">Forms</div><div class="value">Sculpture &middot; Painting &middot; Sound &middot; Installation</div></div>
       <div><div class="label">Exhibition</div><div class="value">20&ndash;22 October 2026</div></div>
     </div>
@@ -498,7 +504,7 @@ footer .f-copy { margin-top: 2rem; font-size: 0.7rem; color: rgba(248,245,239,0.
   <div class="section-inner">
     <div class="obs-grid">
       <div>
-        <div class="section-label">The Observation</div>
+        <div class="section-label">Observation</div>
         <h2 class="section-title">Every morning, the chairs rearrange themselves</h2>
         <p class="section-body">In Luxembourg Gardens, the iconic green metal chairs are freely moved by visitors throughout the day. By the next dawn, a gardener redistributes them into a neutral grid. Then the choreography begins again — lovers pull two chairs face-to-face, a solitary reader angles one toward the sun, a group of students drags six into a messy circle for lunch.</p>
         <p class="section-body">These chairs form a social geometry — a silent, unscripted choreography of human connection, solitude, conflict, and tenderness. <em>Chaises</em> translates this daily phenomenon into four simultaneous art forms.</p>
@@ -513,30 +519,38 @@ footer .f-copy { margin-top: 2rem; font-size: 0.7rem; color: rgba(248,245,239,0.
   </div>
 </section>
 
+<!-- THE CHAIRS -->
+<section id="chairs" class="chairs-band">
+  <div class="section-inner">
+    <div class="chairs-grid">
+      <figure><img src="img/chair-side.png" alt="Green metal Luxembourg garden side chair, remodelled and printed for the installation." loading="lazy" width="1080" height="1350"></figure>
+      <figure><img src="img/chair-armchair.png" alt="Green metal Luxembourg garden armchair, remodelled and printed for the installation." loading="lazy" width="1080" height="1350"></figure>
+      <figure><img src="img/chair-lounge.png" alt="Green metal Luxembourg garden lounge chair, remodelled and printed for the installation." loading="lazy" width="1080" height="1350"></figure>
+    </div>
+    <p class="chairs-caption">Three chairs from the garden, remodelled and printed for the installation.</p>
+  </div>
+</section>
+
 <!-- CONCEPT -->
 <section id="concept">
   <div class="section-inner">
-    <div class="section-label">The Concept</div>
+    <div class="section-label">Concept</div>
     <h2 class="section-title">From social archetype to four art outputs — simultaneously</h2>
     <p class="section-body">Rather than literal GPS tracking, <em>Chaises</em> uses human archetypes as choreographic data. Each scenario observed in the garden is scored as a set of chair paths — proximity, orientation, velocity, stillness — and that spatial logic feeds every art output at once through a shared data pipeline.</p>
     <div class="pipeline">
       <div class="pipe-card">
-        <div class="pipe-num">01</div>
         <h3>Sculpture</h3>
         <p>Chair trajectories become 3D printed ribbon sculptures &mdash; width, twist, and colour encoding each figure&rsquo;s social biography over time.</p>
       </div>
       <div class="pipe-card">
-        <div class="pipe-num">02</div>
         <h3>Painting</h3>
         <p>Oil painting carries the chairs into the picture plane &mdash; the same scenarios read through a painter&rsquo;s hand rather than a plotted vector.</p>
       </div>
       <div class="pipe-card">
-        <div class="pipe-num">03</div>
         <h3>Sound</h3>
         <p>Instrumental voices scored from velocity, proximity, and social energy &mdash; layered with field-recorded gravel from Luxembourg Gardens.</p>
       </div>
       <div class="pipe-card">
-        <div class="pipe-num">04</div>
         <h3>Installation</h3>
         <p>The room itself &mdash; chairs, kinetic apparatus, sound and projection arranged so visitors walk into the geometry instead of looking at it.</p>
       </div>
@@ -547,14 +561,14 @@ footer .f-copy { margin-top: 2rem; font-size: 0.7rem; color: rgba(248,245,239,0.
 <!-- SCENARIOS -->
 <section id="scenarios">
   <div class="section-inner">
-    <div class="section-label">The Scenarios</div>
+    <div class="section-label">Scenarios</div>
     <h2 class="section-title">Four social archetypes, observed daily</h2>
     <p class="section-body">Each scenario encodes a distinct human interaction through the spatial language of chairs — proximity, orientation, velocity, stillness.</p>
     <div class="scenario-grid">
-      <div class="sc-card"><h3>Sun-Worshipping</h3><p>A solitary figure tracks the light, making slow angular adjustments as the sun crosses the garden.</p></div>
-      <div class="sc-card"><h3>Lovers&rsquo; Spat</h3><p>Two chairs begin entwined, drift apart through tension, orbit in conflict, and either reconcile or leave.</p></div>
-      <div class="sc-card"><h3>The Reader</h3><p>Deliberate isolation. The chair positions itself away from traffic, creates a buffer zone, and barely moves.</p></div>
-      <div class="sc-card"><h3>Chaises Braid</h3><p>Strands that never touch and never separate &mdash; parallel lives holding an uncanny synchrony across the day.</p></div>
+      <div class="sc-card"><span class="sc-emoji">&#9728;&#65039;</span><h3>Sun-Worshipping</h3><p>A solitary figure tracks the light, making slow angular adjustments as the sun crosses the garden.</p></div>
+      <div class="sc-card"><span class="sc-emoji">&#128148;</span><h3>Lovers&rsquo; Spat</h3><p>Two chairs begin entwined, drift apart through tension, orbit in conflict, and either reconcile or leave.</p></div>
+      <div class="sc-card"><span class="sc-emoji">&#128214;</span><h3>The Reader</h3><p>Deliberate isolation. The chair positions itself away from traffic, creates a buffer zone, and barely moves.</p></div>
+      <div class="sc-card"><span class="sc-emoji">&#129516;</span><h3>Chaises Braid</h3><p>Strands that never touch and never separate &mdash; parallel lives holding an uncanny synchrony across the day.</p></div>
     </div>
   </div>
 </section>
@@ -562,7 +576,7 @@ footer .f-copy { margin-top: 2rem; font-size: 0.7rem; color: rgba(248,245,239,0.
 <!-- CHOREOGRAPHY -->
 <section id="choreography">
   <div class="section-inner">
-    <div class="section-label">Working Prototype</div>
+    <div class="section-label">Choreography</div>
     <h2 class="section-title">Live choreography from scenario data</h2>
     <p class="section-body">The visualisation below runs on the same canonical chair geometry and vector data that drives all project outputs — sculpture, sound, and export pipelines share a single source of truth.</p>
     <div class="choreo-wrap">
@@ -584,12 +598,12 @@ footer .f-copy { margin-top: 2rem; font-size: 0.7rem; color: rgba(248,245,239,0.
 <!-- PRECEDENT -->
 <section id="precedent">
   <div class="section-inner">
-    <div class="section-label">The Precedent</div>
+    <div class="section-label">Precedent</div>
     <h2 class="section-title">Building on Forsythe's spatial logic</h2>
     <div class="precedent-grid">
       <div>
         <p class="section-body"><em>Chaises</em> draws on the analytical framework of William Forsythe's <em>One Flat Thing, reproduced</em> and the Ohio State University Synchronous Objects project — which decomposed a single dance into dozens of visual, spatial, and data-driven interpretations.</p>
-        <p class="section-body">Where Forsythe decomposed choreography into data, <em>Chaises</em> inverts the process: social observation becomes choreographic data, which then generates sculpture, painting, sound, and installation simultaneously. The chairs are both the instrument and the subject.</p>
+        <p class="section-body">Forsythe's team decomposed a dance into data. <em>Chaises</em> works the other way round: social observation is scored as data, and that score generates sculpture, painting, sound, and installation at once. The chairs are both the instrument and the subject.</p>
       </div>
       <div>
         <div class="ref-box">
@@ -607,19 +621,19 @@ footer .f-copy { margin-top: 2rem; font-size: 0.7rem; color: rgba(248,245,239,0.
     <div class="section-label">20&ndash;22 October 2026 &middot; 24 rue Chapon, 75003 Paris</div>
     <h2 class="section-title">The chairs come home</h2>
     <p class="section-body"><em>Chaises</em> will be presented over three days in Le Marais — the historic heart of Paris, where centuries of creative life have shaped the streets, courtyards, and gathering places. The project returns to the city where it was born: where the green metal chairs of Luxembourg Gardens choreograph social life every morning without a director, without a score.</p>
-    <p class="section-body">Le Marais offers the perfect scale — intimate enough for visitors to encounter the work up close, yet connected to the broader Parisian art world during the autumn season. The installation will transform its venue into a living field of chairs, sound, and projected movement — inviting audiences to witness the silent choreography they walk past every day.</p>
+    <p class="section-body">The installation turns its venue into a living field of chairs, sound, and projected movement — inviting audiences to witness the silent choreography they walk past every day.</p>
     <div class="terra-points">
       <div class="tp-card">
-        <h3>Site &amp; Context</h3>
-        <p>Le Marais sits at the crossroads of Paris's gallery scene, historic architecture, and everyday street life — an ideal setting for a project that draws its poetry from public space.</p>
+        <h3>Vernissage</h3>
+        <p>Tuesday 20 October 2026</p>
       </div>
       <div class="tp-card">
-        <h3>Immersive Scale</h3>
-        <p>The installation adapts to its host architecture. Chairs inhabit the space as both art objects and actors — the geometry reshaping itself to the specificities of the venue.</p>
+        <h3>Open viewing</h3>
+        <p>Wednesday 21 October 2026</p>
       </div>
       <div class="tp-card">
-        <h3>Four Forms, One Source</h3>
-        <p>Sculpture, painting, sound, and installation — all generated from a single choreographic data source, presented simultaneously across three days of exhibition.</p>
+        <h3>Closing evening</h3>
+        <p>Thursday 22 October 2026</p>
       </div>
     </div>
   </div>
@@ -628,7 +642,7 @@ footer .f-copy { margin-top: 2rem; font-size: 0.7rem; color: rgba(248,245,239,0.
 <!-- TEAM -->
 <section id="team">
   <div class="section-inner">
-    <div class="section-label">The Team</div>
+    <div class="section-label">Artists</div>
     <h2 class="section-title">A multidisciplinary collaboration</h2>
     <div class="team-grid">
       <div class="tm-card">
@@ -641,7 +655,7 @@ footer .f-copy { margin-top: 2rem; font-size: 0.7rem; color: rgba(248,245,239,0.
         <div class="tm-avatar">A</div>
         <h3>Allard van Hoorn</h3>
         <div class="tm-role">Creative Director, Sound &amp; Installation</div>
-        <p class="tm-desc">Urban Songlines. Tate St Ives, Whitney, MAAT, Van Abbemuseum. Leads creative direction, installation design and sound composition.</p>
+        <p class="tm-desc">Dutch, Paris-based. Maker of <em>Urban Songlines</em>. Leads creative direction, installation design and sound composition.</p>
       </div>
       <div class="tm-card">
         <div class="tm-avatar">Q</div>
@@ -666,13 +680,7 @@ footer .f-copy { margin-top: 2rem; font-size: 0.7rem; color: rgba(248,245,239,0.
     <div class="section-label">Produced By</div>
     <h2 class="section-title">New to the Wall Foundation</h2>
     <p class="section-body" style="margin:0 auto 1.5rem;">
-      <em>Chaises</em> is produced by the <strong>New to the Wall Foundation</strong>, a private foundation dedicated to collecting, exhibiting, and supporting contemporary artists. Based in the Hudson Valley and connected to galleries and institutions in New York and Paris, the foundation builds lasting relationships between artists, their work, and the communities that encounter them.
-    </p>
-    <p class="section-body" style="margin:0 auto 1.5rem;">
-      Beyond collecting, the foundation commissions new work and produces cross-disciplinary projects — partnering directly with artists to realise ideas that deserve support. <em>Chaises</em> is the foundation's flagship production for 2026, reflecting its commitment to ambitious, multidisciplinary work at the intersection of performance, technology, and the visual arts.
-    </p>
-    <p class="section-body" style="margin:0 auto 1.5rem;">
-      Foundation founders Jimmy Gardner and Shana Glickfield will be in Paris for the full production and exhibition period — on the ground with the artistic team through installation, performance, and day-to-day operations. This is hands-on commitment to the work and to the artists making it.
+      <em>Chaises</em> is produced by the <strong>New to the Wall Foundation</strong>, a private foundation that collects, exhibits and commissions work by contemporary artists, based in the Hudson Valley and working between New York and Paris.
     </p>
     <p style="margin-top:2.5rem;">
       <a href="https://newtothewallfoundation.com/" target="_blank" rel="noopener" style="
@@ -684,36 +692,6 @@ footer .f-copy { margin-top: 2rem; font-size: 0.7rem; color: rgba(248,245,239,0.
         transition: all 0.3s;
       ">Visit New to the Wall Foundation &rarr;</a>
     </p>
-  </div>
-</section>
-
-<!-- SCHEDULE -->
-<section id="schedule">
-  <div class="section-inner">
-    <div class="section-label">Timeline</div>
-    <h2 class="section-title">Toward Paris, October 2026</h2>
-    <div class="timeline">
-      <div class="tl-item">
-        <div class="tl-date">APR &ndash; JUN 2026</div>
-        <h3>Remote Development</h3>
-        <p>Technical pipeline refinement — choreography engine, sound scoring, sculpture generation, vector export for downstream tools (TouchDesigner, Blender, Unity).</p>
-      </div>
-      <div class="tl-item">
-        <div class="tl-date">JUL &ndash; AUG 2026</div>
-        <h3>Production &amp; Rehearsal</h3>
-        <p>Scenario scoring and studio work in Paris. Field recording sessions at Luxembourg Gardens. 3D print iteration for miniature and sculptural outputs.</p>
-      </div>
-      <div class="tl-item">
-        <div class="tl-date">SEP 2026</div>
-        <h3>Site Adaptation</h3>
-        <p>Site-specific adaptation for the Marais venue. Installation design finalised. All four art output streams integrated and tested.</p>
-      </div>
-      <div class="tl-item">
-        <div class="tl-date">20&ndash;22 OCT 2026</div>
-        <h3>Exhibition, Le Marais, Paris</h3>
-        <p>Three-day installation. Vernissage, open viewing, and a closing evening bringing all four art forms together in a single immersive space.</p>
-      </div>
-    </div>
   </div>
 </section>
 
