@@ -116,6 +116,35 @@ nav.scrolled { padding: 0.65rem 3rem; box-shadow: 0 2px 24px rgba(0,0,0,0.05); }
   }
 }
 
+/* ─── VENUE + WORKS ─── */
+.venue-grid {
+  display: grid; grid-template-columns: 2fr 1fr; gap: 1rem;
+  margin-top: 2.5rem; aspect-ratio: 3 / 2;
+}
+.venue-grid figure { margin: 0; height: 100%; }
+.venue-grid img { width: 100%; height: 100%; object-fit: cover; display: block; border-radius: 3px; }
+.venue-caption {
+  margin-top: 0.9rem; font-size: 0.75rem; color: rgba(212,232,218,0.6); font-style: italic;
+}
+.works-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 2.5rem;
+  margin-top: 2.5rem; margin-bottom: 3.5rem; align-items: center;
+}
+.works-grid figure { margin: 0; display: flex; flex-direction: column; align-items: center; }
+.works-grid img {
+  max-height: 420px; width: auto; max-width: 100%; height: auto;
+  display: block; border-radius: 3px;
+}
+.works-grid figcaption {
+  margin-top: 0.8rem; font-size: 0.75rem; color: var(--slate); text-align: center;
+}
+.works-grid figcaption strong { color: var(--dark-green); font-weight: 500; }
+@media (max-width: 700px) {
+  .venue-grid { grid-template-columns: 1fr; aspect-ratio: auto; }
+  .venue-grid img { height: auto; }
+  .works-grid { grid-template-columns: 1fr; gap: 1.6rem; }
+}
+
 /* ─── CHAIRS BAND ─── */
 .chairs-band { padding-top: 4.5rem; padding-bottom: 4.5rem; background: var(--white); }
 .chairs-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
@@ -621,6 +650,11 @@ footer .f-copy { margin-top: 2rem; font-size: 0.7rem; color: rgba(248,245,239,0.
     <h2 class="section-title">The chairs come home</h2>
     <p class="section-body"><em>Chaises</em> will be presented over three days in Le Marais — the historic heart of Paris, where centuries of creative life have shaped the streets, courtyards, and gathering places. The project returns to the city where it was born: where the green metal chairs of Luxembourg Gardens choreograph social life every morning without a director, without a score.</p>
     <p class="section-body">The installation turns its venue into a living field of chairs, sound, and projected movement — inviting audiences to witness the silent choreography they walk past every day.</p>
+    <div class="venue-grid">
+      <figure><img src="img/venue-interior.jpg" alt="The gallery interior at 24 rue Chapon: a long white room with a skylight and works hung on both walls." loading="lazy" width="1400" height="934"></figure>
+      <figure><img src="img/venue-exterior.jpg" alt="The black shopfront of 24 rue Chapon seen from the street." loading="lazy" width="600" height="900"></figure>
+    </div>
+    <p class="venue-caption">24 rue Chapon, 75003 Paris.</p>
     <div class="terra-points">
       <div class="tp-card">
         <h3>Vernissage</h3>
@@ -643,6 +677,16 @@ footer .f-copy { margin-top: 2rem; font-size: 0.7rem; color: rgba(248,245,239,0.
   <div class="section-inner">
     <div class="section-label">Artists</div>
     <h2 class="section-title">A multidisciplinary collaboration</h2>
+    <div class="works-grid">
+      <figure>
+        <img src="img/work-quinn.jpg" alt="Ink drawing of overlapping Luxembourg garden chairs on cream paper." loading="lazy">
+        <figcaption><strong>Quinn Lewis</strong> — ink on paper, 2026</figcaption>
+      </figure>
+      <figure>
+        <img src="img/work-charlotte.jpg" alt="A large painting in progress: figures seated on green garden chairs, with an inset landscape framed in pink tape." loading="lazy">
+        <figcaption><strong>Charlotte Tampol</strong> — oil on canvas, in progress</figcaption>
+      </figure>
+    </div>
     <div class="team-grid">
       <div class="tm-card">
         <div class="tm-avatar">J</div>
