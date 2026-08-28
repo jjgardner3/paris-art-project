@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Some of the printed chairs have left the building. This is where they have been seen.">
+<link rel="canonical" href="https://lachaiseparisienne.com/map.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Chaises">
+<meta property="og:locale" content="en_GB">
+<meta property="og:url" content="https://lachaiseparisienne.com/map.html">
+<meta property="og:title" content="Where the chaises are.">
+<meta property="og:description" content="Some of the printed chairs have left the building. This is where they have been seen.">
+<meta property="og:image" content="https://lachaiseparisienne.com/img/og-cover.jpg">
+<meta property="og:image:secure_url" content="https://lachaiseparisienne.com/img/og-cover.jpg">
+<meta property="og:image:type" content="image/jpeg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Four green metal chairs turned toward each other on the gravel of the Luxembourg Gardens.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Where the chaises are.">
+<meta name="twitter:description" content="Some of the printed chairs have left the building. This is where they have been seen.">
+<meta name="twitter:image" content="https://lachaiseparisienne.com/img/og-cover.jpg">
+<meta name="twitter:image:alt" content="Four green metal chairs turned toward each other on the gravel of the Luxembourg Gardens.">
+
+<title>Where the Chaises Are — Paris Art Project</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300;1,9..40,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css" integrity="sha512-h9FcoyWjHcOcmEVkxOfTLnmZFWIH0iZhZT1H2TbOq55xssQGEJHEaIm+PgoUaZbRvQTNTluNOEfb1ZRy6D3BOw==" crossorigin="anonymous" referrerpolicy="no-referrer">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --green: #4A7C59;
+  --green-light: #7FAF8A;
+  --green-pale: #D4E8DA;
+  --cream: #F8F5EF;
+  --charcoal: #2A2A2A;
+  --slate: #5C6B73;
+  --gold: #C9A84C;
+  --dark-green: #2C4A38;
+  --white: #FFFFFF;
+}
+
+html { font-size: 16px; }
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  color: var(--charcoal);
+  background: var(--cream);
+  line-height: 1.6;
+  min-height: 100vh;
+}
+
+/* ─── NAV ─── */
+nav {
+  padding: 1.1rem 2rem;
+  display: flex; justify-content: space-between; align-items: center;
+  border-bottom: 1px solid rgba(74,124,89,0.12);
+}
+.logo {
+  font-family: 'Instrument Serif', serif;
+  font-size: 1.1rem; color: var(--dark-green);
+  letter-spacing: 0.03em; text-decoration: none;
+}
+.logo em { font-style: italic; color: var(--gold); }
+.nav-back {
+  font-size: 0.68rem; letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--slate); text-decoration: none; font-weight: 500;
+  transition: color 0.2s;
+}
+.nav-back:hover { color: var(--green); }
+
+/* ─── HEADER ─── */
+header {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 3rem 1.5rem 1.8rem;
+}
+.eyebrow {
+  font-size: 0.65rem; letter-spacing: 0.28em; text-transform: uppercase;
+  color: var(--green); font-weight: 500; margin-bottom: 1rem;
+}
+h1 {
+  font-family: 'Instrument Serif', serif;
+  font-size: clamp(2.4rem, 7vw, 3.6rem);
+  font-weight: 400; line-height: 1.05;
+  color: var(--dark-green); margin-bottom: 1.1rem;
+}
+h1 em { font-style: italic; color: var(--gold); }
+.intro {
+  font-size: 1rem; color: var(--slate);
+  line-height: 1.65; max-width: 46ch;
+}
+
+/* ─── COUNTS ─── */
+.counts {
+  display: flex; flex-wrap: wrap; gap: 2.4rem;
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid rgba(74,124,89,0.14);
+}
+.count-item .n {
+  font-family: 'Instrument Serif', serif;
+  font-size: 2rem; line-height: 1;
+  color: var(--dark-green);
+}
+.count-item .l {
+  font-size: 0.62rem; letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--slate); margin-top: 0.4rem;
+}
+
+/* ─── LAYOUT ─── */
+.layout {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 1.6rem 1.5rem 4rem;
+  display: grid;
+  grid-template-columns: 1fr 320px;
+  gap: 1.5rem;
+  align-items: start;
+}
+@media (max-width: 880px) {
+  .layout { grid-template-columns: 1fr; }
+}
+
+/* ─── MAP ─── */
+.map-frame {
+  position: relative;
+  border: 1.5px solid rgba(74,124,89,0.18);
+  border-radius: 10px;
+  overflow: hidden;
+  background: var(--green-pale);
+}
+#map {
+  height: 620px;
+  width: 100%;
+  background: #E9E4DA;
+}
+@media (max-width: 880px) { #map { height: 460px; } }
+
+/* Warm the CARTO basemap toward the site's cream/green */
+.leaflet-tile-pane {
+  filter: sepia(0.42) saturate(0.62) hue-rotate(22deg) brightness(1.04) contrast(0.94);
+}
+
+.leaflet-container {
+  font-family: 'DM Sans', sans-serif;
+  background: #E9E4DA;
+}
+.leaflet-control-attribution {
+  background: rgba(248,245,239,0.86) !important;
+  font-size: 0.6rem !important;
+  color: var(--slate) !important;
+}
+.leaflet-control-attribution a { color: var(--green) !important; }
+.leaflet-bar a {
+  background: var(--cream) !important;
+  color: var(--dark-green) !important;
+  border-bottom-color: rgba(74,124,89,0.2) !important;
+}
+.leaflet-bar a:hover { background: var(--green-pale) !important; }
+
+/* ─── MARKERS ─── */
+.chaise-pin { background: none; border: none; }
+.chaise-pin svg { display: block; filter: drop-shadow(0 2px 3px rgba(44,74,56,0.28)); }
+.chaise-pin.is-active svg { filter: drop-shadow(0 3px 7px rgba(201,168,76,0.75)); }
+
+/* ─── POPUP ─── */
+.leaflet-popup-content-wrapper {
+  background: var(--cream);
+  border-radius: 8px;
+  box-shadow: 0 6px 22px rgba(44,74,56,0.18);
+}
+.leaflet-popup-content { margin: 0; width: 232px !important; }
+.leaflet-popup-tip { background: var(--cream); }
+.pop { padding: 0; }
+.pop img {
+  width: 100%; height: 132px; object-fit: cover; display: block;
+  border-radius: 8px 8px 0 0;
+}
+.pop-body { padding: 0.85rem 1rem 1rem; }
+.pop-when {
+  font-size: 0.58rem; letter-spacing: 0.18em; text-transform: uppercase;
+  color: var(--green); font-weight: 500;
+}
+.pop-where {
+  font-family: 'Instrument Serif', serif;
+  font-size: 1.08rem; line-height: 1.25;
+  color: var(--dark-green); margin: 0.25rem 0 0.4rem;
+}
+.pop-note {
+  font-size: 0.82rem; color: var(--slate); line-height: 1.5;
+  font-style: italic;
+}
+.pop-who {
+  font-size: 0.68rem; letter-spacing: 0.06em;
+  color: rgba(92,107,115,0.75); margin-top: 0.5rem;
+}
+.pop-chair {
+  display: inline-block; margin-top: 0.6rem;
+  font-size: 0.58rem; letter-spacing: 0.16em; text-transform: uppercase;
+  color: var(--green); border: 1px solid rgba(74,124,89,0.3);
+  border-radius: 3px; padding: 0.15rem 0.45rem;
+}
+
+/* ─── SIDEBAR ─── */
+.side-title {
+  font-family: 'Instrument Serif', serif;
+  font-size: 1.25rem; color: var(--dark-green);
+  margin-bottom: 0.2rem;
+}
+.side-sub {
+  font-size: 0.78rem; color: var(--slate);
+  margin-bottom: 1.1rem;
+}
+.sightings {
+  max-height: 560px; overflow-y: auto;
+  border-top: 1px solid rgba(74,124,89,0.14);
+}
+@media (max-width: 880px) { .sightings { max-height: 340px; } }
+.sighting {
+  display: block; width: 100%; text-align: left;
+  background: none; border: none;
+  border-bottom: 1px solid rgba(74,124,89,0.14);
+  padding: 0.85rem 0.2rem;
+  cursor: pointer;
+  font-family: 'DM Sans', sans-serif;
+  transition: background 0.15s, padding-left 0.15s;
+}
+.sighting:hover { background: rgba(212,232,218,0.4); padding-left: 0.6rem; }
+.sighting .s-when {
+  font-size: 0.58rem; letter-spacing: 0.18em; text-transform: uppercase;
+  color: var(--green); font-weight: 500;
+}
+.sighting .s-where {
+  font-size: 0.92rem; color: var(--dark-green);
+  line-height: 1.35; margin-top: 0.15rem;
+}
+.sighting .s-note {
+  font-size: 0.76rem; color: var(--slate); font-style: italic;
+  margin-top: 0.25rem;
+  overflow: hidden; display: -webkit-box;
+  -webkit-line-clamp: 2; -webkit-box-orient: vertical;
+}
+
+/* ─── STATES ─── */
+.overlay {
+  position: absolute; inset: 0;
+  display: flex; align-items: center; justify-content: center;
+  padding: 2rem;
+  background: rgba(248,245,239,0.94);
+  z-index: 500;
+  text-align: center;
+}
+.overlay[hidden] { display: none; }
+.overlay .box { max-width: 340px; }
+.overlay .box .icon { margin: 0 auto 1rem; width: 46px; height: 46px; color: var(--green-light); }
+.overlay .box p {
+  font-family: 'Instrument Serif', serif;
+  font-size: 1.25rem; color: var(--dark-green); font-style: italic;
+  line-height: 1.35;
+}
+.overlay .box small {
+  display: block; margin-top: 0.7rem;
+  font-family: 'DM Sans', sans-serif; font-style: normal;
+  font-size: 0.82rem; color: var(--slate); line-height: 1.5;
+}
+
+.updated {
+  margin-top: 0.9rem;
+  font-size: 0.62rem; letter-spacing: 0.14em; text-transform: uppercase;
+  color: rgba(92,107,115,0.6);
+}
+
+/* ─── CTA ─── */
+.cta {
+  max-width: 1180px; margin: 0 auto;
+  padding: 0 1.5rem 4rem;
+}
+.cta-inner {
+  border: 1.5px solid rgba(74,124,89,0.16);
+  border-radius: 10px;
+  background: var(--white);
+  padding: 2.2rem 1.8rem;
+  text-align: center;
+}
+.cta-inner h2 {
+  font-family: 'Instrument Serif', serif;
+  font-size: 1.6rem; font-weight: 400;
+  color: var(--dark-green); margin-bottom: 0.5rem;
+}
+.cta-inner p {
+  font-size: 0.9rem; color: var(--slate);
+  max-width: 40ch; margin: 0 auto 1.3rem; line-height: 1.6;
+}
+.cta-link {
+  display: inline-block;
+  padding: 0.7rem 1.7rem;
+  border: 1.5px solid var(--green); border-radius: 6px;
+  color: var(--green); text-decoration: none;
+  font-size: 0.72rem; letter-spacing: 0.14em; text-transform: uppercase; font-weight: 500;
+  transition: background 0.2s, color 0.2s;
+}
+.cta-link:hover { background: var(--green); color: var(--white); }
+
+/* ─── FOOTER ─── */
+footer {
+  text-align: center;
+  padding: 2rem;
+  font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase;
+  color: rgba(92,107,115,0.5);
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="/" class="logo">Chaises <em>&</em> Co.</a>
+  <a href="/" class="nav-back">← Back to project</a>
+</nav>
+
+<header>
+  <div class="eyebrow">The hunt</div>
+  <h1>Where the <em>chaises</em> are.</h1>
+  <p class="intro">
+    Some of the printed chairs have left the building. Each one carries a code. Every time
+    somebody finds one and leaves a trace, it appears here — and the line behind it is the
+    route it has travelled so far.
+  </p>
+
+  <div class="counts">
+    <div class="count-item"><div class="n" id="c-sightings">—</div><div class="l">Sightings</div></div>
+    <div class="count-item"><div class="n" id="c-chairs">—</div><div class="l">Chairs out</div></div>
+    <div class="count-item"><div class="n" id="c-places">—</div><div class="l">Furthest from the gallery</div></div>
+  </div>
+</header>
+
+<div class="layout">
+
+  <div class="map-frame">
+    <div id="map"></div>
+
+    <div class="overlay" id="ov-loading">
+      <div class="box">
+        <p>Looking for chairs…</p>
+      </div>
+    </div>
+
+    <div class="overlay" id="ov-empty" hidden>
+      <div class="box">
+        <svg class="icon" viewBox="6 5 26 27" fill="currentColor">
+          <path d="M12.2 8.4 Q 15.8 7.6 16.4 9.6 L 17.2 20.2 L 14.0 20.6 Z"/>
+          <polygon points="13.6,19.8 25.6,19.0 26.0,21.9 14.0,22.7"/>
+          <polygon points="23.9,21.8 25.7,21.6 26.8,29.2 25.0,29.4"/>
+          <polygon points="14.4,22.3 16.1,22.1 13.4,29.4 11.7,29.2"/>
+        </svg>
+        <p>No chaise has reported in yet.</p>
+        <small>The chairs go out on 6 October. Come back then — or find one first.</small>
+      </div>
+    </div>
+
+    <div class="overlay" id="ov-error" hidden>
+      <div class="box">
+        <p>The map can't reach the chairs.</p>
+        <small>Something is wrong with the feed. Try again in a moment.</small>
+      </div>
+    </div>
+  </div>
+
+  <aside>
+    <div class="side-title">Latest sightings</div>
+    <div class="side-sub">Newest first. Tap one to fly to it.</div>
+    <div class="sightings" id="sightings"></div>
+    <div class="updated" id="updated"></div>
+  </aside>
+
+</div>
+
+<div class="cta">
+  <div class="cta-inner">
+    <h2>Found one?</h2>
+    <p>Take it with you. Leave it somewhere new. Then tell us where you found it, so the line keeps going.</p>
+    <a href="/found.html" class="cta-link">Leave a trace →</a>
+  </div>
+</div>
+
+<footer>
+  Chaises — Paris, 2026
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js" integrity="sha512-BwHfrr4c9kmRkLw6iXFdzcdWV/PGkVgiIyIWLLlTSXzWQzxuSg4DiQUCpauz/EWjgk5TYQqX/kvn9pG1NpYfqg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script>
+/* ══════════════════════════════════════════════════════════════
+   CONFIGURATION — the only line you normally need to change.
+   Paste the Google Apps Script Web App URL between the quotes,
+   e.g. 'https://script.google.com/macros/s/AKfycb.../exec'
+   Leave it empty and the page shows the "no chaise yet" state.
+   ══════════════════════════════════════════════════════════════ */
+const FEED_URL = '';
+
+const REFRESH_MS = 3 * 60 * 1000;   // re-read the sheet every 3 minutes
+const PARIS = [48.8566, 2.3522];
+const GALLERY = [48.8646, 2.3556];   // 24 rue Chapon, 75003
+
+/* ─── SAMPLE DATA — only ever loaded with ?demo=1 in the URL.
+       Never shown to a normal visitor. ─── */
+const DEMO = [
+  { chair:'03', lat:48.8462, lon:2.3372, place:'Jardin du Luxembourg, 6e', note:'Left it by the fountain where the real ones are.', who:'Margot', when:'2026-10-06T10:12:00Z', photo:'' },
+  { chair:'03', lat:48.8606, lon:2.3376, place:'Jardin des Tuileries, 1er', note:'Carried it across the river in a tote bag.', who:'', when:'2026-10-07T16:40:00Z', photo:'' },
+  { chair:'03', lat:48.8867, lon:2.3431, place:'Rue des Martyrs, 9e', note:'On a café table. The waiter left it alone.', who:'Théo', when:'2026-10-09T09:05:00Z', photo:'' },
+  { chair:'01', lat:48.8620, lon:2.3600, place:'Rue Chapon, 3e', note:'Found it on the doorstep of the gallery itself.', who:'', when:'2026-10-06T18:22:00Z', photo:'' },
+  { chair:'01', lat:48.8738, lon:2.2950, place:'Avenue des Champs-Élysées, 8e', note:'', who:'Anon', when:'2026-10-08T12:00:00Z', photo:'' },
+  { chair:'07', lat:51.5074, lon:-0.1278, place:'Trafalgar Square, London', note:'It got on the Eurostar. I am sorry.', who:'Dan', when:'2026-10-11T14:30:00Z', photo:'' },
+  { chair:'05', lat:45.7640, lon:4.8357, place:'Place Bellecour, Lyon', note:'Down for the weekend.', who:'Camille', when:'2026-10-10T11:15:00Z', photo:'' }
+];
+
+/* ─── MAP ─────────────────────────────────────────────────── */
+const map = L.map('map', {
+  center: PARIS,
+  zoom: 12,
+  scrollWheelZoom: false,
+  zoomControl: true
+});
+map.on('click', () => map.scrollWheelZoom.enable());
+map.on('mouseout', () => map.scrollWheelZoom.disable());
+
+L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+  attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>',
+  subdomains: 'abcd',
+  maxZoom: 19
+}).addTo(map);
+
+const markerLayer = L.layerGroup().addTo(map);
+const trailLayer  = L.layerGroup().addTo(map);
+
+/* ─── THE CHAIR PIN ───────────────────────────────────────── */
+function chaiseIcon() {
+  const svg = `
+<svg width="36" height="44" viewBox="0 0 36 44" xmlns="http://www.w3.org/2000/svg">
+  <polygon points="11,2 25,2 34,11 34,25 25,34 11,34 2,25 2,11"
+           fill="#2C4A38" stroke="#F8F5EF" stroke-width="2"/>
+  <path d="M18 33 L18 42" stroke="#2C4A38" stroke-width="2.4" stroke-linecap="round"/>
+  <g fill="#F8F5EF">
+    <path d="M12.2 8.4 Q 15.8 7.6 16.4 9.6 L 17.2 20.2 L 14.0 20.6 Z"/>
+    <polygon points="13.6,19.8 25.6,19.0 26.0,21.9 14.0,22.7"/>
+    <polygon points="23.9,21.8 25.7,21.6 26.8,29.2 25.0,29.4"/>
+    <polygon points="14.4,22.3 16.1,22.1 13.4,29.4 11.7,29.2"/>
+  </g>
+</svg>`;
+  return L.divIcon({
+    html: svg,
+    className: 'chaise-pin',
+    iconSize: [36, 44],
+    iconAnchor: [18, 42],
+    popupAnchor: [0, -38]
+  });
+}
+
+/* ─── HELPERS ─────────────────────────────────────────────── */
+function esc(s) {
+  return String(s == null ? '' : s)
+    .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+}
+
+function fmtDate(iso) {
+  const d = new Date(iso);
+  if (isNaN(d)) return '';
+  return d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
+}
+
+function popupHtml(s) {
+  const photo = s.photo ? `<img src="${esc(s.photo)}" alt="" loading="lazy">` : '';
+  const note  = s.note  ? `<div class="pop-note">“${esc(s.note)}”</div>` : '';
+  const who   = s.who   ? `<div class="pop-who">— ${esc(s.who)}</div>` : '';
+  const chair = s.chair ? `<div class="pop-chair">Chaise ${esc(s.chair)}</div>` : '';
+  return `<div class="pop">${photo}<div class="pop-body">
+      <div class="pop-when">${esc(fmtDate(s.when))}</div>
+      <div class="pop-where">${esc(s.place || 'Somewhere')}</div>
+      ${note}${who}${chair}
+    </div></div>`;
+}
+
+function show(id) {
+  ['ov-loading', 'ov-empty', 'ov-error'].forEach(o => {
+    document.getElementById(o).hidden = (o !== id);
+  });
+}
+
+/* ─── RENDER ──────────────────────────────────────────────── */
+let markers = [];
+
+function render(rows) {
+  markerLayer.clearLayers();
+  trailLayer.clearLayers();
+  markers = [];
+
+  const good = rows
+    .filter(r => isFinite(r.lat) && isFinite(r.lon) && (r.lat || r.lon))
+    .sort((a, b) => new Date(a.when) - new Date(b.when));
+
+  if (!good.length) { show('ov-empty'); paintCounts([]); paintList([]); return; }
+  show('');
+
+  // A trail per chair, in the order it was seen
+  const byChair = {};
+  good.forEach(r => { (byChair[r.chair || '_'] = byChair[r.chair || '_'] || []).push(r); });
+  Object.keys(byChair).forEach(k => {
+    const path = byChair[k];
+    if (k !== '_' && path.length > 1) {
+      L.polyline(path.map(p => [p.lat, p.lon]), {
+        color: '#4A7C59', weight: 1.6, opacity: 0.5, dashArray: '4 6'
+      }).addTo(trailLayer);
+    }
+  });
+
+  good.forEach(r => {
+    const m = L.marker([r.lat, r.lon], { icon: chaiseIcon(), riseOnHover: true })
+      .bindPopup(popupHtml(r))
+      .addTo(markerLayer);
+    r._marker = m;
+    markers.push(m);
+  });
+
+  map.fitBounds(L.latLngBounds(good.map(r => [r.lat, r.lon])).pad(0.25), { maxZoom: 14 });
+
+  const newestFirst = good.slice().reverse();
+  paintCounts(good);
+  paintList(newestFirst);
+}
+
+function kmFromGallery(lat, lon) {
+  const R = 6371, rad = d => d * Math.PI / 180;
+  const dLat = rad(lat - GALLERY[0]), dLon = rad(lon - GALLERY[1]);
+  const a = Math.sin(dLat / 2) ** 2 +
+            Math.cos(rad(GALLERY[0])) * Math.cos(rad(lat)) * Math.sin(dLon / 2) ** 2;
+  return 2 * R * Math.asin(Math.sqrt(a));
+}
+
+function paintCounts(rows) {
+  const chairs = new Set(rows.map(r => r.chair).filter(Boolean));
+  const far = rows.length ? Math.max(...rows.map(r => kmFromGallery(r.lat, r.lon))) : 0;
+  document.getElementById('c-sightings').textContent = rows.length || '0';
+  document.getElementById('c-chairs').textContent    = chairs.size || '0';
+  document.getElementById('c-places').textContent    =
+    rows.length ? (far < 10 ? far.toFixed(1) : Math.round(far)) + ' km' : '—';
+}
+
+function paintList(rows) {
+  const box = document.getElementById('sightings');
+  box.innerHTML = '';
+  if (!rows.length) {
+    box.innerHTML = '<div style="padding:1.2rem 0;font-size:0.85rem;color:var(--slate);">Nothing yet.</div>';
+    return;
+  }
+  rows.forEach(r => {
+    const b = document.createElement('button');
+    b.className = 'sighting';
+    b.innerHTML = `<div class="s-when">${esc(fmtDate(r.when))}${r.chair ? ' · Chaise ' + esc(r.chair) : ''}</div>
+                   <div class="s-where">${esc(r.place || 'Somewhere')}</div>
+                   ${r.note ? `<div class="s-note">“${esc(r.note)}”</div>` : ''}`;
+    b.addEventListener('click', () => {
+      map.flyTo([r.lat, r.lon], 15, { duration: 0.9 });
+      if (r._marker) setTimeout(() => r._marker.openPopup(), 950);
+    });
+    box.appendChild(b);
+  });
+}
+
+/* ─── FEED (JSONP — works cross-origin from Apps Script) ──── */
+function jsonp(url) {
+  return new Promise((resolve, reject) => {
+    const cb = '__chaise_cb_' + Math.random().toString(36).slice(2);
+    const s  = document.createElement('script');
+    const kill = () => { delete window[cb]; s.remove(); };
+    const timer = setTimeout(() => { kill(); reject(new Error('timeout')); }, 15000);
+    window[cb] = data => { clearTimeout(timer); kill(); resolve(data); };
+    s.onerror  = () => { clearTimeout(timer); kill(); reject(new Error('network')); };
+    s.src = url + (url.includes('?') ? '&' : '?') + 'callback=' + cb + '&t=' + Date.now();
+    document.head.appendChild(s);
+  });
+}
+
+function normalise(raw) {
+  return (Array.isArray(raw) ? raw : (raw && raw.sightings) || []).map(r => ({
+    chair: r.chair || r.chair_id || '',
+    lat:   parseFloat(r.lat),
+    lon:   parseFloat(r.lon != null ? r.lon : r.lng),
+    place: r.place || r.location || '',
+    note:  r.note || '',
+    who:   r.who || r.name || '',
+    when:  r.when || r.timestamp || r.date || '',
+    photo: r.photo || ''
+  }));
+}
+
+async function load(firstRun) {
+  const demo = new URLSearchParams(location.search).has('demo');
+
+  if (demo) { render(normalise(DEMO)); stampTime(); return; }
+
+  if (!FEED_URL) { show('ov-empty'); paintCounts([]); paintList([]); return; }
+
+  try {
+    const data = await jsonp(FEED_URL);
+    render(normalise(data));
+    stampTime();
+  } catch (e) {
+    if (firstRun) show('ov-error');
+  }
+}
+
+function stampTime() {
+  document.getElementById('updated').textContent =
+    'Updated ' + new Date().toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' });
+}
+
+load(true);
+setInterval(() => load(false), REFRESH_MS);
+</script>
+
+</body>
+</html>

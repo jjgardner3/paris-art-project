@@ -229,6 +229,57 @@ input[type="file"] {
   font-style: italic;
 }
 
+.success-msg .success-link {
+  display: inline-block; margin-top: 1rem;
+  font-family: 'DM Sans', sans-serif; font-style: normal;
+  font-size: 0.7rem; letter-spacing: 0.14em; text-transform: uppercase;
+  font-weight: 500; color: var(--dark-green); text-decoration: none;
+  border-bottom: 1px solid rgba(44,74,56,0.35); padding-bottom: 0.15rem;
+}
+.success-msg .success-link:hover { color: var(--green); }
+
+/* ─── MAP PREVIEW ─── */
+.map-card {
+  border: 1.5px solid rgba(74,124,89,0.14);
+  border-radius: 10px;
+  background: var(--white);
+  overflow: hidden;
+}
+.map-card-map {
+  height: 190px; width: 100%;
+  background: #E9E4DA;
+  position: relative;
+}
+.map-card-map .leaflet-tile-pane {
+  filter: sepia(0.42) saturate(0.62) hue-rotate(22deg) brightness(1.04) contrast(0.94);
+}
+.map-card-map .leaflet-control-attribution {
+  background: rgba(248,245,239,0.86) !important;
+  font-size: 0.55rem !important; color: var(--slate) !important;
+}
+.map-card-map .leaflet-control-attribution a { color: var(--green) !important; }
+.map-card-body { padding: 1.4rem 1.5rem 1.6rem; text-align: center; }
+.map-card-body h3 {
+  font-family: 'Instrument Serif', serif;
+  font-size: 1.35rem; font-weight: 400;
+  color: var(--dark-green); margin-bottom: 0.35rem;
+}
+.map-card-body p {
+  font-size: 0.85rem; color: var(--slate); line-height: 1.5;
+  margin-bottom: 1.1rem;
+}
+.map-card-link {
+  display: inline-block;
+  padding: 0.65rem 1.6rem;
+  border: 1.5px solid var(--green); border-radius: 6px;
+  color: var(--green); text-decoration: none;
+  font-size: 0.72rem; letter-spacing: 0.14em; text-transform: uppercase; font-weight: 500;
+  transition: background 0.2s, color 0.2s;
+}
+.map-card-link:hover { background: var(--green); color: var(--white); }
+.chaise-pin { background: none; border: none; }
+.chaise-pin svg { display: block; filter: drop-shadow(0 2px 3px rgba(44,74,56,0.28)); }
+
 /* ─── DIVIDER ─── */
 .divider {
   display: flex; align-items: center; gap: 1rem;
@@ -311,6 +362,7 @@ footer {
     <input type="hidden" name="form-name" value="found-chair" />
     <input type="hidden" name="gps_lat" id="gps_lat" />
     <input type="hidden" name="gps_lon" id="gps_lon" />
+    <input type="hidden" name="chair_id" id="chair_id" />
 
     <!-- Photo -->
     <div class="form-group">
@@ -356,6 +408,7 @@ footer {
   <div class="success-msg" id="success-msg">
     <div class="icon">🪑</div>
     <p>Merci. The chair remembers.</p>
+    <a href="/map.html" class="success-link">See where the chaises are →</a>
   </div>
 
   <!-- ─── DIVIDER ─── -->
@@ -375,6 +428,22 @@ footer {
     <div class="hashtag">#parischaise</div>
     <p class="ig-note">Tag your photo on Instagram so we can follow the chair's journey across the city.</p>
     <a href="https://www.instagram.com/explore/tags/parischaise/" target="_blank" rel="noopener" class="ig-link">See all sightings</a>
+  </div>
+
+  <!-- ─── MAP PREVIEW ─── -->
+  <div class="divider">
+    <div class="divider-line"></div>
+    <div class="divider-label">where they have been</div>
+    <div class="divider-line"></div>
+  </div>
+
+  <div class="map-card">
+    <div class="map-card-map" id="mini-map" hidden></div>
+    <div class="map-card-body">
+      <h3 id="mini-title">The chairs are moving.</h3>
+      <p id="mini-sub">Every trace left here puts a pin on the map — and joins it to the last place that chair was seen.</p>
+      <a href="/map.html" class="map-card-link">Open the map →</a>
+    </div>
   </div>
 
 </main>
@@ -515,6 +584,96 @@ form.addEventListener('submit', async (e) => {
     successMsg.style.display = 'block';
   }
 });
+
+// ─── CHAIR CODE FROM THE QR URL ───────────────────
+// A QR pointing at /found.html?c=07 tags the submission as chaise 07, which
+// is what lets the map draw that chair's route. Plain /found.html still works
+// — the field is simply left empty.
+(function () {
+  const q = new URLSearchParams(location.search);
+  const code = (q.get('c') || q.get('chair') || '').replace(/[^A-Za-z0-9-]/g, '').slice(0, 12);
+  if (!code) return;
+  document.getElementById('chair_id').value = code;
+  document.querySelector('.eyebrow').textContent = 'You found chaise ' + code;
+})();
+
+// ─── MINI MAP ─ loads Leaflet only when scrolled into view ───
+// Same Apps Script URL as map.html. Leave empty and the card shows text only.
+const MINI_FEED_URL = '';
+
+function loadMiniMap() {
+  if (!MINI_FEED_URL) return;
+
+  const css = document.createElement('link');
+  css.rel = 'stylesheet';
+  css.href = 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css';
+  document.head.appendChild(css);
+
+  const js = document.createElement('script');
+  js.src = 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js';
+  js.onload = () => {
+    const cb = '__mini_cb_' + Math.random().toString(36).slice(2);
+    const s = document.createElement('script');
+    window[cb] = data => {
+      delete window[cb]; s.remove();
+      const rows = ((data && data.sightings) || [])
+        .map(r => ({ lat: parseFloat(r.lat), lon: parseFloat(r.lon) }))
+        .filter(r => isFinite(r.lat) && isFinite(r.lon));
+      if (!rows.length) return;
+      drawMini(rows);
+    };
+    s.onerror = () => { delete window[cb]; s.remove(); };
+    s.src = MINI_FEED_URL + (MINI_FEED_URL.includes('?') ? '&' : '?') +
+            'callback=' + cb + '&t=' + Date.now();
+    document.head.appendChild(s);
+  };
+  document.head.appendChild(js);
+}
+
+function drawMini(rows) {
+  const box = document.getElementById('mini-map');
+  box.hidden = false;
+
+  const map = L.map(box, {
+    zoomControl: false, scrollWheelZoom: false, dragging: false,
+    doubleClickZoom: false, touchZoom: false, keyboard: false, attributionControl: true
+  });
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OSM</a> &copy; <a href="https://carto.com/attributions">CARTO</a>',
+    subdomains: 'abcd', maxZoom: 19
+  }).addTo(map);
+
+  const icon = L.divIcon({
+    className: 'chaise-pin',
+    iconSize: [26, 32], iconAnchor: [13, 30],
+    html: '<svg width="26" height="32" viewBox="0 0 36 44" xmlns="http://www.w3.org/2000/svg">' +
+      '<polygon points="11,2 25,2 34,11 34,25 25,34 11,34 2,25 2,11" fill="#2C4A38" stroke="#F8F5EF" stroke-width="2"/>' +
+      '<path d="M18 33 L18 42" stroke="#2C4A38" stroke-width="2.4" stroke-linecap="round"/>' +
+      '<g fill="#F8F5EF">' +
+      '<path d="M12.2 8.4 Q 15.8 7.6 16.4 9.6 L 17.2 20.2 L 14.0 20.6 Z"/>' +
+      '<polygon points="13.6,19.8 25.6,19.0 26.0,21.9 14.0,22.7"/>' +
+      '<polygon points="23.9,21.8 25.7,21.6 26.8,29.2 25.0,29.4"/>' +
+      '<polygon points="14.4,22.3 16.1,22.1 13.4,29.4 11.7,29.2"/>' +
+      '</g></svg>'
+  });
+  rows.forEach(r => L.marker([r.lat, r.lon], { icon, interactive: false }).addTo(map));
+  map.fitBounds(L.latLngBounds(rows.map(r => [r.lat, r.lon])).pad(0.3), { maxZoom: 13 });
+
+  document.getElementById('mini-title').textContent =
+    rows.length === 1 ? 'One chaise has reported in.'
+                      : rows.length + ' chaises have reported in.';
+  document.getElementById('mini-sub').textContent =
+    'Each pin is somewhere a chair was found. Open the map to read the notes people left.';
+}
+
+if ('IntersectionObserver' in window) {
+  const io = new IntersectionObserver(entries => {
+    if (entries.some(e => e.isIntersecting)) { io.disconnect(); loadMiniMap(); }
+  }, { rootMargin: '200px' });
+  io.observe(document.querySelector('.map-card'));
+} else {
+  loadMiniMap();
+}
 
 // Scroll nav transparency
 window.addEventListener('scroll', () => {
