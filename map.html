@@ -198,12 +198,6 @@ h1 em { font-style: italic; color: var(--gold); }
   font-size: 0.68rem; letter-spacing: 0.06em;
   color: rgba(92,107,115,0.75); margin-top: 0.5rem;
 }
-.pop-chair {
-  display: inline-block; margin-top: 0.6rem;
-  font-size: 0.58rem; letter-spacing: 0.16em; text-transform: uppercase;
-  color: var(--green); border: 1px solid rgba(74,124,89,0.3);
-  border-radius: 3px; padding: 0.15rem 0.45rem;
-}
 
 /* ─── SIDEBAR ─── */
 .side-title {
@@ -325,15 +319,14 @@ footer {
   <div class="eyebrow">The hunt</div>
   <h1>Where the <em>chaises</em> are.</h1>
   <p class="intro">
-    Some of the printed chairs have left the building. Each one carries a code. Every time
-    somebody finds one and leaves a trace, it appears here — and the line behind it is the
-    route it has travelled so far.
+    Some of the printed chairs have left the building. Every time somebody finds one and
+    leaves a trace, it appears here.
   </p>
 
   <div class="counts">
     <div class="count-item"><div class="n" id="c-sightings">—</div><div class="l">Sightings</div></div>
-    <div class="count-item"><div class="n" id="c-chairs">—</div><div class="l">Chairs out</div></div>
     <div class="count-item"><div class="n" id="c-places">—</div><div class="l">Furthest from the gallery</div></div>
+    <div class="count-item"><div class="n" id="c-first">—</div><div class="l">First found</div></div>
   </div>
 </header>
 
@@ -407,13 +400,13 @@ const GALLERY = [48.8646, 2.3556];   // 24 rue Chapon, 75003
 /* ─── SAMPLE DATA — only ever loaded with ?demo=1 in the URL.
        Never shown to a normal visitor. ─── */
 const DEMO = [
-  { chair:'03', lat:48.8462, lon:2.3372, place:'Jardin du Luxembourg, 6e', note:'Left it by the fountain where the real ones are.', who:'Margot', when:'2026-10-06T10:12:00Z', photo:'' },
-  { chair:'03', lat:48.8606, lon:2.3376, place:'Jardin des Tuileries, 1er', note:'Carried it across the river in a tote bag.', who:'', when:'2026-10-07T16:40:00Z', photo:'' },
-  { chair:'03', lat:48.8867, lon:2.3431, place:'Rue des Martyrs, 9e', note:'On a café table. The waiter left it alone.', who:'Théo', when:'2026-10-09T09:05:00Z', photo:'' },
-  { chair:'01', lat:48.8620, lon:2.3600, place:'Rue Chapon, 3e', note:'Found it on the doorstep of the gallery itself.', who:'', when:'2026-10-06T18:22:00Z', photo:'' },
-  { chair:'01', lat:48.8738, lon:2.2950, place:'Avenue des Champs-Élysées, 8e', note:'', who:'Anon', when:'2026-10-08T12:00:00Z', photo:'' },
-  { chair:'07', lat:51.5074, lon:-0.1278, place:'Trafalgar Square, London', note:'It got on the Eurostar. I am sorry.', who:'Dan', when:'2026-10-11T14:30:00Z', photo:'' },
-  { chair:'05', lat:45.7640, lon:4.8357, place:'Place Bellecour, Lyon', note:'Down for the weekend.', who:'Camille', when:'2026-10-10T11:15:00Z', photo:'' }
+  { lat:48.8462, lon:2.3372, place:'Jardin du Luxembourg, 6e', note:'Left it by the fountain where the real ones are.', who:'Margot', when:'2026-10-06T10:12:00Z', photo:'' },
+  { lat:48.8606, lon:2.3376, place:'Jardin des Tuileries, 1er', note:'Carried it across the river in a tote bag.', who:'', when:'2026-10-07T16:40:00Z', photo:'' },
+  { lat:48.8867, lon:2.3431, place:'Rue des Martyrs, 9e', note:'On a café table. The waiter left it alone.', who:'Théo', when:'2026-10-09T09:05:00Z', photo:'' },
+  { lat:48.8620, lon:2.3600, place:'Rue Chapon, 3e', note:'Found it on the doorstep of the gallery itself.', who:'', when:'2026-10-06T18:22:00Z', photo:'' },
+  { lat:48.8738, lon:2.2950, place:'Avenue des Champs-Élysées, 8e', note:'', who:'Anon', when:'2026-10-08T12:00:00Z', photo:'' },
+  { lat:51.5074, lon:-0.1278, place:'Trafalgar Square, London', note:'It got on the Eurostar. I am sorry.', who:'Dan', when:'2026-10-11T14:30:00Z', photo:'' },
+  { lat:45.7640, lon:4.8357, place:'Place Bellecour, Lyon', note:'Down for the weekend.', who:'Camille', when:'2026-10-10T11:15:00Z', photo:'' }
 ];
 
 /* ─── MAP ─────────────────────────────────────────────────── */
@@ -433,7 +426,6 @@ L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
 }).addTo(map);
 
 const markerLayer = L.layerGroup().addTo(map);
-const trailLayer  = L.layerGroup().addTo(map);
 
 /* ─── THE CHAIR PIN ───────────────────────────────────────── */
 function chaiseIcon() {
@@ -475,11 +467,10 @@ function popupHtml(s) {
   const photo = s.photo ? `<img src="${esc(s.photo)}" alt="" loading="lazy">` : '';
   const note  = s.note  ? `<div class="pop-note">“${esc(s.note)}”</div>` : '';
   const who   = s.who   ? `<div class="pop-who">— ${esc(s.who)}</div>` : '';
-  const chair = s.chair ? `<div class="pop-chair">Chaise ${esc(s.chair)}</div>` : '';
   return `<div class="pop">${photo}<div class="pop-body">
       <div class="pop-when">${esc(fmtDate(s.when))}</div>
       <div class="pop-where">${esc(s.place || 'Somewhere')}</div>
-      ${note}${who}${chair}
+      ${note}${who}
     </div></div>`;
 }
 
@@ -494,7 +485,6 @@ let markers = [];
 
 function render(rows) {
   markerLayer.clearLayers();
-  trailLayer.clearLayers();
   markers = [];
 
   const good = rows
@@ -503,18 +493,6 @@ function render(rows) {
 
   if (!good.length) { show('ov-empty'); paintCounts([]); paintList([]); return; }
   show('');
-
-  // A trail per chair, in the order it was seen
-  const byChair = {};
-  good.forEach(r => { (byChair[r.chair || '_'] = byChair[r.chair || '_'] || []).push(r); });
-  Object.keys(byChair).forEach(k => {
-    const path = byChair[k];
-    if (k !== '_' && path.length > 1) {
-      L.polyline(path.map(p => [p.lat, p.lon]), {
-        color: '#4A7C59', weight: 1.6, opacity: 0.5, dashArray: '4 6'
-      }).addTo(trailLayer);
-    }
-  });
 
   good.forEach(r => {
     const m = L.marker([r.lat, r.lon], { icon: chaiseIcon(), riseOnHover: true })
@@ -540,12 +518,16 @@ function kmFromGallery(lat, lon) {
 }
 
 function paintCounts(rows) {
-  const chairs = new Set(rows.map(r => r.chair).filter(Boolean));
-  const far = rows.length ? Math.max(...rows.map(r => kmFromGallery(r.lat, r.lon))) : 0;
   document.getElementById('c-sightings').textContent = rows.length || '0';
-  document.getElementById('c-chairs').textContent    = chairs.size || '0';
-  document.getElementById('c-places').textContent    =
+
+  const far = rows.length ? Math.max(...rows.map(r => kmFromGallery(r.lat, r.lon))) : 0;
+  document.getElementById('c-places').textContent =
     rows.length ? (far < 10 ? far.toFixed(1) : Math.round(far)) + ' km' : '—';
+
+  // rows arrive oldest-first
+  document.getElementById('c-first').textContent =
+    rows.length ? new Date(rows[0].when).toLocaleDateString('en-GB',
+      { day: 'numeric', month: 'short' }) : '—';
 }
 
 function paintList(rows) {
@@ -558,7 +540,7 @@ function paintList(rows) {
   rows.forEach(r => {
     const b = document.createElement('button');
     b.className = 'sighting';
-    b.innerHTML = `<div class="s-when">${esc(fmtDate(r.when))}${r.chair ? ' · Chaise ' + esc(r.chair) : ''}</div>
+    b.innerHTML = `<div class="s-when">${esc(fmtDate(r.when))}</div>
                    <div class="s-where">${esc(r.place || 'Somewhere')}</div>
                    ${r.note ? `<div class="s-note">“${esc(r.note)}”</div>` : ''}`;
     b.addEventListener('click', () => {
@@ -585,7 +567,6 @@ function jsonp(url) {
 
 function normalise(raw) {
   return (Array.isArray(raw) ? raw : (raw && raw.sightings) || []).map(r => ({
-    chair: r.chair || r.chair_id || '',
     lat:   parseFloat(r.lat),
     lon:   parseFloat(r.lon != null ? r.lon : r.lng),
     place: r.place || r.location || '',

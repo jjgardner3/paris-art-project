@@ -362,7 +362,6 @@ footer {
     <input type="hidden" name="form-name" value="found-chair" />
     <input type="hidden" name="gps_lat" id="gps_lat" />
     <input type="hidden" name="gps_lon" id="gps_lon" />
-    <input type="hidden" name="chair_id" id="chair_id" />
 
     <!-- Photo -->
     <div class="form-group">
@@ -441,7 +440,7 @@ footer {
     <div class="map-card-map" id="mini-map" hidden></div>
     <div class="map-card-body">
       <h3 id="mini-title">The chairs are moving.</h3>
-      <p id="mini-sub">Every trace left here puts a pin on the map — and joins it to the last place that chair was seen.</p>
+      <p id="mini-sub">Every trace left here puts a pin on the map, next to everywhere else a chaise has turned up.</p>
       <a href="/map.html" class="map-card-link">Open the map →</a>
     </div>
   </div>
@@ -585,18 +584,6 @@ form.addEventListener('submit', async (e) => {
   }
 });
 
-// ─── CHAIR CODE FROM THE QR URL ───────────────────
-// A QR pointing at /found.html?c=07 tags the submission as chaise 07, which
-// is what lets the map draw that chair's route. Plain /found.html still works
-// — the field is simply left empty.
-(function () {
-  const q = new URLSearchParams(location.search);
-  const code = (q.get('c') || q.get('chair') || '').replace(/[^A-Za-z0-9-]/g, '').slice(0, 12);
-  if (!code) return;
-  document.getElementById('chair_id').value = code;
-  document.querySelector('.eyebrow').textContent = 'You found chaise ' + code;
-})();
-
 // ─── MINI MAP ─ loads Leaflet only when scrolled into view ───
 // Same Apps Script URL as map.html. Leave empty and the card shows text only.
 const MINI_FEED_URL = '';
@@ -661,7 +648,7 @@ function drawMini(rows) {
 
   document.getElementById('mini-title').textContent =
     rows.length === 1 ? 'One chaise has reported in.'
-                      : rows.length + ' chaises have reported in.';
+                      : rows.length + ' sightings so far.';
   document.getElementById('mini-sub').textContent =
     'Each pin is somewhere a chair was found. Open the map to read the notes people left.';
 }
