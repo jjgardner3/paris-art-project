@@ -345,7 +345,7 @@ section { padding: 6.5rem 3rem; position: relative; }
 /* ─── TEAM ─── */
 #team { background: var(--cream); }
 .team-grid {
-  display: grid; grid-template-columns: repeat(4, 1fr);
+  display: grid; grid-template-columns: repeat(5, 1fr);
   gap: 1.5rem; margin-top: 2.5rem;
 }
 .tm-card { text-align: center; }
@@ -360,9 +360,15 @@ section { padding: 6.5rem 3rem; position: relative; }
   font-family: 'Instrument Serif', serif; font-size: 1.05rem;
   color: var(--dark-green); margin-bottom: 0.2rem;
 }
+.tm-card h3 a {
+  color: inherit; text-decoration: none;
+  border-bottom: 1px solid rgba(74,124,89,0.25);
+  transition: color 0.3s, border-color 0.3s;
+}
+.tm-card h3 a:hover { color: var(--green); border-bottom-color: var(--green); }
 .tm-role { font-size: 0.78rem; color: var(--gold); letter-spacing: 0.05em; margin-bottom: 0.4rem; }
 .tm-desc { font-size: 0.8rem; color: var(--slate); line-height: 1.6; }
-@media (max-width: 900px) {
+@media (max-width: 1040px) {
   .team-grid { grid-template-columns: repeat(3, 1fr); }
 }
 @media (max-width: 600px) {
@@ -538,10 +544,10 @@ footer .f-copy { margin-top: 2rem; font-size: 0.7rem; color: rgba(248,245,239,0.
     <div class="hero-label">A multidisciplinary art installation</div>
     <h1>Cha<i>i</i>ses</h1>
     <p class="hero-sub">The social geometry of Luxembourg Gardens — where metal chairs form silent societies each morning, creating choreographies no one directs.</p>
-    <p class="hero-artists">Jimmy Gardner &middot; Allard van Hoorn &middot; Quinn Lewis &middot; Charlotte Tampol</p>
+    <p class="hero-artists">Jimmy Gardner &middot; Allard van Hoorn &middot; Quinn Lewis &middot; Charlotte Tampol &middot; Jessica Anne Schwartz</p>
     <div class="hero-meta">
       <div><div class="label">Location</div><div class="value">24 rue Chapon, 75003 Paris</div></div>
-      <div><div class="label">Forms</div><div class="value">Sculpture &middot; Painting &middot; Sound &middot; Installation</div></div>
+      <div><div class="label">Forms</div><div class="value">Sculpture &middot; Painting &middot; Drawing &middot; Sound &middot; Installation</div></div>
       <div><div class="label">Exhibition</div><div class="value">20&ndash;22 October 2026</div></div>
     </div>
   </div>
@@ -555,7 +561,7 @@ footer .f-copy { margin-top: 2rem; font-size: 0.7rem; color: rgba(248,245,239,0.
         <div class="section-label">Observation</div>
         <h2 class="section-title">Every morning, the chairs rearrange themselves</h2>
         <p class="section-body">In Luxembourg Gardens, the iconic green metal chairs are freely moved by visitors throughout the day. By the next dawn, a gardener redistributes them into a neutral grid. Then the choreography begins again — lovers pull two chairs face-to-face, a solitary reader angles one toward the sun, a group of students drags six into a messy circle for lunch.</p>
-        <p class="section-body">These chairs form a social geometry — a silent, unscripted choreography of human connection, solitude, conflict, and tenderness. <em>Chaises</em> translates this daily phenomenon into four simultaneous art forms.</p>
+        <p class="section-body">These chairs form a social geometry — a silent, unscripted choreography of human connection, solitude, conflict, and tenderness. <em>Chaises</em> translates this daily phenomenon into five simultaneous art forms.</p>
       </div>
       <div>
         <div class="obs-visual">
@@ -583,7 +589,7 @@ footer .f-copy { margin-top: 2rem; font-size: 0.7rem; color: rgba(248,245,239,0.
 <section id="concept">
   <div class="section-inner">
     <div class="section-label">Concept</div>
-    <h2 class="section-title">From social archetype to four art outputs — simultaneously</h2>
+    <h2 class="section-title">From social archetype to five art outputs — simultaneously</h2>
     <p class="section-body">Rather than literal GPS tracking, <em>Chaises</em> uses human archetypes as choreographic data. Each scenario observed in the garden is scored as a set of chair paths — proximity, orientation, velocity, stillness — and that spatial logic feeds every art output at once through a shared data pipeline.</p>
     <div class="pipeline">
       <div class="pipe-card">
@@ -593,6 +599,10 @@ footer .f-copy { margin-top: 2rem; font-size: 0.7rem; color: rgba(248,245,239,0.
       <div class="pipe-card">
         <h3>Painting</h3>
         <p>Oil painting carries the chairs into the picture plane &mdash; the same scenarios read through a painter&rsquo;s hand rather than a plotted vector.</p>
+      </div>
+      <div class="pipe-card">
+        <h3>Drawing</h3>
+        <p>The garden&rsquo;s sound transcribed by hand &mdash; gouache and ink marks whose colour and shape hold what a synaesthete hears from the chairs.</p>
       </div>
       <div class="pipe-card">
         <h3>Sound</h3>
@@ -651,7 +661,7 @@ footer .f-copy { margin-top: 2rem; font-size: 0.7rem; color: rgba(248,245,239,0.
     <div class="precedent-grid">
       <div>
         <p class="section-body"><em>Chaises</em> draws on the analytical framework of William Forsythe's <em>One Flat Thing, reproduced</em> and the Ohio State University Synchronous Objects project — which decomposed a single dance into dozens of visual, spatial, and data-driven interpretations.</p>
-        <p class="section-body">Forsythe's team decomposed a dance into data. <em>Chaises</em> works the other way round: social observation is scored as data, and that score generates sculpture, painting, sound, and installation at once. The chairs are both the instrument and the subject.</p>
+        <p class="section-body">Forsythe's team decomposed a dance into data. <em>Chaises</em> works the other way round: social observation is scored as data, and that score generates sculpture, painting, drawing, sound, and installation at once. The chairs are both the instrument and the subject.</p>
       </div>
       <div>
         <div class="ref-box">
@@ -710,27 +720,33 @@ footer .f-copy { margin-top: 2rem; font-size: 0.7rem; color: rgba(248,245,239,0.
     <div class="team-grid">
       <div class="tm-card">
         <div class="tm-avatar">J</div>
-        <h3>Jimmy Gardner</h3>
+        <h3><a href="artists.html#jimmy-gardner">Jimmy Gardner</a></h3>
         <div class="tm-role">Concept Creator &amp; Supporter</div>
-        <p class="tm-desc">Originated the observation. Conceived the project&rsquo;s vision and supports its realisation across all four outputs.</p>
+        <p class="tm-desc">Originated the observation. Conceived the project&rsquo;s vision and supports its realisation across all five outputs.</p>
       </div>
       <div class="tm-card">
         <div class="tm-avatar">A</div>
-        <h3>Allard van Hoorn</h3>
+        <h3><a href="artists.html#allard-van-hoorn">Allard van Hoorn</a></h3>
         <div class="tm-role">Creative Director, Sound &amp; Installation</div>
         <p class="tm-desc">Dutch, Paris-based. Maker of <em>Urban Songlines</em>. Leads creative direction, installation design and sound composition.</p>
       </div>
       <div class="tm-card">
         <div class="tm-avatar">Q</div>
-        <h3>Quinn Lewis</h3>
+        <h3><a href="artists.html#quinn-lewis">Quinn Lewis</a></h3>
         <div class="tm-role">Kinetic Sculpture &amp; Sequential Drawing</div>
         <p class="tm-desc">Simple machines and sequential storytelling. Builds the hand-cranked scroll machine that winds ink-drawn figures past drawn Luxembourg chairs.</p>
       </div>
       <div class="tm-card">
         <div class="tm-avatar">C</div>
-        <h3>Charlotte Tampol</h3>
+        <h3><a href="artists.html#charlotte-tampol">Charlotte Tampol</a></h3>
         <div class="tm-role">Multidisciplinary Artist</div>
         <p class="tm-desc">Oil painting, printmaking, photography. Explores femininity and the sublime through art history and Filipino tattoo culture.</p>
+      </div>
+      <div class="tm-card">
+        <div class="tm-avatar">JS</div>
+        <h3><a href="artists.html#jessica-anne-schwartz">Jessica Anne Schwartz</a></h3>
+        <div class="tm-role">Drawing &amp; Synaesthesia</div>
+        <p class="tm-desc">New York and Paris. A year of return visits to the Luxembourg chairs as a listening post; sound transcribed as colour and mark. Fourteen drawings on view.</p>
       </div>
     </div>
     <p style="text-align:center; margin-top:2rem;"><a href="artists.html" style="color:var(--gold); font-size:0.75rem; letter-spacing:0.12em; text-transform:uppercase; text-decoration:none; font-weight:500; border-bottom:1px solid rgba(201,168,76,0.3); padding-bottom:2px; transition: border-color 0.3s;">Full artist biographies &rarr;</a></p>
