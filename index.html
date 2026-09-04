@@ -378,105 +378,6 @@ section { padding: 6.5rem 3rem; position: relative; }
   .team-grid { grid-template-columns: 1fr; }
 }
 
-/* ─── COMING SOON MODAL ─── */
-.cs-overlay {
-  position: fixed; inset: 0; z-index: 999;
-  background: rgba(26,38,32,0.82);
-  backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
-  display: flex; align-items: center; justify-content: center;
-  padding: 1.5rem;
-  opacity: 0; animation: csOverlayIn 0.6s 0.3s ease forwards;
-}
-.cs-overlay.dismissed { animation: csOverlayOut 0.4s ease forwards; }
-@keyframes csOverlayIn {
-  from { opacity: 0; } to { opacity: 1; }
-}
-@keyframes csOverlayOut {
-  from { opacity: 1; } to { opacity: 0; pointer-events: none; }
-}
-
-.cs-card {
-  background: var(--dark-green);
-  border: 1px solid rgba(201,168,76,0.25);
-  border-radius: 14px;
-  max-width: 560px; width: 100%;
-  padding: 3.5rem 3rem 3rem;
-  text-align: center;
-  position: relative;
-  transform: translateY(20px);
-  animation: csCardIn 0.6s 0.45s cubic-bezier(0.22,1,0.36,1) forwards;
-  opacity: 0;
-}
-@keyframes csCardIn {
-  from { opacity: 0; transform: translateY(20px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-
-.cs-close {
-  position: absolute; top: 1.2rem; right: 1.4rem;
-  background: none; border: none; cursor: pointer;
-  color: rgba(212,232,218,0.4); font-size: 1.4rem; line-height: 1;
-  transition: color 0.2s;
-}
-.cs-close:hover { color: var(--gold); }
-
-.cs-eyebrow {
-  font-size: 0.6rem; letter-spacing: 0.38em; text-transform: uppercase;
-  color: var(--gold); font-weight: 500; margin-bottom: 1.6rem;
-}
-.cs-title {
-  font-family: 'Instrument Serif', serif;
-  font-size: clamp(2.2rem, 7vw, 3.4rem);
-  color: var(--white); line-height: 0.95; margin-bottom: 0.6rem;
-}
-.cs-title i { font-style: italic; color: var(--green-light); }
-.cs-sub {
-  font-family: 'Instrument Serif', serif;
-  font-size: 1.05rem; color: rgba(212,232,218,0.7);
-  margin-bottom: 2.5rem; line-height: 1.5;
-}
-.cs-details {
-  display: flex; flex-direction: column; gap: 0.5rem;
-  margin-bottom: 2.5rem;
-}
-.cs-detail-row {
-  display: flex; align-items: center; justify-content: center; gap: 0.6rem;
-}
-.cs-detail-label {
-  font-size: 0.58rem; letter-spacing: 0.2em; text-transform: uppercase;
-  color: var(--gold); font-weight: 500; min-width: 60px; text-align: right;
-}
-.cs-detail-val {
-  font-family: 'Instrument Serif', serif; font-size: 1rem;
-  color: var(--white);
-}
-.cs-divider {
-  width: 40px; height: 1px;
-  background: rgba(201,168,76,0.3); margin: 0.4rem auto 2rem;
-}
-.cs-btn {
-  display: inline-block; padding: 0.7rem 2.2rem;
-  background: var(--gold); color: var(--dark-green);
-  font-size: 0.72rem; letter-spacing: 0.14em; text-transform: uppercase;
-  text-decoration: none; font-weight: 600; border-radius: 4px;
-  font-family: 'DM Sans', sans-serif;
-  border: none; cursor: pointer;
-  transition: all 0.25s;
-  margin-bottom: 1rem;
-}
-.cs-btn:hover { background: #dbb95a; transform: translateY(-1px); }
-.cs-skip {
-  display: block; margin-top: 0.8rem;
-  font-size: 0.68rem; color: rgba(212,232,218,0.35); letter-spacing: 0.08em;
-  cursor: pointer; background: none; border: none;
-  font-family: 'DM Sans', sans-serif; transition: color 0.2s;
-}
-.cs-skip:hover { color: rgba(212,232,218,0.6); }
-
-@media (max-width: 480px) {
-  .cs-card { padding: 2.5rem 1.6rem 2rem; }
-}
-
 /* ─── FOOTER ─── */
 footer {
   background: var(--charcoal); color: rgba(248,245,239,0.5);
@@ -495,33 +396,9 @@ footer .f-copy { margin-top: 2rem; font-size: 0.7rem; color: rgba(248,245,239,0.
   section, .hero-label, .hero h1, .hero-sub, .hero-artists, .hero-meta {
     opacity: 1 !important; transform: none !important; animation: none !important;
   }
-  .cs-overlay { display: none !important; }
 </style></noscript>
 </head>
 <body>
-
-<!-- COMING SOON MODAL -->
-<div class="cs-overlay" id="csOverlay">
-  <div class="cs-card" role="dialog" aria-modal="true" aria-label="Preview opening announcement">
-    <button class="cs-close" id="csClose" aria-label="Close">&times;</button>
-    <div class="cs-eyebrow">Preview Opening &mdash; Coming Soon</div>
-    <h2 class="cs-title">Cha<i>i</i>ses</h2>
-    <p class="cs-sub">The Social Geometry of Luxembourg Gardens</p>
-    <div class="cs-divider"></div>
-    <div class="cs-details">
-      <div class="cs-detail-row">
-        <span class="cs-detail-label">Dates</span>
-        <span class="cs-detail-val">20&ndash;22 October 2026</span>
-      </div>
-      <div class="cs-detail-row">
-        <span class="cs-detail-label">Venue</span>
-        <span class="cs-detail-val">24 rue Chapon, 75003 Paris</span>
-      </div>
-    </div>
-    <button class="cs-btn" id="csEnter">Explore the Project &rarr;</button>
-    <button class="cs-skip" id="csSkip">Close</button>
-  </div>
-</div>
 
 <!-- NAV -->
 <nav id="nav">
@@ -783,24 +660,6 @@ footer .f-copy { margin-top: 2rem; font-size: 0.7rem; color: rgba(248,245,239,0.
 </footer>
 
 <script>
-// ─── COMING SOON MODAL ───
-(function() {
-  const overlay = document.getElementById('csOverlay');
-  function dismiss() {
-    overlay.classList.add('dismissed');
-    setTimeout(() => { overlay.style.display = 'none'; }, 420);
-  }
-  document.getElementById('csClose').addEventListener('click', dismiss);
-  document.getElementById('csSkip').addEventListener('click', dismiss);
-  document.getElementById('csEnter').addEventListener('click', dismiss);
-  overlay.addEventListener('click', function(e) {
-    if (e.target === overlay) dismiss();
-  });
-  document.addEventListener('keydown', function(e) {
-    if (e.key === 'Escape') dismiss();
-  });
-})();
-
 // ─── NAV SCROLL ───
 const navEl = document.getElementById('nav');
 window.addEventListener('scroll', () => {
