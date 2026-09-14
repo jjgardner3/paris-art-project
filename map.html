@@ -38,9 +38,12 @@
   --cream: #F8F5EF;
   --charcoal: #2A2A2A;
   --slate: #5C6B73;
-  --gold: #C9A84C;
+  --gold: #A8845A;
   --dark-green: #2C4A38;
   --white: #FFFFFF;
+  --ink: #1C1A17;
+  --kraft: #B8956A;
+  --bone: #E9E2D3;
 }
 
 html { font-size: 16px; }
@@ -86,7 +89,7 @@ h1 {
   font-family: 'Instrument Serif', serif;
   font-size: clamp(2.4rem, 7vw, 3.6rem);
   font-weight: 400; line-height: 1.05;
-  color: var(--dark-green); margin-bottom: 1.1rem;
+  color: var(--ink); margin-bottom: 1.1rem;
 }
 h1 em { font-style: italic; color: var(--gold); }
 .intro {
@@ -391,7 +394,7 @@ footer {
    e.g. 'https://script.google.com/macros/s/AKfycb.../exec'
    Leave it empty and the page shows the "no chaise yet" state.
    ══════════════════════════════════════════════════════════════ */
-const FEED_URL = '';
+const FEED_URL = 'https://script.google.com/macros/s/AKfycbx7ll356J7SZbnqK206UHIhbFO06NobLIs5XqF3mQj1JGdBgx3lK76GL9ZuVHWD3M4/exec';
 
 const REFRESH_MS = 3 * 60 * 1000;   // re-read the sheet every 3 minutes
 const PARIS = [48.8566, 2.3522];
