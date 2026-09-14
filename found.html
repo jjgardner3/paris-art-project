@@ -249,9 +249,44 @@ input[type="file"] {
   overflow: hidden;
 }
 .map-card-map {
-  height: 190px; width: 100%;
+  height: 340px; width: 100%;
   background: #E9E4DA;
   position: relative;
+}
+@media (max-width: 480px) { .map-card-map { height: 300px; } }
+.map-card-map .leaflet-container { font-family: 'DM Sans', sans-serif; }
+.map-card-map .leaflet-bar a {
+  background: var(--cream) !important;
+  color: var(--dark-green) !important;
+  border-bottom-color: rgba(74,124,89,0.2) !important;
+}
+.map-card-map .leaflet-bar a:hover { background: var(--green-pale) !important; }
+
+/* popups — same shape as the full map page */
+.map-card-map .leaflet-popup-content-wrapper {
+  background: var(--cream); border-radius: 8px;
+  box-shadow: 0 6px 22px rgba(44,74,56,0.18);
+}
+.map-card-map .leaflet-popup-content { margin: 0; width: 208px !important; }
+.map-card-map .leaflet-popup-tip { background: var(--cream); }
+.pop img {
+  width: 100%; height: 118px; object-fit: cover; display: block;
+  border-radius: 8px 8px 0 0;
+}
+.pop-body { padding: 0.8rem 0.95rem 0.9rem; text-align: left; }
+.pop-when {
+  font-size: 0.56rem; letter-spacing: 0.18em; text-transform: uppercase;
+  color: var(--green); font-weight: 500;
+}
+.pop-where {
+  font-family: 'Instrument Serif', serif;
+  font-size: 1.02rem; line-height: 1.25;
+  color: var(--dark-green); margin: 0.22rem 0 0.35rem;
+}
+.pop-note { font-size: 0.78rem; color: var(--slate); line-height: 1.5; font-style: italic; }
+.pop-who {
+  font-size: 0.66rem; letter-spacing: 0.06em;
+  color: rgba(92,107,115,0.75); margin-top: 0.45rem;
 }
 .map-card-map .leaflet-tile-pane {
   filter: sepia(0.42) saturate(0.62) hue-rotate(22deg) brightness(1.04) contrast(0.94);
@@ -444,7 +479,7 @@ footer {
     <div class="map-card-body">
       <h3 id="mini-title">The chairs are moving.</h3>
       <p id="mini-sub">Every trace left here puts a pin on the map, next to everywhere else a chaise has turned up.</p>
-      <a href="/map.html" class="map-card-link">Open the map →</a>
+      <a href="/map.html" class="map-card-link">Open the full map &rarr;</a>
     </div>
   </div>
 
@@ -609,8 +644,13 @@ function loadMiniMap() {
     window[cb] = data => {
       delete window[cb]; s.remove();
       const rows = ((data && data.sightings) || [])
-        .map(r => ({ lat: parseFloat(r.lat), lon: parseFloat(r.lon) }))
-        .filter(r => isFinite(r.lat) && isFinite(r.lon));
+        .map(r => ({
+          lat: parseFloat(r.lat), lon: parseFloat(r.lon),
+          place: r.place || '', note: r.note || '',
+          who: r.who || '', when: r.when || '', photo: r.photo || ''
+        }))
+        .filter(r => isFinite(r.lat) && isFinite(r.lon))
+        .sort((a, b) => new Date(a.when) - new Date(b.when));
       if (!rows.length) return;
       drawMini(rows);
     };
@@ -622,14 +662,39 @@ function loadMiniMap() {
   document.head.appendChild(js);
 }
 
+function escHtml(v) {
+  return String(v == null ? '' : v)
+    .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+}
+
+function miniDate(iso) {
+  const d = new Date(iso);
+  return isNaN(d) ? '' : d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
+}
+
+function miniPopup(r) {
+  const photo = r.photo ? `<img src="${escHtml(r.photo)}" alt="" loading="lazy">` : '';
+  const note  = r.note  ? `<div class="pop-note">\u201C${escHtml(r.note)}\u201D</div>` : '';
+  const who   = r.who   ? `<div class="pop-who">\u2014 ${escHtml(r.who)}</div>` : '';
+  return `<div class="pop">${photo}<div class="pop-body">
+      <div class="pop-when">${escHtml(miniDate(r.when))}</div>
+      <div class="pop-where">${escHtml(r.place || 'Somewhere')}</div>
+      ${note}${who}
+    </div></div>`;
+}
+
 function drawMini(rows) {
   const box = document.getElementById('mini-map');
   box.hidden = false;
 
+  // A real map: pan, zoom and tap a pin to read the note. Wheel zoom stays off
+  // until you click, so scrolling past the page doesn't get hijacked.
   const map = L.map(box, {
-    zoomControl: false, scrollWheelZoom: false, dragging: false,
-    doubleClickZoom: false, touchZoom: false, keyboard: false, attributionControl: true
+    zoomControl: true, scrollWheelZoom: false, attributionControl: true
   });
+  map.on('click', () => map.scrollWheelZoom.enable());
+  map.on('mouseout', () => map.scrollWheelZoom.disable());
   L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OSM</a> &copy; <a href="https://carto.com/attributions">CARTO</a>',
     subdomains: 'abcd', maxZoom: 19
@@ -648,14 +713,16 @@ function drawMini(rows) {
       '<polygon points="14.4,22.3 16.1,22.1 13.4,29.4 11.7,29.2"/>' +
       '</g></svg>'
   });
-  rows.forEach(r => L.marker([r.lat, r.lon], { icon, interactive: false }).addTo(map));
-  map.fitBounds(L.latLngBounds(rows.map(r => [r.lat, r.lon])).pad(0.3), { maxZoom: 13 });
+  rows.forEach(r => L.marker([r.lat, r.lon], { icon, riseOnHover: true })
+    .bindPopup(miniPopup(r))
+    .addTo(map));
+  map.fitBounds(L.latLngBounds(rows.map(r => [r.lat, r.lon])).pad(0.25), { maxZoom: 14 });
 
   document.getElementById('mini-title').textContent =
     rows.length === 1 ? 'One chaise has reported in.'
                       : rows.length + ' sightings so far.';
   document.getElementById('mini-sub').textContent =
-    'Each pin is somewhere a chair was found. Open the map to read the notes people left.';
+    'Each pin is somewhere a chaise was found. Tap one to read the note that came with it.';
 }
 
 if ('IntersectionObserver' in window) {
