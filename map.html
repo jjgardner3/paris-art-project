@@ -351,7 +351,7 @@ footer {
     <div class="overlay" id="ov-error" hidden>
       <div class="box">
         <p>Still looking&hellip;</p>
-        <small>It is taking longer than usual to answer. This page keeps trying — the chairs will appear on their own.</small>
+        <small>The chairs are slow to answer this morning. They will appear here by themselves — no need to reload.</small>
       </div>
     </div>
   </div>
@@ -614,16 +614,54 @@ function normalise(raw) {
   }));
 }
 
+/* The feed is asked for the moment this script parses, in parallel with
+   Google's own script rather than after it. An answer that beats the map
+   waits here until there is something to draw on. */
+let pendingFeed = null;
+
+/* Apps Script cold-starts. The first visitor of the morning can wait half a
+   minute for an answer that is then identical to yesterday's. Keeping the
+   last good payload means they see the pins at once and the fresh answer
+   quietly replaces them. Per-browser and best-effort: private windows and
+   blocked site data both throw, and an empty cache is simply the old
+   behaviour, so every read and write is wrapped. */
+const CACHE_KEY = 'chaise-sightings-v1';
+
+function cacheRead() {
+  try {
+    const raw = localStorage.getItem(CACHE_KEY);
+    return raw ? JSON.parse(raw) : null;
+  } catch (e) { return null; }
+}
+
+function cacheWrite(data) {
+  try { localStorage.setItem(CACHE_KEY, JSON.stringify(data)); } catch (e) {}
+}
+
+function paint(data) {
+  render(normalise(data));
+  stampTime();
+}
+
 function load(firstRun) {
   const demo = new URLSearchParams(location.search).has('demo');
 
-  if (demo) { render(normalise(DEMO)); stampTime(); return; }
+  if (demo) { paint(DEMO); return; }
 
   if (!FEED_URL) { show('ov-empty'); paintCounts([]); paintList([]); return; }
 
   fetchFeed(
-    data => { render(normalise(data)); stampTime(); },
-    why  => { if (firstRun) show('ov-error'); }
+    data => {
+      cacheWrite(data);
+      if (map) paint(data); else pendingFeed = data;
+    },
+    why => {
+      /* 'slow' is not a failure — the receiver is still listening and the
+         answer usually lands. Only a dead script tag is worth an error. */
+      if (!firstRun || markers.length) return;
+      if (why === 'network') show('ov-error');
+      else document.querySelector('#ov-loading .box p').textContent = 'Still looking…';
+    }
   );
 }
 
@@ -653,7 +691,9 @@ function initChaiseMap() {
 
   infoWindow = new google.maps.InfoWindow({ maxWidth: 248 });
 
-  load(true);
+  const cached = pendingFeed || cacheRead();
+  if (cached) paint(cached);
+
   setInterval(() => load(false), REFRESH_MS);
 }
 
@@ -668,6 +708,11 @@ window.gm_authFailure = function () {
       'Google refused the map key for this site. Check the key restrictions and that billing is linked.';
   }
 };
+
+/* Ask the chairs where they are straight away. This used to wait for Google's
+   script to finish loading, which stacked a 20-second Apps Script cold start
+   on top of a 1-2 second map load for no reason. */
+load(true);
 
 (function loadGoogleMaps() {
   if (!GOOGLE_MAPS_KEY) {
