@@ -139,6 +139,24 @@ textarea { min-height: 90px; resize: vertical; }
   margin-top: 0.3rem; min-height: 1.1em;
 }
 
+/* ─── LOCATION ROW ─── */
+.loc-head {
+  display: flex; align-items: baseline; justify-content: space-between;
+  gap: 1rem; margin-bottom: 0.45rem;
+}
+.loc-head label { margin-bottom: 0; }
+.geo-btn {
+  flex: none;
+  background: none; border: none; padding: 0;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.68rem; letter-spacing: 0.1em; text-transform: uppercase;
+  font-weight: 500; color: var(--green); cursor: pointer;
+  border-bottom: 1px solid rgba(74,124,89,0.4); padding-bottom: 1px;
+  transition: color 0.2s, border-color 0.2s;
+}
+.geo-btn:hover { color: var(--dark-green); border-bottom-color: var(--dark-green); }
+.geo-btn:disabled { opacity: 0.5; cursor: default; }
+
 /* ─── PHOTO UPLOAD ─── */
 .photo-area {
   position: relative;
@@ -423,8 +441,12 @@ footer {
 
     <!-- Location -->
     <div class="form-group">
-      <label for="location">Location</label>
+      <div class="loc-head">
+        <label for="location">Location</label>
+        <button type="button" class="geo-btn" id="geo-btn">Use my location</button>
+      </div>
       <input type="text" id="location" name="location" placeholder="e.g. Rue de Rivoli, near the Tuileries" />
+      <p class="char-hint" id="geo-status"></p>
     </div>
 
     <!-- Note -->
@@ -584,7 +606,7 @@ photoInput.addEventListener('change', async () => {
       setExifStatus(`GPS found: ${coords.lat.toFixed(5)}, ${coords.lon.toFixed(5)}`, true);
     }
   } else {
-    setExifStatus('No location data in this photo — feel free to type it above.', false);
+    setExifStatus('No location in this photo — tap \u201CUse my location\u201D below, or just type where you are.', false);
   }
 });
 
@@ -599,6 +621,69 @@ removeBtn.addEventListener('click', (e) => {
   setExifStatus('', false);
 });
 
+// ─── DEVICE LOCATION ───────────────────────────────────────
+// Most phone photos reach this form with their GPS already stripped — iOS
+// removes it on upload unless you allow it, and anything received or
+// screenshotted never had it. So asking the browser directly is the reliable
+// path, not the fallback.
+const geoBtn = document.getElementById('geo-btn');
+
+function setGeoStatus(msg, found) {
+  const el = document.getElementById('geo-status');
+  el.textContent = msg;
+  el.className = found ? 'char-hint exif-found' : 'char-hint';
+}
+
+geoBtn.addEventListener('click', () => {
+  if (!navigator.geolocation) {
+    setGeoStatus('This browser cannot share a location — please type it instead.', false);
+    return;
+  }
+  geoBtn.disabled = true;
+  setGeoStatus('Asking your device\u2026', false);
+
+  navigator.geolocation.getCurrentPosition(async pos => {
+    const lat = pos.coords.latitude, lon = pos.coords.longitude;
+    document.getElementById('gps_lat').value = lat.toFixed(6);
+    document.getElementById('gps_lon').value = lon.toFixed(6);
+
+    const address = await reverseGeocode(lat, lon);
+    if (address) {
+      if (!locationField.value) locationField.value = address;
+      setGeoStatus('Location set: ' + address, true);
+    } else {
+      if (!locationField.value) {
+        locationField.value = lat.toFixed(5) + ', ' + lon.toFixed(5);
+      }
+      setGeoStatus('Location set: ' + lat.toFixed(5) + ', ' + lon.toFixed(5), true);
+    }
+    geoBtn.disabled = false;
+    geoBtn.textContent = 'Update my location';
+  }, err => {
+    geoBtn.disabled = false;
+    setGeoStatus(err.code === 1
+      ? 'Location permission declined — type where you are instead.'
+      : 'Could not get a location — type where you are instead.', false);
+  }, { enableHighAccuracy: true, timeout: 12000, maximumAge: 60000 });
+});
+
+// ─── FORWARD GEOCODE ───────────────────────────────────────
+// Last resort on submit: if we still have no coordinates, try to look up
+// whatever they typed. Free text often misses, so it is a backstop only —
+// a miss just means the sighting lands in the sheet without a pin.
+async function geocodeText(q) {
+  try {
+    const res = await fetch(
+      'https://nominatim.openstreetmap.org/search?format=json&limit=1&q=' +
+      encodeURIComponent(q), { headers: { 'Accept-Language': 'fr,en' } }
+    );
+    const d = await res.json();
+    if (!d || !d.length) return null;
+    const lat = parseFloat(d[0].lat), lon = parseFloat(d[0].lon);
+    return isFinite(lat) && isFinite(lon) ? { lat, lon } : null;
+  } catch { return null; }
+}
+
 // ─── FORM SUBMIT ───────────────────────────────────────────
 const form      = document.getElementById('found-form');
 const submitBtn = document.getElementById('submit-btn');
@@ -608,6 +693,19 @@ form.addEventListener('submit', async (e) => {
   e.preventDefault();
   submitBtn.disabled = true;
   submitBtn.textContent = 'Sending…';
+
+  // No coordinates yet? Try the typed location before giving up on a pin.
+  const latField = document.getElementById('gps_lat');
+  if (!latField.value && locationField.value.trim()) {
+    const hit = await Promise.race([
+      geocodeText(locationField.value.trim()),
+      new Promise(r => setTimeout(() => r(null), 5000))
+    ]);
+    if (hit) {
+      latField.value = hit.lat.toFixed(6);
+      document.getElementById('gps_lon').value = hit.lon.toFixed(6);
+    }
+  }
 
   try {
     await fetch('/', {
