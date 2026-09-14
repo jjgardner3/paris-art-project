@@ -645,7 +645,7 @@ footer .f-copy { margin-top: 2rem; font-size: 0.7rem; color: rgba(248,245,239,0.
         <h3>The hunt</h3>
         <p>Printed chaises leave the building on 6 October to make their own way around the city. Each one that gets found puts a pin on the map.</p>
       </div>
-      <a href="map.html" class="hunt-link">Where the chaises are &rarr;</a>
+      <a href="map.html" class="hunt-link" id="hunt-link">Where the chaises are &rarr;</a>
     </div>
   </div>
 </section>
@@ -1042,6 +1042,48 @@ document.querySelectorAll('section:not(.hero)').forEach(s => {
   s.style.transition = 'opacity 0.7s ease, transform 0.7s ease';
   obs.observe(s);
 });
+
+/* ─── HUNT COUNT ───────────────────────────────────────────────────────────
+   Asks the sightings feed how many chaises have been found and folds the
+   number into the link. Deliberately quiet: if the feed is slow, unreachable,
+   or the count is zero, the link keeps its original wording. Nobody should
+   ever land on this page and read "0 chaises found so far" — before 6 October
+   that is the true number and the worst possible thing to say.
+   The feed is Apps Script, which cold-starts slowly (15-25s is normal), so
+   this fires on load rather than on scroll and simply arrives when it arrives.
+   JSONP because /exec sends no CORS header. Same feed as map.html — if you
+   change the URL there, change it here too. */
+(function huntCount() {
+  var link = document.getElementById('hunt-link');
+  if (!link) return;
+
+  var FEED = 'https://script.google.com/macros/s/AKfycbx7ll356J7SZbnqK206UHIhbFO06NobLIs5XqF3mQj1JGdBgx3lK76GL9ZuVHWD3M4/exec';
+  var cb = '__hunt_cb_' + Math.random().toString(36).slice(2);
+  var s  = document.createElement('script');
+  var done = false;
+
+  function sweep() {
+    try { delete window[cb]; } catch (e) { window[cb] = undefined; }
+    if (s.parentNode) s.remove();
+  }
+
+  window[cb] = function (data) {
+    done = true;
+    var n = data && data.sightings ? data.sightings.length : 0;
+    if (n > 0) {
+      link.innerHTML = n + (n === 1 ? ' chaise' : ' chaises') + ' found so far &rarr;';
+    }
+    setTimeout(sweep, 0);
+  };
+
+  s.onerror = function () { if (!done) { done = true; sweep(); } };
+  /* Never tear the callback down early: a cold start that answers at 40s would
+     otherwise hit a deleted function and throw. Wait it out, then give up. */
+  setTimeout(function () { if (!done) sweep(); }, 90000);
+
+  s.src = FEED + '?callback=' + cb + '&t=' + Date.now();
+  document.head.appendChild(s);
+})();
 </script>
 </body>
 </html>
