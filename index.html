@@ -385,6 +385,31 @@ section { padding: 6.5rem 3rem; position: relative; }
   .terra-points { grid-template-columns: 1fr; }
 }
 
+.hunt-note {
+  margin-top: 3rem; padding-top: 2rem;
+  border-top: 1px solid rgba(184,149,106,0.3);
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 2.5rem; flex-wrap: wrap;
+}
+.hunt-note .hn-text { max-width: 54ch; }
+.hunt-note h3 {
+  font-family: 'Instrument Serif', serif; font-size: 1.15rem;
+  color: var(--kraft); margin-bottom: 0.5rem;
+}
+.hunt-note p { font-size: 0.88rem; color: rgba(233,226,211,0.7); line-height: 1.7; }
+.hunt-link {
+  flex: none; white-space: nowrap;
+  padding: 0.75rem 1.7rem;
+  border: 1px solid rgba(184,149,106,0.55); border-radius: 6px;
+  color: var(--kraft); text-decoration: none;
+  font-size: 0.72rem; letter-spacing: 0.14em; text-transform: uppercase;
+  transition: background 0.2s, color 0.2s, border-color 0.2s;
+}
+.hunt-link:hover { background: var(--kraft); border-color: var(--kraft); color: var(--ink); }
+@media (max-width: 768px) {
+  .hunt-note { flex-direction: column; align-items: flex-start; gap: 1.4rem; }
+}
+
 /* ─── TEAM ─── */
 #team { background: var(--cream); }
 .team-grid {
@@ -614,6 +639,13 @@ footer .f-copy { margin-top: 2rem; font-size: 0.7rem; color: rgba(248,245,239,0.
         <h3>Closing evening</h3>
         <p>Thursday 22 October 2026<span class="tp-time">Noon&ndash;8pm</span><span class="tp-note">Closing event 5&ndash;8pm</span></p>
       </div>
+    </div>
+    <div class="hunt-note">
+      <div class="hn-text">
+        <h3>The hunt</h3>
+        <p>Printed chaises leave the building on 6 October to make their own way around the city. Each one that gets found puts a pin on the map.</p>
+      </div>
+      <a href="map.html" class="hunt-link">Where the chaises are &rarr;</a>
     </div>
   </div>
 </section>
