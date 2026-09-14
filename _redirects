@@ -1,0 +1,4 @@
+# Short links for printed QR codes. Keep these stable — they are on stickers and posters.
+# Change the destination here rather than reprinting.
+/s   /index.html?src=sticker   302
+/p   /index.html?src=poster    302
