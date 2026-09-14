@@ -37,7 +37,7 @@
   --cream: #F8F5EF;
   --charcoal: #2A2A2A;
   --slate: #5C6B73;
-  --gold: #A8845A;
+  --gold: #9A7748;
   --dark-green: #2C4A38;
   --white: #FFFFFF;
   --ink: #1C1A17;
@@ -109,23 +109,13 @@ nav.scrolled { padding: 0.65rem 3rem; box-shadow: 0 2px 24px rgba(0,0,0,0.05); }
   padding: 2rem 3rem 6rem;
 }
 .artist-card {
-  display: grid; grid-template-columns: 140px 1fr;
+  display: block;
   scroll-margin-top: 7rem;
-  gap: 2.5rem; align-items: start;
   padding: 3rem 0;
-  border-bottom: 1px solid rgba(74,124,89,0.1);
+  border-bottom: 1px solid rgba(184,149,106,0.35);
 }
 .artist-card:first-child {
-  border-top: 1px solid rgba(74,124,89,0.1);
-}
-.artist-avatar {
-  width: 140px; height: 140px; border-radius: 50%;
-  background: var(--green-pale);
-  display: flex; align-items: center; justify-content: center;
-  font-family: 'Instrument Serif', serif;
-  font-size: 2.8rem; color: var(--green);
-  border: 2px solid rgba(74,124,89,0.12);
-  flex-shrink: 0;
+  border-top: 1px solid rgba(184,149,106,0.35);
 }
 .artist-info {}
 .artist-name {
@@ -155,12 +145,7 @@ nav.scrolled { padding: 0.65rem 3rem; box-shadow: 0 2px 24px rgba(0,0,0,0.05); }
 
 @media (max-width: 680px) {
   .artists { padding: 2rem 1.4rem 5rem; }
-  .artist-card {
-    grid-template-columns: 1fr;
-    gap: 1.2rem;
-    text-align: center;
-  }
-  .artist-avatar { margin: 0 auto; width: 110px; height: 110px; font-size: 2.2rem; }
+  .artist-card { text-align: center; }
   .artist-meta { justify-content: center; }
   .page-header { padding: 8rem 1.4rem 3rem; }
 }
@@ -220,7 +205,6 @@ footer .f-copy { font-size: 0.68rem; color: rgba(248,245,239,0.25); }
 
   <!-- JIMMY -->
   <div class="artist-card" id="jimmy-gardner">
-    <div class="artist-avatar">J</div>
     <div class="artist-info">
       <h2 class="artist-name">Jimmy Gardner</h2>
       <div class="artist-role">Concept Creator &amp; Supporter</div>
@@ -235,7 +219,6 @@ footer .f-copy { font-size: 0.68rem; color: rgba(248,245,239,0.25); }
 
   <!-- ALLARD -->
   <div class="artist-card" id="allard-van-hoorn">
-    <div class="artist-avatar">A</div>
     <div class="artist-info">
       <h2 class="artist-name">Allard van Hoorn</h2>
       <div class="artist-role">Creative Director &middot; Sound &amp; Installation Artist &middot; Composer</div>
@@ -251,7 +234,6 @@ footer .f-copy { font-size: 0.68rem; color: rgba(248,245,239,0.25); }
 
   <!-- CHARLOTTE -->
   <div class="artist-card" id="charlotte-tampol">
-    <div class="artist-avatar">C</div>
     <div class="artist-info">
       <h2 class="artist-name">Charlotte Tampol</h2>
       <div class="artist-role">Multidisciplinary Artist</div>
@@ -267,7 +249,6 @@ footer .f-copy { font-size: 0.68rem; color: rgba(248,245,239,0.25); }
 
   <!-- QUINN -->
   <div class="artist-card" id="quinn-lewis">
-    <div class="artist-avatar">Q</div>
     <div class="artist-info">
       <h2 class="artist-name">Quinn Lewis</h2>
       <div class="artist-role">Sculptor &amp; Animator</div>
@@ -282,7 +263,6 @@ footer .f-copy { font-size: 0.68rem; color: rgba(248,245,239,0.25); }
 
   <!-- JESSICA -->
   <div class="artist-card" id="jessica-anne-schwartz">
-    <div class="artist-avatar">JS</div>
     <div class="artist-info">
       <h2 class="artist-name">Jessica Anne Schwartz</h2>
       <div class="artist-role">Drawing, Painting, Sculpture &amp; Land-Based Installation</div>
@@ -300,7 +280,6 @@ footer .f-copy { font-size: 0.68rem; color: rgba(248,245,239,0.25); }
 
   <!-- WAYNE -->
   <div class="artist-card" id="wayne-pate">
-    <div class="artist-avatar">W</div>
     <div class="artist-info">
       <h2 class="artist-name">Wayne Pate</h2>
       <div class="artist-role">Painter &middot; The Emblem of <em>Chaises</em></div>
