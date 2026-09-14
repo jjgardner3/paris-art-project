@@ -360,7 +360,7 @@ footer {
     <div class="overlay" id="ov-error" hidden>
       <div class="box">
         <p>The map can't reach the chairs.</p>
-        <small>Something is wrong with the feed. Try again in a moment.</small>
+        <small>It is taking longer than usual to answer. This page keeps trying — the chairs will appear on their own.</small>
       </div>
     </div>
   </div>
@@ -554,18 +554,28 @@ function paintList(rows) {
   });
 }
 
-/* ─── FEED (JSONP — works cross-origin from Apps Script) ──── */
-function jsonp(url) {
-  return new Promise((resolve, reject) => {
-    const cb = '__chaise_cb_' + Math.random().toString(36).slice(2);
-    const s  = document.createElement('script');
-    const kill = () => { delete window[cb]; s.remove(); };
-    const timer = setTimeout(() => { kill(); reject(new Error('timeout')); }, 15000);
-    window[cb] = data => { clearTimeout(timer); kill(); resolve(data); };
-    s.onerror  = () => { clearTimeout(timer); kill(); reject(new Error('network')); };
-    s.src = url + (url.includes('?') ? '&' : '?') + 'callback=' + cb + '&t=' + Date.now();
-    document.head.appendChild(s);
-  });
+/* ─── FEED (JSONP — the Apps Script sends no CORS header, so fetch
+       cannot read it; a script tag can) ───────────────────────────
+   Apps Script cold-starts can take well over 20 seconds. The callback is
+   therefore NEVER torn down on timeout — we report the failure so the page
+   can say something, but leave the receiver in place so a slow answer still
+   paints the map when it finally lands. Tearing it down early is what made
+   the response arrive to a callback that no longer existed. */
+function fetchFeed(onData, onFail) {
+  const cb = '__chaise_cb_' + Math.random().toString(36).slice(2);
+  const s  = document.createElement('script');
+  let done = false;
+
+  const sweep = () => { try { delete window[cb]; } catch (e) { window[cb] = undefined; } s.remove(); };
+
+  window[cb] = data => { done = true; onData(data); setTimeout(sweep, 0); };
+  s.onerror  = () => { if (!done) { done = true; onFail('network'); sweep(); } };
+
+  setTimeout(() => { if (!done) onFail('slow'); }, 25000);   // tell the page, keep listening
+  setTimeout(() => { if (!done) sweep(); }, 90000);          // give up for real
+
+  s.src = FEED_URL + (FEED_URL.includes('?') ? '&' : '?') + 'callback=' + cb + '&t=' + Date.now();
+  document.head.appendChild(s);
 }
 
 function normalise(raw) {
@@ -580,20 +590,17 @@ function normalise(raw) {
   }));
 }
 
-async function load(firstRun) {
+function load(firstRun) {
   const demo = new URLSearchParams(location.search).has('demo');
 
   if (demo) { render(normalise(DEMO)); stampTime(); return; }
 
   if (!FEED_URL) { show('ov-empty'); paintCounts([]); paintList([]); return; }
 
-  try {
-    const data = await jsonp(FEED_URL);
-    render(normalise(data));
-    stampTime();
-  } catch (e) {
-    if (firstRun) show('ov-error');
-  }
+  fetchFeed(
+    data => { render(normalise(data)); stampTime(); },
+    why  => { if (firstRun) show('ov-error'); }
+  );
 }
 
 function stampTime() {
