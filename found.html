@@ -601,6 +601,8 @@ function loadMiniMap() {
 
   const js = document.createElement('script');
   js.src = 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js';
+  js.integrity = 'sha512-puJW3E/qXDqYp9IfhAI54BJEaWIfloJ7JWs7OeD5i6ruC9JZL1gERT1wjtwXFlh7CjE7ZJ+/vcRZRkIYIb6p4g==';
+  js.crossOrigin = 'anonymous';
   js.onload = () => {
     const cb = '__mini_cb_' + Math.random().toString(36).slice(2);
     const s = document.createElement('script');
