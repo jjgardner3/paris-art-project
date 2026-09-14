@@ -27,7 +27,6 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300;1,9..40,400&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css" integrity="sha512-h9FcoyWjHcOcmEVkxOfTLnmZFWIH0iZhZT1H2TbOq55xssQGEJHEaIm+PgoUaZbRvQTNTluNOEfb1ZRy6D3BOw==" crossorigin="anonymous" referrerpolicy="no-referrer">
 <style>
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -143,41 +142,32 @@ h1 em { font-style: italic; color: var(--gold); }
 }
 @media (max-width: 880px) { #map { height: 460px; } }
 
-/* Warm the CARTO basemap toward the site's cream/green */
-.leaflet-tile-pane {
-  filter: sepia(0.42) saturate(0.62) hue-rotate(22deg) brightness(1.04) contrast(0.94);
-}
+/* The basemap is recoloured by the `styles` array in the script below, not
+   by a CSS filter — Google gives us the palette natively. */
+.gm-style { font-family: 'DM Sans', sans-serif !important; }
 
-.leaflet-container {
-  font-family: 'DM Sans', sans-serif;
-  background: #E9E4DA;
-}
-.leaflet-control-attribution {
-  background: rgba(248,245,239,0.86) !important;
-  font-size: 0.6rem !important;
-  color: var(--slate) !important;
-}
-.leaflet-control-attribution a { color: var(--green) !important; }
-.leaflet-bar a {
+/* ─── INFO WINDOW ─── */
+/* Google wraps popup content in its own chrome; these tame it so the card
+   inside is ours. The selectors are Google's internal class names and can
+   change — if a popup ever looks boxy or white, look here first. */
+.gm-style .gm-style-iw-c {
+  padding: 0 !important;
   background: var(--cream) !important;
-  color: var(--dark-green) !important;
-  border-bottom-color: rgba(74,124,89,0.2) !important;
+  border-radius: 8px !important;
+  box-shadow: 0 6px 22px rgba(44,74,56,0.18) !important;
+  max-width: 248px !important;
 }
-.leaflet-bar a:hover { background: var(--green-pale) !important; }
-
-/* ─── MARKERS ─── */
-.chaise-pin { background: none; border: none; }
-.chaise-pin svg { display: block; filter: drop-shadow(0 2px 3px rgba(44,74,56,0.28)); }
-.chaise-pin.is-active svg { filter: drop-shadow(0 3px 7px rgba(201,168,76,0.75)); }
-
-/* ─── POPUP ─── */
-.leaflet-popup-content-wrapper {
-  background: var(--cream);
-  border-radius: 8px;
-  box-shadow: 0 6px 22px rgba(44,74,56,0.18);
+.gm-style .gm-style-iw-d {
+  overflow: hidden !important;
+  padding: 0 !important;
+  max-height: none !important;
 }
-.leaflet-popup-content { margin: 0; width: 232px !important; }
-.leaflet-popup-tip { background: var(--cream); }
+.gm-style .gm-style-iw-tc::after { background: var(--cream) !important; }
+.gm-style .gm-style-iw-c button.gm-ui-hover-effect {
+  top: 0 !important; right: 0 !important;
+  opacity: 0.55;
+}
+.gm-style .gm-style-iw-c button.gm-ui-hover-effect:hover { opacity: 1; }
 .pop { padding: 0; }
 .pop img {
   width: 100%; height: 132px; object-fit: cover; display: block;
@@ -386,7 +376,6 @@ footer {
   Chaises — Paris, 2026
 </footer>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js" integrity="sha512-puJW3E/qXDqYp9IfhAI54BJEaWIfloJ7JWs7OeD5i6ruC9JZL1gERT1wjtwXFlh7CjE7ZJ+/vcRZRkIYIb6p4g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script>
 /* ══════════════════════════════════════════════════════════════
    CONFIGURATION — the only line you normally need to change.
@@ -396,8 +385,15 @@ footer {
    ══════════════════════════════════════════════════════════════ */
 const FEED_URL = 'https://script.google.com/macros/s/AKfycbx7ll356J7SZbnqK206UHIhbFO06NobLIs5XqF3mQj1JGdBgx3lK76GL9ZuVHWD3M4/exec';
 
+/* Google Maps browser key. This is public by design — it ships in the page
+   source of every Google-Maps site. What protects it is the HTTP-referrer
+   restriction on the key itself (lachaiseparisienne.com only), not secrecy.
+   If the map ever shows "for development purposes only" or a grey box, the
+   restriction or the billing link is what to check. */
+const GOOGLE_MAPS_KEY = 'AIzaSyCUP9bfQw5k-MpxNB3Nvqa48162MhBu6fU';
+
 const REFRESH_MS = 3 * 60 * 1000;   // re-read the sheet every 3 minutes
-const PARIS = [48.8566, 2.3522];
+const PARIS = { lat: 48.8566, lng: 2.3522 };
 const GALLERY = [48.8646, 2.3556];   // 24 rue Chapon, 75003
 
 /* ─── SAMPLE DATA — only ever loaded with ?demo=1 in the URL.
@@ -413,44 +409,48 @@ const DEMO = [
 ];
 
 /* ─── MAP ─────────────────────────────────────────────────── */
-const map = L.map('map', {
-  center: PARIS,
-  zoom: 12,
-  scrollWheelZoom: false,
-  zoomControl: true
-});
-map.on('click', () => map.scrollWheelZoom.enable());
-map.on('mouseout', () => map.scrollWheelZoom.disable());
+/* The basemap palette. Google restyles its own tiles, so unlike the old
+   CARTO setup there is no CSS filter and no third-party attribution to
+   preserve — Google's own attribution is baked into the map and must stay. */
+const MAP_STYLE = [
+  { elementType: 'geometry',            stylers: [{ color: '#F2EEE4' }] },
+  { elementType: 'labels.text.fill',    stylers: [{ color: '#7C8A86' }] },
+  { elementType: 'labels.text.stroke',  stylers: [{ color: '#F8F5EF' }, { weight: 3 }] },
+  { elementType: 'labels.icon',         stylers: [{ visibility: 'off' }] },
+  { featureType: 'administrative',      elementType: 'geometry.stroke', stylers: [{ color: '#DCD5C4' }] },
+  { featureType: 'administrative.land_parcel', stylers: [{ visibility: 'off' }] },
+  { featureType: 'poi',                 stylers: [{ visibility: 'off' }] },
+  { featureType: 'poi.park',            elementType: 'geometry', stylers: [{ visibility: 'on' }, { color: '#E4E7D5' }] },
+  { featureType: 'road',                elementType: 'geometry', stylers: [{ color: '#FBF9F4' }] },
+  { featureType: 'road.highway',        elementType: 'geometry', stylers: [{ color: '#EFE7D6' }] },
+  { featureType: 'road.arterial',       elementType: 'geometry', stylers: [{ color: '#F7F3EA' }] },
+  { featureType: 'road.local',          elementType: 'labels',   stylers: [{ visibility: 'off' }] },
+  { featureType: 'transit',             stylers: [{ visibility: 'off' }] },
+  { featureType: 'water',               elementType: 'geometry', stylers: [{ color: '#D9DFD8' }] },
+  { featureType: 'water',               elementType: 'labels.text.fill', stylers: [{ color: '#9AA8A4' }] }
+];
 
-L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
-  attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>',
-  subdomains: 'abcd',
-  maxZoom: 19
-}).addTo(map);
-
-const markerLayer = L.layerGroup().addTo(map);
+let map = null;
+let infoWindow = null;
 
 /* ─── THE CHAIR PIN ───────────────────────────────────────── */
+const PIN_SVG =
+  '<svg width="36" height="44" viewBox="0 0 36 44" xmlns="http://www.w3.org/2000/svg">' +
+  '<polygon points="11,2 25,2 34,11 34,25 25,34 11,34 2,25 2,11" fill="#2C4A38" stroke="#F8F5EF" stroke-width="2"/>' +
+  '<path d="M18 33 L18 42" stroke="#2C4A38" stroke-width="2.4" stroke-linecap="round"/>' +
+  '<g fill="#F8F5EF">' +
+  '<path d="M12.2 8.4 Q 15.8 7.6 16.4 9.6 L 17.2 20.2 L 14.0 20.6 Z"/>' +
+  '<polygon points="13.6,19.8 25.6,19.0 26.0,21.9 14.0,22.7"/>' +
+  '<polygon points="23.9,21.8 25.7,21.6 26.8,29.2 25.0,29.4"/>' +
+  '<polygon points="14.4,22.3 16.1,22.1 13.4,29.4 11.7,29.2"/>' +
+  '</g></svg>';
+
 function chaiseIcon() {
-  const svg = `
-<svg width="36" height="44" viewBox="0 0 36 44" xmlns="http://www.w3.org/2000/svg">
-  <polygon points="11,2 25,2 34,11 34,25 25,34 11,34 2,25 2,11"
-           fill="#2C4A38" stroke="#F8F5EF" stroke-width="2"/>
-  <path d="M18 33 L18 42" stroke="#2C4A38" stroke-width="2.4" stroke-linecap="round"/>
-  <g fill="#F8F5EF">
-    <path d="M12.2 8.4 Q 15.8 7.6 16.4 9.6 L 17.2 20.2 L 14.0 20.6 Z"/>
-    <polygon points="13.6,19.8 25.6,19.0 26.0,21.9 14.0,22.7"/>
-    <polygon points="23.9,21.8 25.7,21.6 26.8,29.2 25.0,29.4"/>
-    <polygon points="14.4,22.3 16.1,22.1 13.4,29.4 11.7,29.2"/>
-  </g>
-</svg>`;
-  return L.divIcon({
-    html: svg,
-    className: 'chaise-pin',
-    iconSize: [36, 44],
-    iconAnchor: [18, 42],
-    popupAnchor: [0, -38]
-  });
+  return {
+    url: 'data:image/svg+xml;charset=UTF-8,' + encodeURIComponent(PIN_SVG),
+    scaledSize: new google.maps.Size(36, 44),
+    anchor: new google.maps.Point(18, 42)
+  };
 }
 
 /* ─── HELPERS ─────────────────────────────────────────────── */
@@ -487,7 +487,7 @@ function show(id) {
 let markers = [];
 
 function render(rows) {
-  markerLayer.clearLayers();
+  markers.forEach(m => m.setMap(null));
   markers = [];
 
   const good = rows
@@ -497,15 +497,29 @@ function render(rows) {
   if (!good.length) { show('ov-empty'); paintCounts([]); paintList([]); return; }
   show('');
 
+  const bounds = new google.maps.LatLngBounds();
+
   good.forEach(r => {
-    const m = L.marker([r.lat, r.lon], { icon: chaiseIcon(), riseOnHover: true })
-      .bindPopup(popupHtml(r))
-      .addTo(markerLayer);
+    const m = new google.maps.Marker({
+      position: { lat: r.lat, lng: r.lon },
+      map: map,
+      icon: chaiseIcon(),
+      title: r.place || 'A chaise'
+    });
+    m.addListener('click', () => {
+      infoWindow.setContent(popupHtml(r));
+      infoWindow.open({ anchor: m, map });
+    });
     r._marker = m;
     markers.push(m);
+    bounds.extend(m.getPosition());
   });
 
-  map.fitBounds(L.latLngBounds(good.map(r => [r.lat, r.lon])).pad(0.25), { maxZoom: 14 });
+  map.fitBounds(bounds, 60);
+  // One sighting would otherwise zoom to street level; cap it once settled.
+  google.maps.event.addListenerOnce(map, 'idle', () => {
+    if (map.getZoom() > 14) map.setZoom(14);
+  });
 
   const newestFirst = good.slice().reverse();
   paintCounts(good);
@@ -547,8 +561,12 @@ function paintList(rows) {
                    <div class="s-where">${esc(r.place || 'Somewhere')}</div>
                    ${r.note ? `<div class="s-note">“${esc(r.note)}”</div>` : ''}`;
     b.addEventListener('click', () => {
-      map.flyTo([r.lat, r.lon], 15, { duration: 0.9 });
-      if (r._marker) setTimeout(() => r._marker.openPopup(), 950);
+      map.panTo({ lat: r.lat, lng: r.lon });
+      map.setZoom(15);
+      if (r._marker) {
+        infoWindow.setContent(popupHtml(r));
+        infoWindow.open({ anchor: r._marker, map });
+      }
     });
     box.appendChild(b);
   });
@@ -608,8 +626,61 @@ function stampTime() {
     'Updated ' + new Date().toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' });
 }
 
-load(true);
-setInterval(() => load(false), REFRESH_MS);
+/* ─── BOOTSTRAP ───────────────────────────────────────────── */
+/* Google's script loads asynchronously, so nothing can touch `google.maps`
+   until it calls back. Everything starts from initChaiseMap(). */
+function initChaiseMap() {
+  map = new google.maps.Map(document.getElementById('map'), {
+    center: PARIS,
+    zoom: 12,
+    styles: MAP_STYLE,
+    mapTypeControl: false,
+    streetViewControl: false,
+    fullscreenControl: false,
+    zoomControl: true,
+    // 'cooperative' means a plain scroll passes through to the page and the
+    // map only zooms on ctrl/⌘+scroll or a two-finger drag. It is the same
+    // courtesy the Leaflet version had, and it behaves properly on phones.
+    gestureHandling: 'cooperative',
+    backgroundColor: '#F2EEE4'
+  });
+
+  infoWindow = new google.maps.InfoWindow({ maxWidth: 248 });
+
+  load(true);
+  setInterval(() => load(false), REFRESH_MS);
+}
+
+/* Google calls this itself when the key is missing, unrestricted-and-blocked,
+   or the project has no billing. Without it the page just greys out. */
+window.gm_authFailure = function () {
+  show('ov-error');
+  const box = document.querySelector('#ov-error .box');
+  if (box) {
+    box.querySelector('p').textContent = 'The map could not load.';
+    box.querySelector('small').textContent =
+      'Google refused the map key for this site. Check the key restrictions and that billing is linked.';
+  }
+};
+
+(function loadGoogleMaps() {
+  if (!GOOGLE_MAPS_KEY) {
+    show('ov-error');
+    const box = document.querySelector('#ov-error .box');
+    if (box) {
+      box.querySelector('p').textContent = 'The map is not configured yet.';
+      box.querySelector('small').textContent =
+        'No Google Maps key has been set on this page.';
+    }
+    return;
+  }
+  const s = document.createElement('script');
+  s.src = 'https://maps.googleapis.com/maps/api/js?key=' +
+          encodeURIComponent(GOOGLE_MAPS_KEY) + '&callback=initChaiseMap&loading=async';
+  s.async = true;
+  s.onerror = () => show('ov-error');
+  document.head.appendChild(s);
+})();
 </script>
 
 </body>
