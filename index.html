@@ -180,8 +180,11 @@ nav.scrolled { padding: 0.65rem 3rem; box-shadow: 0 2px 24px rgba(0,0,0,0.05); }
   margin-top: 0.9rem; font-size: 0.75rem; color: rgba(233,226,211,0.55); font-style: italic;
 }
 .works-grid {
-  display: grid; grid-template-columns: 1fr 1fr; gap: 2.5rem;
+  display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 2.5rem;
   margin-top: 2.5rem; margin-bottom: 3.5rem; align-items: center;
+}
+@media (max-width: 960px) {
+  .works-grid { grid-template-columns: 1fr 1fr; }
 }
 .works-grid figure { margin: 0; display: flex; flex-direction: column; align-items: center; }
 .works-grid img {
@@ -663,6 +666,10 @@ footer .f-copy { margin-top: 2rem; font-size: 0.7rem; color: rgba(248,245,239,0.
       <figure>
         <img src="img/work-charlotte.jpg" alt="A large painting in progress: figures seated on green garden chairs, with an inset landscape framed in pink tape." loading="lazy">
         <figcaption><strong>Charlotte Tampol</strong> — oil on canvas, in progress</figcaption>
+      </figure>
+      <figure>
+        <img src="img/work-jessica.jpg" alt="A synaesthesia drawing on cream paper: a slender vertical figure of interlocking shapes in violet, green, orange and black, a stack of violet clouds rising from a white curve, and a black tassel hanging from a thread." loading="lazy">
+        <figcaption><strong>Jessica Anne Schwartz</strong> — from <em>Synesthesia Drawings of Luxembourg Gardens</em>, 2023</figcaption>
       </figure>
     </div>
     <div class="team-grid">
