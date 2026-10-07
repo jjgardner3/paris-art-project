@@ -725,11 +725,12 @@ geoBtn.addEventListener('click', () => {
 // Last resort on submit: if we still have no coordinates, try to look up
 // whatever they typed. Free text often misses, so it is a backstop only —
 // a miss just means the sighting lands in the sheet without a pin.
-// Searched Paris-first: an unscoped search takes the world's top match, so
-// a bare street or café name ("Jardin", "Rue Cassette", "Les Deux Magots")
-// can land anywhere — that is how a sighting once pinned itself in Poland.
-// Only if Greater Paris and then France both miss do we search worldwide,
-// which still lets a chaise that really travelled ("Kraków") find its pin.
+// Searched in Greater Paris, then France — never worldwide. An unscoped
+// search takes the world's top match, so a café name typed on its own lands
+// anywhere: on 7 Oct 2026 "Judy" (a coffee shop in the 6e) pinned itself in
+// southern Poland. A chaise that really travels abroad gets its pin from
+// "Use my current location"; typed-only, it reaches the sheet without one
+// and can be pinned by hand.
 const PARIS_VIEWBOX = '1.90,49.10,2.85,48.60'; // lon1,lat1,lon2,lat2 — Greater Paris
 async function nominatim(q, extra) {
   try {
@@ -745,8 +746,7 @@ async function nominatim(q, extra) {
 }
 async function geocodeText(q) {
   return (await nominatim(q, '&viewbox=' + PARIS_VIEWBOX + '&bounded=1')) ||
-         (await nominatim(q, '&countrycodes=fr')) ||
-         (await nominatim(q, ''));
+         (await nominatim(q, '&countrycodes=fr'));
 }
 
 // ─── FORM SUBMIT ───────────────────────────────────────────
