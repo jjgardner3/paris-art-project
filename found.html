@@ -140,23 +140,41 @@ textarea { min-height: 90px; resize: vertical; }
   margin-top: 0.3rem; min-height: 1.1em;
 }
 
-/* ─── LOCATION ROW ─── */
-.loc-head {
-  display: flex; align-items: baseline; justify-content: space-between;
-  gap: 1rem; margin-bottom: 0.45rem;
-}
-.loc-head label { margin-bottom: 0; }
+/* ─── LOCATION ─── */
+/* The device-location button is the reliable path (photo GPS is usually
+   stripped), so it leads the form as a full-width primary action. */
 .geo-btn {
-  flex: none;
-  background: none; border: none; padding: 0;
+  width: 100%;
+  display: flex; align-items: center; justify-content: center; gap: 0.6rem;
+  background: var(--dark-green); color: var(--cream);
+  border: none; border-radius: 6px;
+  padding: 1rem 1.5rem;
   font-family: 'DM Sans', sans-serif;
-  font-size: 0.68rem; letter-spacing: 0.1em; text-transform: uppercase;
-  font-weight: 500; color: var(--green); cursor: pointer;
-  border-bottom: 1px solid rgba(74,124,89,0.4); padding-bottom: 1px;
-  transition: color 0.2s, border-color 0.2s;
+  font-size: 0.82rem; letter-spacing: 0.14em; text-transform: uppercase;
+  font-weight: 500; cursor: pointer;
+  transition: background 0.2s, transform 0.15s;
 }
-.geo-btn:hover { color: var(--dark-green); border-bottom-color: var(--dark-green); }
-.geo-btn:disabled { opacity: 0.5; cursor: default; }
+.geo-btn svg { width: 18px; height: 18px; flex: none; }
+.geo-btn:hover { background: var(--green); }
+.geo-btn:active { transform: scale(0.98); }
+.geo-btn:disabled { opacity: 0.6; cursor: default; transform: none; }
+.geo-btn.done {
+  background: var(--green-pale); color: var(--dark-green);
+  box-shadow: inset 0 0 0 1.5px rgba(74,124,89,0.35);
+}
+.geo-hint {
+  font-size: 0.78rem; color: var(--slate); text-align: center;
+  margin-top: 0.5rem; line-height: 1.4;
+}
+.or-type {
+  display: flex; align-items: center; gap: 0.8rem;
+  font-size: 0.68rem; letter-spacing: 0.12em; text-transform: uppercase;
+  color: rgba(92,107,115,0.7); margin: 1.1rem 0 0.7rem;
+}
+.or-type::before, .or-type::after {
+  content: ''; flex: 1; height: 1px; background: rgba(74,124,89,0.2);
+}
+.bot-field { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
 
 /* ─── PHOTO UPLOAD ─── */
 .photo-area {
@@ -405,12 +423,27 @@ footer {
 
   <!-- ─── FORM ─── -->
   <div class="section-title">Where are you?</div>
-  <p class="section-sub">Take a photo, or tell us where you are.</p>
+  <p class="section-sub">Drop a pin where you found it — it puts this chaise on the map.</p>
 
-  <form name="found-chair" method="POST" enctype="multipart/form-data" data-netlify="true" id="found-form">
+  <form name="found-chair" method="POST" enctype="multipart/form-data" data-netlify="true" netlify-honeypot="bot-field" id="found-form">
     <input type="hidden" name="form-name" value="found-chair" />
     <input type="hidden" name="gps_lat" id="gps_lat" />
     <input type="hidden" name="gps_lon" id="gps_lon" />
+    <input type="hidden" name="location_source" id="location_source" />
+    <input type="hidden" name="photo_taken" id="photo_taken" />
+    <p class="bot-field"><label>Leave this empty <input name="bot-field" tabindex="-1" autocomplete="off" /></label></p>
+
+    <!-- Location: device first, typing as the fallback -->
+    <div class="form-group">
+      <button type="button" class="geo-btn" id="geo-btn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>
+        <span id="geo-btn-label">Use my current location</span>
+      </button>
+      <p class="geo-hint" id="geo-status">Your phone will ask permission — we only use it to place the pin.</p>
+      <div class="or-type">or type it</div>
+      <label for="location" class="visually-hidden" style="position:absolute;left:-9999px;">Location</label>
+      <input type="text" id="location" name="location" placeholder="e.g. Rue de Rivoli, near the Tuileries" />
+    </div>
 
     <!-- Photo -->
     <div class="form-group">
@@ -422,7 +455,7 @@ footer {
             <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
             <circle cx="12" cy="13" r="4"/>
           </svg>
-          <span><strong>Tap to take a photo</strong>We'll read the location from it if available</span>
+          <span><strong>Add a photo</strong>Of the chaise, where you found it</span>
         </div>
         <div class="photo-preview" id="photo-preview">
           <img id="preview-img" alt="Your photo" />
@@ -430,16 +463,6 @@ footer {
         </div>
       </div>
       <p class="char-hint" id="exif-status"></p>
-    </div>
-
-    <!-- Location -->
-    <div class="form-group">
-      <div class="loc-head">
-        <label for="location">Location</label>
-        <button type="button" class="geo-btn" id="geo-btn">Use my location</button>
-      </div>
-      <input type="text" id="location" name="location" placeholder="e.g. Rue de Rivoli, near the Tuileries" />
-      <p class="char-hint" id="geo-status"></p>
     </div>
 
     <!-- Note -->
@@ -541,6 +564,31 @@ async function reverseGeocode(lat, lon) {
   }
 }
 
+// ─── LOCATION SOURCE ───────────────────────────────────────
+// Recorded with each sighting so an odd pin explains itself:
+// device > photo > typed (geocoded) > typed (no pin).
+const SOURCE_RANK = { device: 3, photo: 2, typed: 1, '': 0 };
+function currentSource() { return document.getElementById('location_source').value; }
+function setCoords(lat, lon, source) {
+  document.getElementById('gps_lat').value = lat.toFixed(6);
+  document.getElementById('gps_lon').value = lon.toFixed(6);
+  document.getElementById('location_source').value = source;
+}
+function clearCoords() {
+  document.getElementById('gps_lat').value = '';
+  document.getElementById('gps_lon').value = '';
+  document.getElementById('location_source').value = '';
+}
+
+// A photo picked from the camera roll carries wherever it was taken —
+// a holiday in Kraków, say. Only trust its GPS if it was taken recently.
+const PHOTO_MAX_AGE_HOURS = 48;
+function exifDate(s) {
+  // EXIF format: "YYYY:MM:DD HH:MM:SS"
+  const m = s && String(s).match(/^(\d{4}):(\d{2}):(\d{2}) (\d{2}):(\d{2}):(\d{2})/);
+  return m ? new Date(+m[1], m[2] - 1, +m[3], +m[4], +m[5], +m[6]) : null;
+}
+
 // ─── EXIF EXTRACTION ───────────────────────────────────────
 async function extractExif(file) {
   return new Promise((resolve) => {
@@ -549,13 +597,14 @@ async function extractExif(file) {
       const lonDMS  = EXIF.getTag(this, 'GPSLongitude');
       const latRef  = EXIF.getTag(this, 'GPSLatitudeRef');
       const lonRef  = EXIF.getTag(this, 'GPSLongitudeRef');
+      const taken   = exifDate(EXIF.getTag(this, 'DateTimeOriginal') || EXIF.getTag(this, 'DateTime'));
 
       if (latDMS && lonDMS) {
         const lat = dmsToDecimal(latDMS, latRef);
         const lon = dmsToDecimal(lonDMS, lonRef);
-        resolve({ lat, lon });
+        resolve({ lat, lon, taken });
       } else {
-        resolve(null);
+        resolve(taken ? { taken } : null);
       }
     });
   });
@@ -582,10 +631,17 @@ photoInput.addEventListener('change', async () => {
   // Extract EXIF
   setExifStatus('Reading photo location…', false);
   const coords = await extractExif(file);
+  const taken = coords && coords.taken;
+  document.getElementById('photo_taken').value = taken ? taken.toISOString() : '';
+  const ageHours = taken ? (Date.now() - taken.getTime()) / 36e5 : null;
 
-  if (coords && coords.lat && coords.lon) {
-    document.getElementById('gps_lat').value = coords.lat.toFixed(6);
-    document.getElementById('gps_lon').value = coords.lon.toFixed(6);
+  if (SOURCE_RANK[currentSource()] >= SOURCE_RANK.device) {
+    // Device location already set — it beats anything in the photo.
+    setExifStatus('', false);
+  } else if (coords && coords.lat && coords.lon && ageHours !== null && ageHours > PHOTO_MAX_AGE_HOURS) {
+    setExifStatus('This photo was taken a while ago, so we won\u2019t use its location. Tap \u201CUse my current location\u201D above instead.', false);
+  } else if (coords && coords.lat && coords.lon) {
+    setCoords(coords.lat, coords.lon, 'photo');
 
     // Try to reverse geocode
     const address = await reverseGeocode(coords.lat, coords.lon);
@@ -599,7 +655,7 @@ photoInput.addEventListener('change', async () => {
       setExifStatus(`GPS found: ${coords.lat.toFixed(5)}, ${coords.lon.toFixed(5)}`, true);
     }
   } else {
-    setExifStatus('No location in this photo — tap \u201CUse my location\u201D below, or just type where you are.', false);
+    setExifStatus('No location in this photo \u2014 tap \u201CUse my current location\u201D above, or type where you are.', false);
   }
 });
 
@@ -609,8 +665,8 @@ removeBtn.addEventListener('click', (e) => {
   previewImg.src = '';
   photoPlaceholder.style.display = 'flex';
   photoPreview.style.display = 'none';
-  document.getElementById('gps_lat').value = '';
-  document.getElementById('gps_lon').value = '';
+  document.getElementById('photo_taken').value = '';
+  if (currentSource() === 'photo') clearCoords();
   setExifStatus('', false);
 });
 
@@ -621,10 +677,11 @@ removeBtn.addEventListener('click', (e) => {
 // path, not the fallback.
 const geoBtn = document.getElementById('geo-btn');
 
+const geoLabel = document.getElementById('geo-btn-label');
 function setGeoStatus(msg, found) {
   const el = document.getElementById('geo-status');
   el.textContent = msg;
-  el.className = found ? 'char-hint exif-found' : 'char-hint';
+  el.className = found ? 'geo-hint exif-found' : 'geo-hint';
 }
 
 geoBtn.addEventListener('click', () => {
@@ -633,12 +690,14 @@ geoBtn.addEventListener('click', () => {
     return;
   }
   geoBtn.disabled = true;
+  geoLabel.textContent = 'Finding you\u2026';
   setGeoStatus('Asking your device\u2026', false);
 
   navigator.geolocation.getCurrentPosition(async pos => {
     const lat = pos.coords.latitude, lon = pos.coords.longitude;
-    document.getElementById('gps_lat').value = lat.toFixed(6);
-    document.getElementById('gps_lon').value = lon.toFixed(6);
+    // Replace text a photo filled in; never replace what the person typed.
+    if (currentSource() === 'photo') locationField.value = '';
+    setCoords(lat, lon, 'device');
 
     const address = await reverseGeocode(lat, lon);
     if (address) {
@@ -651,9 +710,11 @@ geoBtn.addEventListener('click', () => {
       setGeoStatus('Location set: ' + lat.toFixed(5) + ', ' + lon.toFixed(5), true);
     }
     geoBtn.disabled = false;
-    geoBtn.textContent = 'Update my location';
+    geoBtn.classList.add('done');
+    geoLabel.textContent = 'Location set \u2713';
   }, err => {
     geoBtn.disabled = false;
+    geoLabel.textContent = 'Use my current location';
     setGeoStatus(err.code === 1
       ? 'Location permission declined — type where you are instead.'
       : 'Could not get a location — type where you are instead.', false);
@@ -664,17 +725,28 @@ geoBtn.addEventListener('click', () => {
 // Last resort on submit: if we still have no coordinates, try to look up
 // whatever they typed. Free text often misses, so it is a backstop only —
 // a miss just means the sighting lands in the sheet without a pin.
-async function geocodeText(q) {
+// Searched Paris-first: an unscoped search takes the world's top match, so
+// a bare street or café name ("Jardin", "Rue Cassette", "Les Deux Magots")
+// can land anywhere — that is how a sighting once pinned itself in Poland.
+// Only if Greater Paris and then France both miss do we search worldwide,
+// which still lets a chaise that really travelled ("Kraków") find its pin.
+const PARIS_VIEWBOX = '1.90,49.10,2.85,48.60'; // lon1,lat1,lon2,lat2 — Greater Paris
+async function nominatim(q, extra) {
   try {
     const res = await fetch(
-      'https://nominatim.openstreetmap.org/search?format=json&limit=1&q=' +
-      encodeURIComponent(q), { headers: { 'Accept-Language': 'fr,en' } }
+      'https://nominatim.openstreetmap.org/search?format=json&limit=1' + extra +
+      '&q=' + encodeURIComponent(q), { headers: { 'Accept-Language': 'fr,en' } }
     );
     const d = await res.json();
     if (!d || !d.length) return null;
     const lat = parseFloat(d[0].lat), lon = parseFloat(d[0].lon);
     return isFinite(lat) && isFinite(lon) ? { lat, lon } : null;
   } catch { return null; }
+}
+async function geocodeText(q) {
+  return (await nominatim(q, '&viewbox=' + PARIS_VIEWBOX + '&bounded=1')) ||
+         (await nominatim(q, '&countrycodes=fr')) ||
+         (await nominatim(q, ''));
 }
 
 // ─── FORM SUBMIT ───────────────────────────────────────────
@@ -692,12 +764,12 @@ form.addEventListener('submit', async (e) => {
   if (!latField.value && locationField.value.trim()) {
     const hit = await Promise.race([
       geocodeText(locationField.value.trim()),
-      new Promise(r => setTimeout(() => r(null), 5000))
+      new Promise(r => setTimeout(() => r(null), 7000))
     ]);
-    if (hit) {
-      latField.value = hit.lat.toFixed(6);
-      document.getElementById('gps_lon').value = hit.lon.toFixed(6);
-    }
+    if (hit) setCoords(hit.lat, hit.lon, 'typed');
+  }
+  if (!currentSource() && locationField.value.trim()) {
+    document.getElementById('location_source').value = 'typed-no-pin';
   }
 
   try {
