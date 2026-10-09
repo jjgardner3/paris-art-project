@@ -141,7 +141,7 @@ h1 em { font-style: italic; color: var(--gold); }
   width: 100%;
   background: #E9E4DA;
 }
-@media (max-width: 880px) { #map { height: 460px; } }
+@media (max-width: 880px) { #map { height: 520px; } }
 
 /* The basemap is recoloured by the `styles` array in the script below, not
    by a CSS filter — Google gives us the palette natively. */
@@ -191,6 +191,54 @@ h1 em { font-style: italic; color: var(--gold); }
 .pop-who {
   font-size: 0.68rem; letter-spacing: 0.06em;
   color: rgba(92,107,115,0.75); margin-top: 0.5rem;
+}
+
+/* ─── DETAIL CARD ─── */
+/* Our own card, not Google's InfoWindow. The InfoWindow sizes itself to the
+   map space above the pin and clips whatever doesn't fit — on a phone that
+   cut off the photo, most of the note and the finder's name (Allard, 8 Oct).
+   This card lives in the map frame, scrolls if it has to, and never clips. */
+.detail {
+  position: absolute; z-index: 400;
+  top: 12px; left: 12px;
+  width: 300px; max-height: calc(100% - 24px);
+  overflow-y: auto; -webkit-overflow-scrolling: touch;
+  background: var(--cream);
+  border-radius: 10px;
+  box-shadow: 0 8px 28px rgba(44,74,56,0.22);
+}
+.detail[hidden] { display: none; }
+.detail .pop img {
+  width: 100%; height: auto; max-height: 280px;
+  object-fit: cover; border-radius: 10px 10px 0 0;
+}
+.detail .pop-note { font-size: 0.88rem; }
+.detail .pop-who {
+  font-size: 0.74rem; color: var(--slate);
+  margin-top: 0.7rem;
+}
+.detail-close {
+  position: sticky; top: 0; float: right;
+  margin: 8px 8px -36px 0;
+  width: 30px; height: 30px; border-radius: 50%;
+  border: none; cursor: pointer;
+  background: rgba(44,74,56,0.82); color: var(--cream);
+  font-size: 1.1rem; line-height: 1;
+  display: flex; align-items: center; justify-content: center;
+  z-index: 1;
+}
+@media (max-width: 880px) {
+  /* Bottom sheet on phones: full width, up to ~70% of the map. */
+  .detail {
+    top: auto; left: 0; right: 0; bottom: 0;
+    width: auto; max-height: 88%;
+    border-radius: 12px 12px 0 0;
+  }
+  .detail .pop img { max-height: 150px; border-radius: 12px 12px 0 0; }
+}
+.sighting .s-who {
+  font-size: 0.68rem; letter-spacing: 0.04em;
+  color: rgba(92,107,115,0.8); margin-top: 0.25rem;
 }
 
 /* ─── SIDEBAR ─── */
@@ -328,6 +376,11 @@ footer {
 
   <div class="map-frame">
     <div id="map"></div>
+
+    <div class="detail" id="detail" hidden>
+      <button type="button" class="detail-close" id="detail-close" aria-label="Close">&times;</button>
+      <div id="detail-body"></div>
+    </div>
 
     <div class="overlay" id="ov-loading">
       <div class="box">
@@ -475,7 +528,7 @@ function fmtDate(iso) {
 function popupHtml(s) {
   const photo = s.photo ? `<img src="${esc(s.photo)}" alt="" loading="lazy">` : '';
   const note  = s.note  ? `<div class="pop-note">“${esc(s.note)}”</div>` : '';
-  const who   = s.who   ? `<div class="pop-who">— ${esc(s.who)}</div>` : '';
+  const who   = `<div class="pop-who">Found by ${esc(s.who || 'someone anonymous')}</div>`;
   return `<div class="pop">${photo}<div class="pop-body">
       <div class="pop-when">${esc(fmtDate(s.when))}</div>
       <div class="pop-where">${esc(s.place || 'Somewhere')}</div>
@@ -487,6 +540,25 @@ function show(id) {
   ['ov-loading', 'ov-empty', 'ov-error'].forEach(o => {
     document.getElementById(o).hidden = (o !== id);
   });
+}
+
+/* ─── DETAIL CARD ─────────────────────────────────────────── */
+const detailEl = document.getElementById('detail');
+document.getElementById('detail-close').addEventListener('click', closeDetail);
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeDetail(); });
+
+function closeDetail() { detailEl.hidden = true; }
+
+function openDetail(r) {
+  document.getElementById('detail-body').innerHTML = popupHtml(r);
+  detailEl.hidden = false;
+  detailEl.scrollTop = 0;
+  if (!map) return;
+  // Keep the pin visible beside/above the card rather than under it.
+  map.panTo({ lat: r.lat, lng: r.lon });
+  const phone = window.matchMedia('(max-width: 880px)').matches;
+  if (phone) map.panBy(0, Math.round(detailEl.offsetHeight / 2));
+  else       map.panBy(-Math.round((detailEl.offsetWidth + 12) / 2), 0);
 }
 
 /* ─── RENDER ──────────────────────────────────────────────── */
@@ -512,10 +584,7 @@ function render(rows) {
       icon: chaiseIcon(),
       title: r.place || 'A chaise'
     });
-    m.addListener('click', () => {
-      infoWindow.setContent(popupHtml(r));
-      infoWindow.open({ anchor: m, map });
-    });
+    m.addListener('click', () => openDetail(r));
     r._marker = m;
     markers.push(m);
     bounds.extend(m.getPosition());
@@ -565,14 +634,12 @@ function paintList(rows) {
     b.className = 'sighting';
     b.innerHTML = `<div class="s-when">${esc(fmtDate(r.when))}</div>
                    <div class="s-where">${esc(r.place || 'Somewhere')}</div>
-                   ${r.note ? `<div class="s-note">“${esc(r.note)}”</div>` : ''}`;
+                   ${r.note ? `<div class="s-note">“${esc(r.note)}”</div>` : ''}
+                   ${r.who ? `<div class="s-who">— ${esc(r.who)}</div>` : ''}`;
     b.addEventListener('click', () => {
       map.panTo({ lat: r.lat, lng: r.lon });
       map.setZoom(15);
-      if (r._marker) {
-        infoWindow.setContent(popupHtml(r));
-        infoWindow.open({ anchor: r._marker, map });
-      }
+      openDetail(r);
     });
     box.appendChild(b);
   });
@@ -689,7 +756,8 @@ function initChaiseMap() {
     backgroundColor: '#EAE3D3'
   });
 
-  infoWindow = new google.maps.InfoWindow({ maxWidth: 248 });
+  // A click on empty map closes the card.
+  map.addListener('click', closeDetail);
 
   const cached = pendingFeed || cacheRead();
   if (cached) paint(cached);
