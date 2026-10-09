@@ -209,8 +209,10 @@ h1 em { font-style: italic; color: var(--gold); }
 }
 .detail[hidden] { display: none; }
 .detail .pop img {
-  width: 100%; height: auto; max-height: 280px;
-  object-fit: cover; border-radius: 10px 10px 0 0;
+  /* Whole photo, never cropped: scaled down to fit, letterboxed if needed. */
+  width: 100%; height: auto; max-height: 360px;
+  object-fit: contain; background: #E3DCCB;
+  border-radius: 10px 10px 0 0;
 }
 .detail .pop-note { font-size: 0.88rem; }
 .detail .pop-who {
@@ -234,7 +236,7 @@ h1 em { font-style: italic; color: var(--gold); }
     width: auto; max-height: 88%;
     border-radius: 12px 12px 0 0;
   }
-  .detail .pop img { max-height: 150px; border-radius: 12px 12px 0 0; }
+  .detail .pop img { max-height: 260px; border-radius: 12px 12px 0 0; }
 }
 .sighting .s-who {
   font-size: 0.68rem; letter-spacing: 0.04em;
