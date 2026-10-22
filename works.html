@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="The works of C.H.A.I.S.E.S. — sculpture, painting, drawing and sound by six artists, with prices and enquiries. New to the Wall Foundation, Paris 2026.">
+<link rel="canonical" href="https://lachaiseparisienne.com/works.html">
+<meta property="og:type" content="website"><meta property="og:site_name" content="C.H.A.I.S.E.S.">
+<meta property="og:url" content="https://lachaiseparisienne.com/works.html">
+<meta property="og:title" content="The works — C.H.A.I.S.E.S."><meta property="og:description" content="Forty works by six artists, with prices and enquiries. Download the exhibition handout.">
+<meta property="og:image" content="https://lachaiseparisienne.com/img/og-cover.jpg">
+<meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<title>The works — C.H.A.I.S.E.S.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300;1,9..40,400&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+:root {
+  --green: #4A7C59; --green-light: #7FAF8A; --green-pale: #D4E8DA; --cream: #F8F5EF;
+  --charcoal: #2A2A2A; --slate: #5C6B73; --gold: #9A7748; --dark-green: #2C4A38;
+  --white: #FFFFFF; --ink: #1C1A17; --kraft: #B8956A; --bone: #E9E2D3;
+}
+html { scroll-behavior: smooth; font-size: 16px; }
+body { font-family: 'DM Sans', sans-serif; color: var(--charcoal); background: var(--cream); line-height: 1.6; overflow-x: hidden; }
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 1.1rem 3rem;
+  display: flex; justify-content: space-between; align-items: center;
+  background: rgba(248,245,239,0.9); backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px);
+  border-bottom: 1px solid rgba(74,124,89,0.07); transition: all 0.4s;
+}
+nav.scrolled { padding: 0.65rem 3rem; box-shadow: 0 2px 24px rgba(0,0,0,0.05); }
+.logo { font-family: 'Instrument Serif', serif; font-size: 1.35rem; color: var(--dark-green); letter-spacing: 0.03em; text-decoration: none; }
+.nav-links { display: flex; gap: 1.8rem; list-style: none; }
+.nav-links a { text-decoration: none; color: var(--slate); font-size: 0.7rem; letter-spacing: 0.14em; text-transform: uppercase; font-weight: 500; transition: color 0.3s; }
+.nav-links a:hover, .nav-links a.active { color: var(--green); }
+footer { background: var(--ink); color: rgba(233,226,211,0.5); padding: 3rem 2rem; text-align: center; }
+footer .f-title { font-family: 'Instrument Serif', serif; font-size: 1.5rem; color: var(--cream); margin-bottom: 0.4rem; }
+footer .f-sub { font-size: 0.85rem; color: rgba(248,245,239,0.5); margin-bottom: 1rem; }
+footer .f-copy { font-size: 0.68rem; color: rgba(248,245,239,0.25); }
+
+.ph { padding: 9rem 3rem 2.5rem; text-align: center; }
+.page-label { font-size: .65rem; letter-spacing: .35em; text-transform: uppercase; color: var(--gold); font-weight: 500; margin-bottom: 1rem; }
+.page-title { font-family: 'Instrument Serif', serif; font-size: clamp(2.4rem,5vw,3.8rem); font-weight: 400; color: var(--dark-green); line-height: 1.1; margin-bottom: 1.2rem; }
+.page-intro { max-width: 640px; margin: 0 auto; color: var(--slate); font-size: 1.05rem; line-height: 1.8; }
+.actions { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; margin-top: 2rem; }
+.btn { display: inline-block; padding: .75rem 1.7rem; background: var(--gold); color: #fff; font-size: .72rem; letter-spacing: .14em; text-transform: uppercase; text-decoration: none; border-radius: 4px; font-weight: 500; border: 1px solid var(--gold); transition: all .2s; }
+.btn:hover { background: var(--dark-green); border-color: var(--dark-green); }
+.btn.ghost { background: none; color: var(--gold); }
+.btn.ghost:hover { background: var(--gold); color: #fff; }
+.jump { display: flex; gap: .4rem 1.4rem; justify-content: center; flex-wrap: wrap; margin-top: 2.4rem; padding-top: 1.4rem; border-top: 1px solid rgba(184,149,106,.35); max-width: 820px; margin-left: auto; margin-right: auto; }
+.jump a { font-size: .7rem; letter-spacing: .14em; text-transform: uppercase; color: var(--slate); text-decoration: none; font-weight: 500; }
+.jump a:hover { color: var(--green); }
+
+.wrap { max-width: 1120px; margin: 0 auto; padding: 0 3rem 5rem; }
+.artist { padding-top: 3.2rem; scroll-margin-top: 4.5rem; }
+.artist h2 { font-family: 'Instrument Serif', serif; font-weight: 400; font-size: 1.9rem; color: var(--dark-green); padding-top: 1.4rem; border-top: 1px solid var(--ink); }
+.ab { color: var(--slate); line-height: 1.8; margin: .6rem 0 1.8rem; max-width: 70ch; font-size: .95rem; }
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 2.2rem 2rem; }
+.w { display: grid; grid-template-columns: 132px 1fr; gap: 1.1rem; align-items: start; scroll-margin-top: 5rem; }
+.wi { background: var(--bone); border-radius: 3px; aspect-ratio: 4 / 5; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+.wi img { max-width: 100%; max-height: 100%; display: block; }
+.wn { font-size: .68rem; color: var(--gold); font-weight: 500; letter-spacing: .1em; }
+.w h3 { font-family: 'Instrument Serif', serif; font-weight: 400; font-size: 1.12rem; line-height: 1.3; color: var(--ink); margin: .1rem 0 .2rem; }
+.ws { font-family: 'Instrument Serif', serif; font-style: italic; font-size: .92rem; color: var(--slate); margin-bottom: .3rem; line-height: 1.35; }
+.wm { font-size: .78rem; color: var(--charcoal); line-height: 1.55; }
+.wd { font-size: .78rem; color: var(--slate); line-height: 1.55; margin-top: .35rem; }
+.wp { font-size: .85rem; font-weight: 500; color: var(--ink); margin-top: .5rem; }
+.we { display: inline-block; margin-top: .45rem; font-size: .68rem; letter-spacing: .14em; text-transform: uppercase; color: var(--green); text-decoration: none; font-weight: 500; }
+.we:hover { color: var(--dark-green); text-decoration: underline; }
+
+.enq { margin-top: 4rem; padding: 2rem 2.2rem; background: var(--ink); color: var(--bone); border-radius: 4px; display: flex; justify-content: space-between; align-items: center; gap: 2rem; flex-wrap: wrap; }
+.enq h2 { font-family: 'Instrument Serif', serif; font-weight: 400; font-size: 1.5rem; color: var(--kraft); margin-bottom: .4rem; }
+.enq p { font-size: .88rem; line-height: 1.7; color: rgba(233,226,211,.75); max-width: 60ch; }
+.enq a { color: var(--bone); }
+.enq .btn { flex: none; background: none; border-color: rgba(184,149,106,.6); color: var(--kraft); }
+.enq .btn:hover { background: var(--kraft); color: var(--ink); }
+
+@media (max-width: 768px) {
+  nav { padding: 0.9rem 1.2rem; } nav.scrolled { padding: 0.6rem 1.2rem; } .nav-links { display: none; }
+  .ph { padding: 7.5rem 1.2rem 2rem; } .wrap { padding: 0 1.2rem 4rem; }
+  .grid { grid-template-columns: 1fr; } .w { grid-template-columns: 112px 1fr; }
+  .enq { padding: 1.6rem 1.4rem; }
+}
+</style>
+</head>
+<body>
+<nav id="nav">
+  <a href="index.html" class="logo">C.H.A.I.S.E.S.</a>
+  <ul class="nav-links">
+    <li><a href="index.html#concept">Concept</a></li>
+    <li><a href="index.html#exhibition">Exhibition</a></li>
+    <li><a href="artists.html">Artists</a></li>
+    <li><a href="press.html">Press</a></li>
+  </ul>
+</nav>
+<header class="ph">
+  <div class="page-label">The works</div>
+  <h1 class="page-title">Forty works, six artists</h1>
+  <p class="page-intro">Sculpture, painting, drawing and sound from <em>C.H.A.I.S.E.S. — The Social Geometry of the Luxembourg Gardens</em>, shown at 24 rue Chapon, Paris, 20&ndash;22 October 2026. Every work below can be acquired; write to us about any of them.</p>
+  <div class="actions">
+    <a class="btn" href="press/CHAISES_Exhibition_handout_2026.pdf" download>Download the handout (PDF)</a>
+    <a class="btn ghost" href="mailto:jimmy@newtothewall.com?subject=Enquiry%3A%20C.H.A.I.S.E.S.">Make an enquiry</a>
+  </div>
+  <div class="jump" role="navigation" aria-label="Artists">
+    <a href="#jimmy-gardner">Jimmy Gardner</a><a href="#wayne-pate">Wayne Pate</a><a href="#charlotte-tampol">Charlotte Tampol</a><a href="#quinn-lewis">Quinn Lewis</a><a href="#jessica-anne-schwartz">Jessica Anne Schwartz</a><a href="#allard-van-hoorn">Allard van Hoorn</a>
+  </div>
+</header>
+<main class="wrap">
+<section class="artist" id="jimmy-gardner"><h2>Jimmy Gardner</h2><p class="ab">Four sculptures, one per scenario. Height is time: each strand is one chair across a single afternoon. Shown as 3D-printed exhibition prints; each is also cast in bronze to order. Images: renderings of the bronze edition.</p><div class="grid">
+<article class="w" id="w1">
+<div class="wi"><img src="img/works/01.jpg" alt="Jimmy Gardner, Sun-Worshippers, 2026" loading="lazy"></div>
+<div class="wt"><span class="wn">1</span>
+<h3><i>Sun-Worshippers</i>, 2026</h3><p class="ws">Les Adorateurs du soleil</p>
+<p class="wm">3D-printed PLA<br>13 1/8 × 6 3/4 × 6 3/4 in (33.2 × 17 × 17 cm)<br>Ed. of 5 + 1 AP; also cast in bronze to order, ed. of 5 + 1 AP</p><p class="wd">Two chairs follow the sun round the Grand Bassin, two until six.</p>
+<p class="wp">PLA €500 · Bronze €3,200</p>
+<a class="we" href="mailto:jimmy@newtothewall.com?subject=Enquiry%3A%20Jimmy%20Gardner%2C%20Sun-Worshippers%20%28no.%201%29&amp;body=Hello%2C%0A%0AI%27d%20like%20to%20enquire%20about%20no.%201%2C%20Jimmy%20Gardner%2C%20Sun-Worshippers%2C%202026.%0A%0A">Enquire &rarr;</a></div></article>
+<article class="w" id="w2">
+<div class="wi"><img src="img/works/02.jpg" alt="Jimmy Gardner, The Reader, 2026" loading="lazy"></div>
+<div class="wt"><span class="wn">2</span>
+<h3><i>The Reader</i>, 2026</h3><p class="ws">Le Lecteur</p>
+<p class="wm">3D-printed PLA<br>13 × 5 1/2 × 5 1/2 in (32.9 × 14 × 14 cm)<br>Ed. of 5 + 1 AP; also cast in bronze to order, ed. of 5 + 1 AP</p><p class="wd">A reader barely moves while a restless pair drifts to the gravel&#x27;s edge.</p>
+<p class="wp">PLA €500 · Bronze €3,200</p>
+<a class="we" href="mailto:jimmy@newtothewall.com?subject=Enquiry%3A%20Jimmy%20Gardner%2C%20The%20Reader%20%28no.%202%29&amp;body=Hello%2C%0A%0AI%27d%20like%20to%20enquire%20about%20no.%202%2C%20Jimmy%20Gardner%2C%20The%20Reader%2C%202026.%0A%0A">Enquire &rarr;</a></div></article>
+<article class="w" id="w3">
+<div class="wi"><img src="img/works/03.jpg" alt="Jimmy Gardner, Lover&#x27;s Spat, 2026" loading="lazy"></div>
+<div class="wt"><span class="wn">3</span>
+<h3><i>Lover&#x27;s Spat</i>, 2026</h3><p class="ws">Scène de ménage</p>
+<p class="wm">3D-printed PLA<br>13 × 5 1/2 × 5 1/2 in (32.9 × 14 × 14 cm)<br>Ed. of 5 + 1 AP; also cast in bronze to order, ed. of 5 + 1 AP</p><p class="wd">Two chairs meet at mid-height; one storms off, a third is dragged in.</p>
+<p class="wp">PLA €500 · Bronze €3,200</p>
+<a class="we" href="mailto:jimmy@newtothewall.com?subject=Enquiry%3A%20Jimmy%20Gardner%2C%20Lover%27s%20Spat%20%28no.%203%29&amp;body=Hello%2C%0A%0AI%27d%20like%20to%20enquire%20about%20no.%203%2C%20Jimmy%20Gardner%2C%20Lover%27s%20Spat%2C%202026.%0A%0A">Enquire &rarr;</a></div></article>
+<article class="w" id="w4">
+<div class="wi"><img src="img/works/04.jpg" alt="Jimmy Gardner, The Gathering, 2026" loading="lazy"></div>
+<div class="wt"><span class="wn">4</span>
+<h3><i>The Gathering</i>, 2026</h3><p class="ws">Le Rassemblement</p>
+<p class="wm">3D-printed PLA<br>13 × 5 1/2 × 5 1/2 in (32.9 × 14 × 14 cm)<br>Ed. of 5 + 1 AP; also cast in bronze to order, ed. of 5 + 1 AP</p><p class="wd">Four chairs plait into one column; a fifth crosses the path to join them.</p>
+<p class="wp">PLA €500 · Bronze €3,200</p>
+<a class="we" href="mailto:jimmy@newtothewall.com?subject=Enquiry%3A%20Jimmy%20Gardner%2C%20The%20Gathering%20%28no.%204%29&amp;body=Hello%2C%0A%0AI%27d%20like%20to%20enquire%20about%20no.%204%2C%20Jimmy%20Gardner%2C%20The%20Gathering%2C%202026.%0A%0A">Enquire &rarr;</a></div></article>
+</div></section>
+<section class="artist" id="wayne-pate"><h2>Wayne Pate</h2><p class="ab">Works on paper on the brief merging of sitter and chair, drawing on the posted bills and wall art of Paris. “Une chaise vous attend.”</p><div class="grid">
+<article class="w" id="w5">
+<div class="wi"><img src="img/works/05.jpg" alt="Wayne Pate, Rendez-vous avec une chaise No. 1, 2026" loading="lazy"></div>
+<div class="wt"><span class="wn">5</span>
+<h3><i>Rendez-vous avec une chaise No. 1</i>, 2026</h3>
+<p class="wm">Acrylic scratching on brown laid paper<br>8 1/4 × 11 5/8 in (21 × 29.5 cm)</p><p class="wd">“The chair supports your moment of contemplation.”</p>
+<p class="wp">€450</p>
+<a class="we" href="mailto:jimmy@newtothewall.com?subject=Enquiry%3A%20Wayne%20Pate%2C%20Rendez-vous%20avec%20une%20chaise%20No.%201%20%28no.%205%29&amp;body=Hello%2C%0A%0AI%27d%20like%20to%20enquire%20about%20no.%205%2C%20Wayne%20Pate%2C%20Rendez-vous%20avec%20une%20chaise%20No.%201%2C%202026.%0A%0A">Enquire &rarr;</a></div></article>
+<article class="w" id="w6">
+<div class="wi"><img src="img/works/06.jpg" alt="Wayne Pate, Rendez-vous avec une chaise No. 2, 2026" loading="lazy"></div>
+<div class="wt"><span class="wn">6</span>
+<h3><i>Rendez-vous avec une chaise No. 2</i>, 2026</h3>
+<p class="wm">Acrylic scratching on brown laid paper<br>8 1/4 × 11 5/8 in (21 × 29.5 cm)</p><p class="wd">“The chair is just as enraptured as the reader.”</p>
+<p class="wp">€450</p>
+<a class="we" href="mailto:jimmy@newtothewall.com?subject=Enquiry%3A%20Wayne%20Pate%2C%20Rendez-vous%20avec%20une%20chaise%20No.%202%20%28no.%206%29&amp;body=Hello%2C%0A%0AI%27d%20like%20to%20enquire%20about%20no.%206%2C%20Wayne%20Pate%2C%20Rendez-vous%20avec%20une%20chaise%20No.%202%2C%202026.%0A%0A">Enquire &rarr;</a></div></article>
+<article class="w" id="w7">
+<div class="wi"><img src="img/works/07.jpg" alt="Wayne Pate, Rendez-vous avec une chaise No. 3, 2026" loading="lazy"></div>
+<div class="wt"><span class="wn">7</span>
+<h3><i>Rendez-vous avec une chaise No. 3</i>, 2026</h3>
+<p class="wm">Acrylic scratching on brown laid paper<br>8 1/4 × 11 5/8 in (21 × 29.5 cm)</p><p class="wd">“The chair anxiously awaits the outcome. Will there be an encore?”</p>
+<p class="wp">€450</p>
+<a class="we" href="mailto:jimmy@newtothewall.com?subject=Enquiry%3A%20Wayne%20Pate%2C%20Rendez-vous%20avec%20une%20chaise%20No.%203%20%28no.%207%29&amp;body=Hello%2C%0A%0AI%27d%20like%20to%20enquire%20about%20no.%207%2C%20Wayne%20Pate%2C%20Rendez-vous%20avec%20une%20chaise%20No.%203%2C%202026.%0A%0A">Enquire &rarr;</a></div></article>
+</div></section>
+<section class="artist" id="charlotte-tampol"><h2>Charlotte Tampol</h2><p class="ab">A diptych on the energy the chairs hold from the people who move them: before and after.</p><div class="grid">
+<article class="w" id="w8">
+<div class="wi"><img src="img/works/08.jpg" alt="Charlotte Tampol, Reliquary of Touch (Moment One), 2026" loading="lazy"></div>
+<div class="wt"><span class="wn">8</span>
+<h3><i>Reliquary of Touch (Moment One)</i>, 2026</h3>
+<p class="wm">Acrylic and oil on canvas<br>24 × 36 in (61 × 91.5 cm)</p><p class="wd">A couple&#x27;s chairs turned face to face, knees and chair legs touching.</p>
+<p class="wp">€2,500 · €4,000 for the pair</p>
+<a class="we" href="mailto:jimmy@newtothewall.com?subject=Enquiry%3A%20Charlotte%20Tampol%2C%20Reliquary%20of%20Touch%20%28Moment%20One%29%20%28no.%208%29&amp;body=Hello%2C%0A%0AI%27d%20like%20to%20enquire%20about%20no.%208%2C%20Charlotte%20Tampol%2C%20Reliquary%20of%20Touch%20%28Moment%20One%29%2C%202026.%0A%0A">Enquire &rarr;</a></div></article>
+<article class="w" id="w9">
+<div class="wi"><img src="img/works/09.jpg" alt="Charlotte Tampol, Reliquary of Touch (Moment Two), 2026" loading="lazy"></div>
+<div class="wt"><span class="wn">9</span>
+<h3><i>Reliquary of Touch (Moment Two)</i>, 2026</h3>
+<p class="wm">Acrylic and oil on canvas<br>24 × 36 in (61 × 91.5 cm)</p><p class="wd">The couple gone, the chairs still embrace; a purse is left on one seat.</p>
+<p class="wp">€2,500 · €4,000 for the pair</p>
+<a class="we" href="mailto:jimmy@newtothewall.com?subject=Enquiry%3A%20Charlotte%20Tampol%2C%20Reliquary%20of%20Touch%20%28Moment%20Two%29%20%28no.%209%29&amp;body=Hello%2C%0A%0AI%27d%20like%20to%20enquire%20about%20no.%209%2C%20Charlotte%20Tampol%2C%20Reliquary%20of%20Touch%20%28Moment%20Two%29%2C%202026.%0A%0A">Enquire &rarr;</a></div></article>
+</div></section>
+<section class="artist" id="quinn-lewis"><h2>Quinn Lewis</h2><p class="ab">Life drawings, made in the garden in July, of the arrangements visitors leave behind, fixed by their shadows. In the Kinetic Scrolls, a roller chain moves drawn figures across a painted scene so viewers compose their own.</p><div class="grid">
+<article class="w" id="w10">
+<div class="wi"><img src="img/works/10.jpg" alt="Quinn Lewis, Kinetic Scroll No. 1, 2026" loading="lazy"></div>
+<div class="wt"><span class="wn">10</span>
+<h3><i>Kinetic Scroll No. 1</i>, 2026</h3>
+<p class="wm">Wood, linseed oil paint, oil on canvas, graphite on muslin, poly-mesh, roller chain<br>24 × 18 7/8 × 5 7/8 in (61 × 48 × 15 cm)</p><p class="wd">Painted scene shown: four green chairs grouped, one apart.</p>
+<p class="wp">€3,000</p>
+<a class="we" href="mailto:jimmy@newtothewall.com?subject=Enquiry%3A%20Quinn%20Lewis%2C%20Kinetic%20Scroll%20No.%201%20%28no.%2010%29&amp;body=Hello%2C%0A%0AI%27d%20like%20to%20enquire%20about%20no.%2010%2C%20Quinn%20Lewis%2C%20Kinetic%20Scroll%20No.%201%2C%202026.%0A%0A">Enquire &rarr;</a></div></article>
+<article class="w" id="w11">
+<div class="wi"><img src="img/works/11.jpg" alt="Quinn Lewis, Kinetic Scroll No. 2, 2026" loading="lazy"></div>
+<div class="wt"><span class="wn">11</span>
+<h3><i>Kinetic Scroll No. 2</i>, 2026</h3>
+<p class="wm">Wood, linseed oil paint, oil on canvas, graphite on muslin, poly-mesh, roller chain<br>24 × 18 7/8 × 5 7/8 in (61 × 48 × 15 cm)</p><p class="wd">Painted scene shown: two chairs side by side on an ochre ground.</p>
+<p class="wp">€3,000</p>
+<a class="we" href="mailto:jimmy@newtothewall.com?subject=Enquiry%3A%20Quinn%20Lewis%2C%20Kinetic%20Scroll%20No.%202%20%28no.%2011%29&amp;body=Hello%2C%0A%0AI%27d%20like%20to%20enquire%20about%20no.%2011%2C%20Quinn%20Lewis%2C%20Kinetic%20Scroll%20No.%202%2C%202026.%0A%0A">Enquire &rarr;</a></div></article>
+<article class="w" id="w12">
+<div class="wi"><img src="img/works/12.jpg" alt="Quinn Lewis, Kinetic Scroll No. 3, 2026" loading="lazy"></div>
+<div class="wt"><span class="wn">12</span>
+<h3><i>Kinetic Scroll No. 3</i>, 2026</h3>
+<p class="wm">Wood, linseed oil paint, oil on canvas, graphite on muslin, poly-mesh, roller chain<br>24 × 18 7/8 × 5 7/8 in (61 × 48 × 15 cm)</p><p class="wd">Painted scene shown: three chairs on a violet-grey ground.</p>
+<p class="wp">€3,000</p>
+<a class="we" href="mailto:jimmy@newtothewall.com?subject=Enquiry%3A%20Quinn%20Lewis%2C%20Kinetic%20Scroll%20No.%203%20%28no.%2012%29&amp;body=Hello%2C%0A%0AI%27d%20like%20to%20enquire%20about%20no.%2012%2C%20Quinn%20Lewis%2C%20Kinetic%20Scroll%20No.%203%2C%202026.%0A%0A">Enquire &rarr;</a></div></article>
+<article class="w" id="w13">
+<div class="wi"><img src="img/works/13.jpg" alt="Quinn Lewis, Chairs Under Sun No. 1, 2026" loading="lazy"></div>
+<div class="wt"><span class="wn">13</span>
+<h3><i>Chairs Under Sun No. 1</i>, 2026</h3>
+<p class="wm">Ink and coloured pencil on kraft paper<br>5 7/8 × 8 1/4 in (14.8 × 21 cm) · framed 8 × 10 in (20.3 × 25.4 cm)</p><p class="wd">Two chairs, one pulled forward, in hard striped shadow.</p>
+<p class="wp">€200</p>
+<a class="we" href="mailto:jimmy@newtothewall.com?subject=Enquiry%3A%20Quinn%20Lewis%2C%20Chairs%20Under%20Sun%20No.%201%20%28no.%2013%29&amp;body=Hello%2C%0A%0AI%27d%20like%20to%20enquire%20about%20no.%2013%2C%20Quinn%20Lewis%2C%20Chairs%20Under%20Sun%20No.%201%2C%202026.%0A%0A">Enquire &rarr;</a></div></article>
+<article class="w" id="w14">
+<div class="wi"><img src="img/works/14.jpg" alt="Quinn Lewis, Chairs Under Sun No. 2, 2026" loading="lazy"></div>
+<div class="wt"><span class="wn">14</span>
+<h3><i>Chairs Under Sun No. 2</i>, 2026</h3>
+<p class="wm">Ink and coloured pencil on kraft paper<br>5 7/8 × 8 1/4 in (14.8 × 21 cm) · framed 8 × 10 in (20.3 × 25.4 cm)</p><p class="wd">Three chairs in a row, a fourth set apart.</p>
+<p class="wp">€200</p>
+<a class="we" href="mailto:jimmy@newtothewall.com?subject=Enquiry%3A%20Quinn%20Lewis%2C%20Chairs%20Under%20Sun%20No.%202%20%28no.%2014%29&amp;body=Hello%2C%0A%0AI%27d%20like%20to%20enquire%20about%20no.%2014%2C%20Quinn%20Lewis%2C%20Chairs%20Under%20Sun%20No.%202%2C%202026.%0A%0A">Enquire &rarr;</a></div></article>
+<article class="w" id="w15">
+<div class="wi"><img src="img/works/15.jpg" alt="Quinn Lewis, Chairs Under Sun No. 3, 2026" loading="lazy"></div>
+<div class="wt"><span class="wn">15</span>
+<h3><i>Chairs Under Sun No. 3</i>, 2026</h3>
+<p class="wm">Ink and coloured pencil on kraft paper<br>5 7/8 × 8 1/4 in (14.8 × 21 cm) · framed 8 × 10 in (20.3 × 25.4 cm)</p><p class="wd">A side chair and an armchair angled toward each other.</p>
+<p class="wp">€200</p>
+<a class="we" href="mailto:jimmy@newtothewall.com?subject=Enquiry%3A%20Quinn%20Lewis%2C%20Chairs%20Under%20Sun%20No.%203%20%28no.%2015%29&amp;body=Hello%2C%0A%0AI%27d%20like%20to%20enquire%20about%20no.%2015%2C%20Quinn%20Lewis%2C%20Chairs%20Under%20Sun%20No.%203%2C%202026.%0A%0A">Enquire &rarr;</a></div></article>
+<article class="w" id="w16">
+<div class="wi"><img src="img/works/16.jpg" alt="Quinn Lewis, Chairs Under Sun No. 4, 2026" loading="lazy"></div>
+<div class="wt"><span class="wn">16</span>
+<h3><i>Chairs Under Sun No. 4</i>, 2026</h3>
+<p class="wm">Ink and coloured pencil on kraft paper<br>5 7/8 × 8 1/4 in (14.8 × 21 cm) · framed 8 × 10 in (20.3 × 25.4 cm)</p><p class="wd">Five chairs in a loose line, shadows falling right.</p>
+<p class="wp">€200</p>
+<a class="we" href="mailto:jimmy@newtothewall.com?subject=Enquiry%3A%20Quinn%20Lewis%2C%20Chairs%20Under%20Sun%20No.%204%20%28no.%2016%29&amp;body=Hello%2C%0A%0AI%27d%20like%20to%20enquire%20about%20no.%2016%2C%20Quinn%20Lewis%2C%20Chairs%20Under%20Sun%20No.%204%2C%202026.%0A%0A">Enquire &rarr;</a></div></article>
+<article class="w" id="w17">
+<div class="wi"><img src="img/works/17.jpg" alt="Quinn Lewis, Chairs Under Sun No. 5, 2026" loading="lazy"></div>
+<div class="wt"><span class="wn">17</span>
+<h3><i>Chairs Under Sun No. 5</i>, 2026</h3>
+<p class="wm">Ink and coloured pencil on kraft paper<br>5 7/8 × 8 1/4 in (14.8 × 21 cm) · framed 8 × 10 in (20.3 × 25.4 cm)</p><p class="wd">Three chairs, one an armchair, in a tight group.</p>
+<p class="wp">€200</p>
+<a class="we" href="mailto:jimmy@newtothewall.com?subject=Enquiry%3A%20Quinn%20Lewis%2C%20Chairs%20Under%20Sun%20No.%205%20%28no.%2017%29&amp;body=Hello%2C%0A%0AI%27d%20like%20to%20enquire%20about%20no.%2017%2C%20Quinn%20Lewis%2C%20Chairs%20Under%20Sun%20No.%205%2C%202026.%0A%0A">Enquire &rarr;</a></div></article>
+<article class="w" id="w18">
+<div class="wi"><img src="img/works/18.jpg" alt="Quinn Lewis, Chairs Under Sun No. 6, 2026" loading="lazy"></div>
+<div class="wt"><span class="wn">18</span>
+<h3><i>Chairs Under Sun No. 6</i>, 2026</h3>
+<p class="wm">Ink and coloured pencil on kraft paper<br>5 7/8 × 8 1/4 in (14.8 × 21 cm) · framed 8 × 10 in (20.3 × 25.4 cm)</p><p class="wd">Four chairs gathered in a ring, one turned away.</p>
+<p class="wp">€200</p>
+<a class="we" href="mailto:jimmy@newtothewall.com?subject=Enquiry%3A%20Quinn%20Lewis%2C%20Chairs%20Under%20Sun%20No.%206%20%28no.%2018%29&amp;body=Hello%2C%0A%0AI%27d%20like%20to%20enquire%20about%20no.%2018%2C%20Quinn%20Lewis%2C%20Chairs%20Under%20Sun%20No.%206%2C%202026.%0A%0A">Enquire &rarr;</a></div></article>
+<article class="w" id="w19">
+<div class="wi"><img src="img/works/19.jpg" alt="Quinn Lewis, Chairs Under Sun No. 7, 2026" loading="lazy"></div>
+<div class="wt"><span class="wn">19</span>
+<h3><i>Chairs Under Sun No. 7</i>, 2026</h3>
+<p class="wm">Ink and coloured pencil on kraft paper<br>5 7/8 × 8 1/4 in (14.8 × 21 cm) · framed 8 × 10 in (20.3 × 25.4 cm)</p><p class="wd">Four chairs pulled into a close circle.</p>
+<p class="wp">€200</p>
+<a class="we" href="mailto:jimmy@newtothewall.com?subject=Enquiry%3A%20Quinn%20Lewis%2C%20Chairs%20Under%20Sun%20No.%207%20%28no.%2019%29&amp;body=Hello%2C%0A%0AI%27d%20like%20to%20enquire%20about%20no.%2019%2C%20Quinn%20Lewis%2C%20Chairs%20Under%20Sun%20No.%207%2C%202026.%0A%0A">Enquire &rarr;</a></div></article>
+<article class="w" id="w20">
+<div class="wi"><img src="img/works/20.jpg" alt="Quinn Lewis, Chairs Under Sun No. 8, 2026" loading="lazy"></div>
+<div class="wt"><span class="wn">20</span>
+<h3><i>Chairs Under Sun No. 8</i>, 2026</h3>
+<p class="wm">Ink and coloured pencil on kraft paper<br>5 7/8 × 8 1/4 in (14.8 × 21 cm) · framed 8 × 10 in (20.3 × 25.4 cm)</p><p class="wd">Three chairs drawn together around an armchair.</p>
+<p class="wp">€200</p>
+<a class="we" href="mailto:jimmy@newtothewall.com?subject=Enquiry%3A%20Quinn%20Lewis%2C%20Chairs%20Under%20Sun%20No.%208%20%28no.%2020%29&amp;body=Hello%2C%0A%0AI%27d%20like%20to%20enquire%20about%20no.%2020%2C%20Quinn%20Lewis%2C%20Chairs%20Under%20Sun%20No.%208%2C%202026.%0A%0A">Enquire &rarr;</a></div></article>
+<article class="w" id="w21">
+<div class="wi"><img src="img/works/21.jpg" alt="Quinn Lewis, Chairs Under Sun No. 9, 2026" loading="lazy"></div>
+<div class="wt"><span class="wn">21</span>
+<h3><i>Chairs Under Sun No. 9</i>, 2026</h3>
+<p class="wm">Ink and coloured pencil on kraft paper<br>5 7/8 × 8 1/4 in (14.8 × 21 cm) · framed 8 × 10 in (20.3 × 25.4 cm)</p><p class="wd">A dense field of chairs, the rows lost in the crowd.</p>
+<p class="wp">€200</p>
+<a class="we" href="mailto:jimmy@newtothewall.com?subject=Enquiry%3A%20Quinn%20Lewis%2C%20Chairs%20Under%20Sun%20No.%209%20%28no.%2021%29&amp;body=Hello%2C%0A%0AI%27d%20like%20to%20enquire%20about%20no.%2021%2C%20Quinn%20Lewis%2C%20Chairs%20Under%20Sun%20No.%209%2C%202026.%0A%0A">Enquire &rarr;</a></div></article>
+<article class="w" id="w22">
+<div class="wi"><img src="img/works/22.jpg" alt="Quinn Lewis, Chairs Under Sun No. 10, 2026" loading="lazy"></div>
+<div class="wt"><span class="wn">22</span>
+<h3><i>Chairs Under Sun No. 10</i>, 2026</h3>
+<p class="wm">Ink and coloured pencil on kraft paper<br>5 7/8 × 8 1/4 in (14.8 × 21 cm) · framed 8 × 10 in (20.3 × 25.4 cm)</p><p class="wd">Two chairs side by side, long shadows stretching left.</p>
+<p class="wp">€200</p>
+<a class="we" href="mailto:jimmy@newtothewall.com?subject=Enquiry%3A%20Quinn%20Lewis%2C%20Chairs%20Under%20Sun%20No.%2010%20%28no.%2022%29&amp;body=Hello%2C%0A%0AI%27d%20like%20to%20enquire%20about%20no.%2022%2C%20Quinn%20Lewis%2C%20Chairs%20Under%20Sun%20No.%2010%2C%202026.%0A%0A">Enquire &rarr;</a></div></article>
+<article class="w" id="w23">
+<div class="wi"><img src="img/works/23.jpg" alt="Quinn Lewis, Chairs Under Shade No. 1, 2026" loading="lazy"></div>
+<div class="wt"><span class="wn">23</span>
+<h3><i>Chairs Under Shade No. 1</i>, 2026</h3>
+<p class="wm">Ink and coloured pencil on kraft paper<br>5 7/8 × 8 1/4 in (14.8 × 21 cm) · framed 8 × 10 in (20.3 × 25.4 cm)</p><p class="wd">Three chairs at the edge of a deep pool of shade.</p>
+<p class="wp">€200</p>
+<a class="we" href="mailto:jimmy@newtothewall.com?subject=Enquiry%3A%20Quinn%20Lewis%2C%20Chairs%20Under%20Shade%20No.%201%20%28no.%2023%29&amp;body=Hello%2C%0A%0AI%27d%20like%20to%20enquire%20about%20no.%2023%2C%20Quinn%20Lewis%2C%20Chairs%20Under%20Shade%20No.%201%2C%202026.%0A%0A">Enquire &rarr;</a></div></article>
+<article class="w" id="w24">
+<div class="wi"><img src="img/works/24.jpg" alt="Quinn Lewis, Chairs Under Shade No. 2, 2026" loading="lazy"></div>
+<div class="wt"><span class="wn">24</span>
+<h3><i>Chairs Under Shade No. 2</i>, 2026</h3>
+<p class="wm">Ink and coloured pencil on kraft paper<br>5 7/8 × 8 1/4 in (14.8 × 21 cm) · framed 8 × 10 in (20.3 × 25.4 cm)</p><p class="wd">A pair of chairs in dappled shade, more beyond.</p>
+<p class="wp">€200</p>
+<a class="we" href="mailto:jimmy@newtothewall.com?subject=Enquiry%3A%20Quinn%20Lewis%2C%20Chairs%20Under%20Shade%20No.%202%20%28no.%2024%29&amp;body=Hello%2C%0A%0AI%27d%20like%20to%20enquire%20about%20no.%2024%2C%20Quinn%20Lewis%2C%20Chairs%20Under%20Shade%20No.%202%2C%202026.%0A%0A">Enquire &rarr;</a></div></article>
+<article class="w" id="w25">
+<div class="wi"><img src="img/works/25.jpg" alt="Quinn Lewis, Chairs Under Shade No. 3, 2026" loading="lazy"></div>
+<div class="wt"><span class="wn">25</span>
+<h3><i>Chairs Under Shade No. 3</i>, 2026</h3>
+<p class="wm">Ink and coloured pencil on kraft paper<br>5 7/8 × 8 1/4 in (14.8 × 21 cm) · framed 8 × 10 in (20.3 × 25.4 cm)</p><p class="wd">Two chairs under a tree, the shadow broken by leaves.</p>
+<p class="wp">€200</p>
+<a class="we" href="mailto:jimmy@newtothewall.com?subject=Enquiry%3A%20Quinn%20Lewis%2C%20Chairs%20Under%20Shade%20No.%203%20%28no.%2025%29&amp;body=Hello%2C%0A%0AI%27d%20like%20to%20enquire%20about%20no.%2025%2C%20Quinn%20Lewis%2C%20Chairs%20Under%20Shade%20No.%203%2C%202026.%0A%0A">Enquire &rarr;</a></div></article>
+<article class="w" id="w26">
+<div class="wi"><img src="img/works/26.jpg" alt="Quinn Lewis, Chairs Under Shade No. 4, 2026" loading="lazy"></div>
+<div class="wt"><span class="wn">26</span>
+<h3><i>Chairs Under Shade No. 4</i>, 2026</h3>
+<p class="wm">Ink and coloured pencil on kraft paper<br>5 7/8 × 8 1/4 in (14.8 × 21 cm) · framed 8 × 10 in (20.3 × 25.4 cm)</p><p class="wd">Four chairs gathered under foliage.</p>
+<p class="wp">€200</p>
+<a class="we" href="mailto:jimmy@newtothewall.com?subject=Enquiry%3A%20Quinn%20Lewis%2C%20Chairs%20Under%20Shade%20No.%204%20%28no.%2026%29&amp;body=Hello%2C%0A%0AI%27d%20like%20to%20enquire%20about%20no.%2026%2C%20Quinn%20Lewis%2C%20Chairs%20Under%20Shade%20No.%204%2C%202026.%0A%0A">Enquire &rarr;</a></div></article>
+</div></section>
+<section class="artist" id="jessica-anne-schwartz"><h2>Jessica Anne Schwartz</h2><p class="ab">In 2023 Jessica Anne Schwartz made the Luxembourg&#x27;s Sénat chairs a fixed listening post: her Jardin du Luxembourg Synaesthesia Drawings transcribe the garden&#x27;s soundscape — children at play, birdsong, wind and rain — in sumi ink, walnut ink, mica and gouache on Murillo paper. Twelve drawings from the series.</p><div class="grid">
+<article class="w" id="w27">
+<div class="wi"><img src="img/works/27.jpg" alt="Jessica Anne Schwartz, Jardin du Luxembourg Synaesthesia Drawing #1, 2023" loading="lazy"></div>
+<div class="wt"><span class="wn">27</span>
+<h3><i>Jardin du Luxembourg Synaesthesia Drawing #1</i>, 2023</h3>
+<p class="wm">Sumi ink, walnut ink, mica and hand-mixed gouache on heirloom Murillo paper<br>19 1/2 × 14 in (49.5 × 35.6 cm) · framed 25 5/8 × 19 11/16 in (65 × 50 cm)</p>
+<p class="wp">€5,800</p>
+<a class="we" href="mailto:jimmy@newtothewall.com?subject=Enquiry%3A%20Jessica%20Anne%20Schwartz%2C%20Jardin%20du%20Luxembourg%20Synaesthesia%20Drawing%20%231%20%28no.%2027%29&amp;body=Hello%2C%0A%0AI%27d%20like%20to%20enquire%20about%20no.%2027%2C%20Jessica%20Anne%20Schwartz%2C%20Jardin%20du%20Luxembourg%20Synaesthesia%20Drawing%20%231%2C%202023.%0A%0A">Enquire &rarr;</a></div></article>
+<article class="w" id="w28">
+<div class="wi"><img src="img/works/28.jpg" alt="Jessica Anne Schwartz, Jardin du Luxembourg Synaesthesia Drawing #2, 2023" loading="lazy"></div>
+<div class="wt"><span class="wn">28</span>
+<h3><i>Jardin du Luxembourg Synaesthesia Drawing #2</i>, 2023</h3>
+<p class="wm">Sumi ink, walnut ink, mica and hand-mixed gouache on heirloom Murillo paper<br>19 1/2 × 14 in (49.5 × 35.6 cm) · framed 25 5/8 × 19 11/16 in (65 × 50 cm)</p>
+<p class="wp">€5,800</p>
+<a class="we" href="mailto:jimmy@newtothewall.com?subject=Enquiry%3A%20Jessica%20Anne%20Schwartz%2C%20Jardin%20du%20Luxembourg%20Synaesthesia%20Drawing%20%232%20%28no.%2028%29&amp;body=Hello%2C%0A%0AI%27d%20like%20to%20enquire%20about%20no.%2028%2C%20Jessica%20Anne%20Schwartz%2C%20Jardin%20du%20Luxembourg%20Synaesthesia%20Drawing%20%232%2C%202023.%0A%0A">Enquire &rarr;</a></div></article>
+<article class="w" id="w29">
+<div class="wi"><img src="img/works/29.jpg" alt="Jessica Anne Schwartz, Jardin du Luxembourg Synaesthesia Drawing #3, 2023" loading="lazy"></div>
+<div class="wt"><span class="wn">29</span>
+<h3><i>Jardin du Luxembourg Synaesthesia Drawing #3</i>, 2023</h3>
+<p class="wm">Sumi ink, walnut ink, mica and hand-mixed gouache on heirloom Murillo paper<br>19 1/2 × 14 in (49.5 × 35.6 cm) · framed 25 5/8 × 19 11/16 in (65 × 50 cm)</p>
+<p class="wp">€5,800</p>
+<a class="we" href="mailto:jimmy@newtothewall.com?subject=Enquiry%3A%20Jessica%20Anne%20Schwartz%2C%20Jardin%20du%20Luxembourg%20Synaesthesia%20Drawing%20%233%20%28no.%2029%29&amp;body=Hello%2C%0A%0AI%27d%20like%20to%20enquire%20about%20no.%2029%2C%20Jessica%20Anne%20Schwartz%2C%20Jardin%20du%20Luxembourg%20Synaesthesia%20Drawing%20%233%2C%202023.%0A%0A">Enquire &rarr;</a></div></article>
+<article class="w" id="w30">
+<div class="wi"><img src="img/works/30.jpg" alt="Jessica Anne Schwartz, Jardin du Luxembourg Synaesthesia Drawing #4, 2023" loading="lazy"></div>
+<div class="wt"><span class="wn">30</span>
+<h3><i>Jardin du Luxembourg Synaesthesia Drawing #4</i>, 2023</h3>
+<p class="wm">Sumi ink, walnut ink, mica and hand-mixed gouache on heirloom Murillo paper<br>19 1/2 × 14 in (49.5 × 35.6 cm) · framed 25 5/8 × 19 11/16 in (65 × 50 cm)</p>
+<p class="wp">€5,800</p>
+<a class="we" href="mailto:jimmy@newtothewall.com?subject=Enquiry%3A%20Jessica%20Anne%20Schwartz%2C%20Jardin%20du%20Luxembourg%20Synaesthesia%20Drawing%20%234%20%28no.%2030%29&amp;body=Hello%2C%0A%0AI%27d%20like%20to%20enquire%20about%20no.%2030%2C%20Jessica%20Anne%20Schwartz%2C%20Jardin%20du%20Luxembourg%20Synaesthesia%20Drawing%20%234%2C%202023.%0A%0A">Enquire &rarr;</a></div></article>
+<article class="w" id="w31">
+<div class="wi"><img src="img/works/31.jpg" alt="Jessica Anne Schwartz, Jardin du Luxembourg Synaesthesia Drawing #5, 2023" loading="lazy"></div>
+<div class="wt"><span class="wn">31</span>
+<h3><i>Jardin du Luxembourg Synaesthesia Drawing #5</i>, 2023</h3>
+<p class="wm">Sumi ink, walnut ink, mica and hand-mixed gouache on heirloom Murillo paper<br>19 1/2 × 14 in (49.5 × 35.6 cm) · framed 25 5/8 × 19 11/16 in (65 × 50 cm)</p>
+<p class="wp">€5,800</p>
+<a class="we" href="mailto:jimmy@newtothewall.com?subject=Enquiry%3A%20Jessica%20Anne%20Schwartz%2C%20Jardin%20du%20Luxembourg%20Synaesthesia%20Drawing%20%235%20%28no.%2031%29&amp;body=Hello%2C%0A%0AI%27d%20like%20to%20enquire%20about%20no.%2031%2C%20Jessica%20Anne%20Schwartz%2C%20Jardin%20du%20Luxembourg%20Synaesthesia%20Drawing%20%235%2C%202023.%0A%0A">Enquire &rarr;</a></div></article>
+<article class="w" id="w32">
+<div class="wi"><img src="img/works/32.jpg" alt="Jessica Anne Schwartz, Jardin du Luxembourg Synaesthesia Drawing #6, 2023" loading="lazy"></div>
+<div class="wt"><span class="wn">32</span>
+<h3><i>Jardin du Luxembourg Synaesthesia Drawing #6</i>, 2023</h3>
+<p class="wm">Sumi ink, walnut ink, mica and hand-mixed gouache on heirloom Murillo paper<br>19 1/2 × 14 in (49.5 × 35.6 cm) · framed 25 5/8 × 19 11/16 in (65 × 50 cm)</p>
+<p class="wp">€5,800</p>
+<a class="we" href="mailto:jimmy@newtothewall.com?subject=Enquiry%3A%20Jessica%20Anne%20Schwartz%2C%20Jardin%20du%20Luxembourg%20Synaesthesia%20Drawing%20%236%20%28no.%2032%29&amp;body=Hello%2C%0A%0AI%27d%20like%20to%20enquire%20about%20no.%2032%2C%20Jessica%20Anne%20Schwartz%2C%20Jardin%20du%20Luxembourg%20Synaesthesia%20Drawing%20%236%2C%202023.%0A%0A">Enquire &rarr;</a></div></article>
+<article class="w" id="w33">
+<div class="wi"><img src="img/works/33.jpg" alt="Jessica Anne Schwartz, Jardin du Luxembourg Synaesthesia Drawing #7, 2023" loading="lazy"></div>
+<div class="wt"><span class="wn">33</span>
+<h3><i>Jardin du Luxembourg Synaesthesia Drawing #7</i>, 2023</h3>
+<p class="wm">Sumi ink, walnut ink, mica and hand-mixed gouache on heirloom Murillo paper<br>19 1/2 × 14 in (49.5 × 35.6 cm) · framed 25 5/8 × 19 11/16 in (65 × 50 cm)</p>
+<p class="wp">€5,800</p>
+<a class="we" href="mailto:jimmy@newtothewall.com?subject=Enquiry%3A%20Jessica%20Anne%20Schwartz%2C%20Jardin%20du%20Luxembourg%20Synaesthesia%20Drawing%20%237%20%28no.%2033%29&amp;body=Hello%2C%0A%0AI%27d%20like%20to%20enquire%20about%20no.%2033%2C%20Jessica%20Anne%20Schwartz%2C%20Jardin%20du%20Luxembourg%20Synaesthesia%20Drawing%20%237%2C%202023.%0A%0A">Enquire &rarr;</a></div></article>
+<article class="w" id="w34">
+<div class="wi"><img src="img/works/34.jpg" alt="Jessica Anne Schwartz, Jardin du Luxembourg Synaesthesia Drawing #8, 2023" loading="lazy"></div>
+<div class="wt"><span class="wn">34</span>
+<h3><i>Jardin du Luxembourg Synaesthesia Drawing #8</i>, 2023</h3>
+<p class="wm">Sumi ink, walnut ink, mica and hand-mixed gouache on heirloom Murillo paper<br>19 1/2 × 14 in (49.5 × 35.6 cm) · framed 25 5/8 × 19 11/16 in (65 × 50 cm)</p>
+<p class="wp">€5,800</p>
+<a class="we" href="mailto:jimmy@newtothewall.com?subject=Enquiry%3A%20Jessica%20Anne%20Schwartz%2C%20Jardin%20du%20Luxembourg%20Synaesthesia%20Drawing%20%238%20%28no.%2034%29&amp;body=Hello%2C%0A%0AI%27d%20like%20to%20enquire%20about%20no.%2034%2C%20Jessica%20Anne%20Schwartz%2C%20Jardin%20du%20Luxembourg%20Synaesthesia%20Drawing%20%238%2C%202023.%0A%0A">Enquire &rarr;</a></div></article>
+<article class="w" id="w35">
+<div class="wi"><img src="img/works/35.jpg" alt="Jessica Anne Schwartz, Jardin du Luxembourg Synaesthesia Drawing #9, 2023" loading="lazy"></div>
+<div class="wt"><span class="wn">35</span>
+<h3><i>Jardin du Luxembourg Synaesthesia Drawing #9</i>, 2023</h3>
+<p class="wm">Sumi ink, walnut ink, mica and hand-mixed gouache on heirloom Murillo paper<br>19 1/2 × 14 in (49.5 × 35.6 cm) · framed 25 5/8 × 19 11/16 in (65 × 50 cm)</p>
+<p class="wp">€5,800</p>
+<a class="we" href="mailto:jimmy@newtothewall.com?subject=Enquiry%3A%20Jessica%20Anne%20Schwartz%2C%20Jardin%20du%20Luxembourg%20Synaesthesia%20Drawing%20%239%20%28no.%2035%29&amp;body=Hello%2C%0A%0AI%27d%20like%20to%20enquire%20about%20no.%2035%2C%20Jessica%20Anne%20Schwartz%2C%20Jardin%20du%20Luxembourg%20Synaesthesia%20Drawing%20%239%2C%202023.%0A%0A">Enquire &rarr;</a></div></article>
+<article class="w" id="w36">
+<div class="wi"><img src="img/works/36.jpg" alt="Jessica Anne Schwartz, Jardin du Luxembourg Synaesthesia Drawing #10, 2023" loading="lazy"></div>
+<div class="wt"><span class="wn">36</span>
+<h3><i>Jardin du Luxembourg Synaesthesia Drawing #10</i>, 2023</h3>
+<p class="wm">Sumi ink, walnut ink, mica and hand-mixed gouache on heirloom Murillo paper<br>19 1/2 × 14 in (49.5 × 35.6 cm) · framed 25 5/8 × 19 11/16 in (65 × 50 cm)</p>
+<p class="wp">€5,800</p>
+<a class="we" href="mailto:jimmy@newtothewall.com?subject=Enquiry%3A%20Jessica%20Anne%20Schwartz%2C%20Jardin%20du%20Luxembourg%20Synaesthesia%20Drawing%20%2310%20%28no.%2036%29&amp;body=Hello%2C%0A%0AI%27d%20like%20to%20enquire%20about%20no.%2036%2C%20Jessica%20Anne%20Schwartz%2C%20Jardin%20du%20Luxembourg%20Synaesthesia%20Drawing%20%2310%2C%202023.%0A%0A">Enquire &rarr;</a></div></article>
+<article class="w" id="w37">
+<div class="wi"><img src="img/works/37.jpg" alt="Jessica Anne Schwartz, Jardin du Luxembourg Synaesthesia Drawing #11, 2023" loading="lazy"></div>
+<div class="wt"><span class="wn">37</span>
+<h3><i>Jardin du Luxembourg Synaesthesia Drawing #11</i>, 2023</h3>
+<p class="wm">Sumi ink, walnut ink, mica and hand-mixed gouache on heirloom Murillo paper<br>19 1/2 × 14 in (49.5 × 35.6 cm) · framed 25 5/8 × 19 11/16 in (65 × 50 cm)</p>
+<p class="wp">€5,800</p>
+<a class="we" href="mailto:jimmy@newtothewall.com?subject=Enquiry%3A%20Jessica%20Anne%20Schwartz%2C%20Jardin%20du%20Luxembourg%20Synaesthesia%20Drawing%20%2311%20%28no.%2037%29&amp;body=Hello%2C%0A%0AI%27d%20like%20to%20enquire%20about%20no.%2037%2C%20Jessica%20Anne%20Schwartz%2C%20Jardin%20du%20Luxembourg%20Synaesthesia%20Drawing%20%2311%2C%202023.%0A%0A">Enquire &rarr;</a></div></article>
+<article class="w" id="w38">
+<div class="wi"><img src="img/works/38.jpg" alt="Jessica Anne Schwartz, Jardin du Luxembourg Synaesthesia Drawing #12, 2023" loading="lazy"></div>
+<div class="wt"><span class="wn">38</span>
+<h3><i>Jardin du Luxembourg Synaesthesia Drawing #12</i>, 2023</h3>
+<p class="wm">Sumi ink, walnut ink, mica and hand-mixed gouache on heirloom Murillo paper<br>19 1/2 × 14 in (49.5 × 35.6 cm) · framed 25 5/8 × 19 11/16 in (65 × 50 cm)</p>
+<p class="wp">€5,800</p>
+<a class="we" href="mailto:jimmy@newtothewall.com?subject=Enquiry%3A%20Jessica%20Anne%20Schwartz%2C%20Jardin%20du%20Luxembourg%20Synaesthesia%20Drawing%20%2312%20%28no.%2038%29&amp;body=Hello%2C%0A%0AI%27d%20like%20to%20enquire%20about%20no.%2038%2C%20Jessica%20Anne%20Schwartz%2C%20Jardin%20du%20Luxembourg%20Synaesthesia%20Drawing%20%2312%2C%202023.%0A%0A">Enquire &rarr;</a></div></article>
+</div></section>
+<section class="artist" id="allard-van-hoorn"><h2>Allard van Hoorn</h2><p class="ab">A used Sénat chair, borrowed from the Jardin du Luxembourg itself, suspended and played with earth magnets and a resonator, so that its steel frame becomes a resonating body. The installation is completed by a Manifesto-Score for the chairs as monuments to gathered time.</p><div class="grid">
+<article class="w" id="w39">
+<div class="wi"><img src="img/works/39.jpg" alt="Allard van Hoorn, 076 Urban Songline (Chaises du Temps Réel), 2026" loading="lazy"></div>
+<div class="wt"><span class="wn">39</span>
+<h3><i>076 Urban Songline (Chaises du Temps Réel)</i>, 2026</h3><p class="ws">Latitude: 48.849093° N – 48.844044° N / Longitude: 2.338981° E – 2.332683° E</p>
+<p class="wm">Original Sénat chair, earth magnets, resonator, sound<br>18 7/8 × 23 1/4 × 33 1/16 in (48 × 59 × 84 cm) · duration variable</p><p class="wd">The chair is played as an instrument, releasing its memory as a score. Chaise prêtée par le jardin du Luxembourg-Sénat.</p>
+<p class="wp">€3,500</p>
+<a class="we" href="mailto:jimmy@newtothewall.com?subject=Enquiry%3A%20Allard%20van%20Hoorn%2C%20076%20Urban%20Songline%20%28Chaises%20du%20Temps%20R%C3%A9el%29%20%28no.%2039%29&amp;body=Hello%2C%0A%0AI%27d%20like%20to%20enquire%20about%20no.%2039%2C%20Allard%20van%20Hoorn%2C%20076%20Urban%20Songline%20%28Chaises%20du%20Temps%20R%C3%A9el%29%2C%202026.%0A%0A">Enquire &rarr;</a></div></article>
+<article class="w" id="w40">
+<div class="wi"><img src="img/works/40.jpg" alt="Allard van Hoorn, 076 Urban Songline (Chaises du Temps Réel) — Manifesto-Score, 2026" loading="lazy"></div>
+<div class="wt"><span class="wn">40</span>
+<h3><i>076 Urban Songline (Chaises du Temps Réel) — Manifesto-Score</i>, 2026</h3><p class="ws">Latitude: 48.849093° N – 48.844044° N / Longitude: 2.338981° E – 2.332683° E</p>
+<p class="wm">Pastel on paper, washi tape, metal mesh, nylon cord<br>21 1/4 × 27 9/16 × 59 1/16 in (54 × 70 × 150 cm)</p>
+<p class="wp">€4,200</p>
+<a class="we" href="mailto:jimmy@newtothewall.com?subject=Enquiry%3A%20Allard%20van%20Hoorn%2C%20076%20Urban%20Songline%20%28Chaises%20du%20Temps%20R%C3%A9el%29%20%E2%80%94%20Manifesto-Score%20%28no.%2040%29&amp;body=Hello%2C%0A%0AI%27d%20like%20to%20enquire%20about%20no.%2040%2C%20Allard%20van%20Hoorn%2C%20076%20Urban%20Songline%20%28Chaises%20du%20Temps%20R%C3%A9el%29%20%E2%80%94%20Manifesto-Score%2C%202026.%0A%0A">Enquire &rarr;</a></div></article>
+</div></section>
+<aside class="enq">
+  <div>
+    <h2>Enquiries</h2>
+    <p>Prices in euros, excluding shipping; all works subject to availability. Bronze editions of Jimmy Gardner's sculptures are cast to order by lost-wax. Artists receive 100% of the proceeds of their sales.<br>Jimmy Gardner, New to the Wall Foundation &middot; <a href="mailto:jimmy@newtothewall.com">jimmy@newtothewall.com</a> &middot; +1 202 570 3001</p>
+  </div>
+  <a class="btn" href="press/CHAISES_Exhibition_handout_2026.pdf" download>Handout (PDF) &darr;</a>
+</aside>
+</main>
+<footer>
+  <div class="f-title">C.H.A.I.S.E.S.</div>
+  <div class="f-sub">20&ndash;22 October 2026 &middot; 24 rue Chapon, Le Marais, Paris</div>
+  <div class="f-copy">&copy; 2026 New to the Wall Foundation</div>
+</footer>
+<script>
+const navEl=document.getElementById('nav');addEventListener('scroll',()=>navEl.classList.toggle('scrolled',scrollY>60));
+</script>
+</body></html>
